@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/colors.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/typography.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/effects.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/base.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/styles.css">
+<script src="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/_ds_bundle.js"></script>
+<style>html,body{margin:0;height:100%;background:#ece8e0;overflow:hidden}a{color:#327567}a:hover{color:#2b2a28}</style>
+</helmet>
+<div dir="rtl" style="position:fixed;inset:0;background:radial-gradient(ellipse at 50% 40%,#f7f4ee 0%,#e6e1d7 100%);font-family:'Almarai',sans-serif;color:#2b2a28;overflow:hidden">
+  <div ref="{{ glRef }}" style="position:absolute;inset:0"></div>
+
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;color:#6b6862;pointer-events:none">جارٍ بناء المجسّم…</div>
+  </sc-if>
+
+  <div ref="{{ topRef }}" style="position:absolute;top:16px;inset-inline:16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 18px 10px 14px;border-radius:20px;background:rgba(255,255,255,.92);box-shadow:0 4px 18px rgba(43,42,40,.1);pointer-events:auto">
+      <img src="assets/logo-mark.png" alt="" style="height:34px;width:auto">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-size:16px;font-weight:800">المكاتب الإدارية · جي ووك</span>
+        <span style="font-size:12.5px;color:#6b6862">مجسّم ثلاثي الأبعاد مبني على أبعاد المخطط الأصلي</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;pointer-events:auto;justify-content:flex-end">
+      <div style="display:flex;padding:4px;border-radius:999px;background:rgba(255,255,255,.92);box-shadow:0 4px 18px rgba(43,42,40,.1)">
+        <sc-for list="{{ presets }}" as="p" hint-placeholder-count="3">
+          <button onClick="{{ p.onClick }}" style="font-family:inherit;font-size:13.5px;font-weight:700;height:38px;padding:0 16px;border-radius:999px;border:none;cursor:pointer;background:{{ p.bg }};color:{{ p.fg }}">{{ p.label }}</button>
+        </sc-for>
+      </div>
+      <sc-for list="{{ toggles }}" as="tg" hint-placeholder-count="4">
+        <button onClick="{{ tg.onClick }}" style="font-family:inherit;font-size:13.5px;font-weight:700;height:46px;padding:0 16px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:8px;border:2px solid {{ tg.border }};background:rgba(255,255,255,.92);color:#2b2a28;box-shadow:0 4px 18px rgba(43,42,40,.1)">
+          <span style="width:10px;height:10px;border-radius:50%;background:{{ tg.dot }}"></span>{{ tg.label }}
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+
+  <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:{{ panelTop }}px;inset-inline-start:16px;bottom:72px;width:min(360px,calc(100% - 32px));display:flex;flex-direction:column;background:#ffffff;border-radius:24px;box-shadow:0 12px 40px rgba(43,42,40,.18);overflow:hidden">
+      <div style="padding:20px 22px 18px;background:#e0f0ec;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span style="font-size:13px;font-weight:700;color:#327567">{{ d.type }}</span>
+          <button onClick="{{ closeSel }}" aria-label="إغلاق" style="width:40px;height:40px;border-radius:50%;border:none;background:#ffffff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2b2a28" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <h2 style="margin:0;font-size:24px;font-weight:800;line-height:1.3">{{ d.name }}</h2>
+      </div>
+      <div style="flex:1;min-height:0;overflow:auto;padding:18px 22px;display:flex;flex-direction:column;gap:18px">
+        <sc-if value="{{ d.hasDims }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <div style="background:#f4f1ea;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b6862">العرض</span>
+              <span style="font-family:'Archivo',sans-serif;font-size:20px;font-weight:800;color:#3277a4">{{ d.dimsW }}</span>
+              <span style="font-size:11px;color:#9a968e">سم</span>
+            </div>
+            <div style="background:#f4f1ea;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b6862">العمق</span>
+              <span style="font-family:'Archivo',sans-serif;font-size:20px;font-weight:800;color:#c86038">{{ d.dimsD }}</span>
+              <span style="font-size:11px;color:#9a968e">سم</span>
+            </div>
+            <div style="background:#f4f1ea;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#6b6862">المساحة</span>
+              <span style="font-family:'Archivo',sans-serif;font-size:20px;font-weight:800">{{ d.area }}</span>
+              <span style="font-size:11px;color:#9a968e">م²</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ d.noDims }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#f4f1ea;border-radius:14px;padding:12px 14px;font-size:13px;color:#6b6862">الأبعاد غير محددة في المخطط الأصلي</div>
+        </sc-if>
+        <p style="margin:0;font-size:14.5px;line-height:1.8;color:#3f3d3a;text-wrap:pretty">{{ d.desc }}</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;font-weight:800;color:#6b6862">التجهيزات</span>
+          <sc-for list="{{ d.features }}" as="ft" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px">
+              <span style="width:8px;height:8px;border-radius:50%;background:#efba51;flex:none"></span>
+              <span>{{ ft }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="padding:14px 22px;border-top:1px solid #e7e3da;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <button onClick="{{ prevSel }}" style="font-family:inherit;font-size:13.5px;font-weight:700;height:44px;padding:0 16px;border-radius:999px;border:1px solid #e7e3da;background:#ffffff;color:#2b2a28;cursor:pointer">السابق</button>
+        <span style="font-family:'Archivo',sans-serif;font-size:13px;color:#9a968e">{{ d.idx }}</span>
+        <button onClick="{{ nextSel }}" style="font-family:inherit;font-size:13.5px;font-weight:700;height:44px;padding:0 16px;border-radius:999px;border:none;background:#47a190;color:#ffffff;cursor:pointer">التالي</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div ref="{{ botRef }}" style="position:absolute;bottom:16px;inset-inline:16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;pointer-events:none">
+    <span style="font-size:13px;color:#3f3d3a;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:999px">جميع الأبعاد بالسنتيمتر كما وردت في المخطط · <span style="color:#3277a4;font-weight:700">العرض</span> × <span style="color:#c86038;font-weight:700">العمق</span></span>
+    <span style="font-size:13px;color:#6b6862;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:999px"><span style="color:#327567;font-weight:700">انقر على أي مساحة لعرض تفاصيلها</span> · اسحب للتدوير · مرّر أو باعد إصبعيك للتكبير · انقر بزر الفأرة الأيمن للتحريك</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;wallMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cut&quot;,&quot;full&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;'cut' | 'full'&quot;},&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;autoRotate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const TOPY = x => 75 - 75 * x / 1700;
+const LEFTX = z => (z - 75) * 200 / 1315;
+const topRect = (x0, x1, y1) => [[x0, TOPY(x0)], [x1, TOPY(x1)], [x1, y1], [x0, y1]];
+const rect = (x0, x1, y0, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+const OUTLINE = [[0, 75], [1700, 0], [1700, 1390], [200, 1390]];
+const CORRIDOR = [[450, 720], [1130, 720], [1130, 370], [1400, 370], [1400, 970], [1320, 970], [1320, 990], [450, 990]];
+const ROOMS = [
+  { id: 'reception', name: 'منطقة الاستقبال', dims: [450, 930], poly: [[0, 75], [450, TOPY(450)], [450, 990], [LEFTX(990), 990]], c: [170, 520], floor: 'stone' },
+  { id: 'open', name: 'منطقة عمل مفتوحة', dims: null, poly: topRect(450, 980, 720), c: [715, 390], floor: 'carpet' },
+  { id: 'kitchen', name: 'مطبخ صغير', dims: null, poly: topRect(1130, 1400, 370), c: [1300, 300], floor: 'stone' },
+  { id: 'wc', name: 'دورات مياه', dims: [150, 200], poly: rect(980, 1130, 330, 530), c: [1040, 470], floor: 'wc' },
+  { id: 'lounge', name: 'منطقة استراحة تنفيذية', dims: [300, 370], poly: topRect(1400, 1700, 370), c: [1560, 110], floor: 'stone' },
+  { id: 'a1', name: 'مكتب إداري', dims: [300, 300], poly: rect(1400, 1700, 370, 670), c: [1560, 560], floor: 'carpet' },
+  { id: 'a2', name: 'مكتب إداري', dims: [300, 300], poly: rect(1400, 1700, 670, 970), c: [1550, 820], floor: 'carpet' },
+  { id: 'meet', name: 'غرفة الاجتماعات الرئيسية', dims: [380, 420], poly: rect(1320, 1700, 970, 1390), c: [1510, 1060], floor: 'carpet' },
+  { id: 'b3', name: 'مكتب إداري', dims: [280, 400], poly: rect(1040, 1320, 990, 1390), c: [1180, 1150], floor: 'carpet' },
+  { id: 'b4', name: 'مكتب إداري', dims: [280, 400], poly: rect(760, 1040, 990, 1390), c: [900, 1150], floor: 'carpet' },
+  { id: 'b5', name: 'مكتب إداري', dims: [280, 400], poly: rect(480, 760, 990, 1390), c: [620, 1150], floor: 'carpet' },
+  { id: 'b6', name: 'مكتب إداري', dims: [280, 400], poly: [[LEFTX(990), 990], [480, 990], [480, 1390], [200, 1390]], c: [350, 1150], floor: 'carpet' },
+];
+const OFFICE_F = ['مكتب على شكل L بشاشة', 'كرسي تنفيذي وكرسيا زوار', 'خزانة خشبية على الجدار الجانبي', 'باب زجاجي منزلق على الممر'];
+const INFO = {
+  reception: { type: 'منطقة مشتركة', desc: 'نقطة الدخول إلى الطابق، تضم كاونتر الاستقبال وجلسة الانتظار، ويفصلها حاجز خشبي منحني عن منطقة العمل المفتوحة.', f: ['كاونتر استقبال أبيض منحني', 'حاجز شرائح خشبية منحني', 'جلسة انتظار دائرية مع طاولة', 'كرسيان منفردان', 'نباتات داخلية'] },
+  open: { type: 'مساحة عمل مشتركة', desc: 'مساحة عمل مفتوحة على الواجهة الزجاجية، تتسع لـ 16 موظفًا على طاولتين مشتركتين.', f: ['طاولتا عمل مشتركتان', '16 محطة عمل بشاشات', 'فواصل مكتبية مصنفرة', 'أحواض نباتات على الطاولات'] },
+  kitchen: { type: 'مرفق خدمي', desc: 'مطبخ صغير مفتوح على الممر وبجوار منطقة الاستراحة التنفيذية.', f: ['كاونتر بخزائن خشبية', 'ماكينة قهوة', 'مغسلة'] },
+  wc: { type: 'مرفق خدمي', desc: 'دورات مياه على الممر الرئيسي بين منطقة العمل المفتوحة والمكاتب.', f: ['مغسلة بخزانة', 'مرحاض', 'خزائن تخزين خشبية'] },
+  lounge: { type: 'استراحة', desc: 'استراحة تنفيذية على الواجهة الزجاجية، بجوار المطبخ الصغير.', f: ['كنبة على شكل L', 'طاولة قهوة', 'وحدة تلفاز', 'سجادة'] },
+  a1: { type: 'مكتب إداري', desc: 'مكتب إداري مطل على الممر بواجهة زجاجية.', f: ['مكتب بشاشة وكرسي تنفيذي', 'كرسيا زوار', 'خزانة خشبية', 'باب زجاجي منزلق على الممر'] },
+  a2: { type: 'مكتب إداري', desc: 'مكتب إداري مطل على الممر بواجهة زجاجية، بجوار غرفة الاجتماعات.', f: ['مكتب بشاشة وكرسي تنفيذي', 'كرسيا زوار', 'خزانة خشبية', 'باب زجاجي منزلق على الممر'] },
+  meet: { type: 'غرفة اجتماعات', desc: 'غرفة الاجتماعات الرئيسية في نهاية الممر، بواجهة زجاجية وشاشة عرض جدارية.', f: ['طاولة اجتماعات لـ 8 أشخاص', 'شاشة عرض جدارية', 'خزانة منخفضة أسفل الشاشة', 'ممرات حركة حول الطاولة', 'باب زجاجي منزلق'] },
+  b3: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
+  b4: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
+  b5: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
+  b6: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر، بجوار منطقة الاستقبال.', f: OFFICE_F },
+};
+const inPoly = (x, z, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, zi] = poly[i], [xj, zj] = poly[j]; if (((zi > z) !== (zj > z)) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) c = !c; } return c; };
+const bbox = poly => { const xs = poly.map(p => p[0]), zs = poly.map(p => p[1]); return { x0: Math.min(...xs), x1: Math.max(...xs), z0: Math.min(...zs), z1: Math.max(...zs) }; };
+const WALLS = [
+  [200, 1390, 0, 75, 'ext'], [1700, 1390, 200, 1390, 'ext'], [1700, 0, 1700, 1390, 'ext'],
+  [0, 75, 130, TOPY(130), 'ext'], [290, TOPY(290), 1700, 0, 'facade'],
+  [130, TOPY(130), 130, 235, 'int'], [LEFTX(235), 235, 136, 235, 'int'],
+  [980, TOPY(980), 980, 330, 'int'], [980, 330, 1130, 330, 'int'], [1130, TOPY(1130), 1130, 330, 'int'],
+  [980, 330, 980, 530, 'int'], [1130, 330, 1130, 530, 'int'], [980, 530, 1130, 530, 'int'],
+  [1400, 370, 1700, 370, 'int'], [1400, 670, 1700, 670, 'int'],
+  [1400, 370, 1400, 565, 'glass'], [1400, 655, 1400, 670, 'glass'], [1400, 670, 1400, 865, 'glass'], [1400, 955, 1400, 970, 'glass'],
+  [1400, 970, 1700, 970, 'glass'], [1320, 970, 1320, 1390, 'int'],
+  [LEFTX(990), 990, 215, 990, 'glass'], [305, 990, 480, 990, 'glass'], [480, 990, 495, 990, 'glass'], [585, 990, 760, 990, 'glass'],
+  [760, 990, 775, 990, 'glass'], [865, 990, 1040, 990, 'glass'], [1040, 990, 1055, 990, 'glass'], [1145, 990, 1320, 990, 'glass'],
+  [480, 990, 480, 1390, 'int'], [760, 990, 760, 1390, 'int'], [1040, 990, 1040, 1390, 'int'],
+];
+// door gaps: a→b along the glass line; leaf slides to [la→lb] offset by n (cm) from the line
+const DOORS = [
+  ...[200, 480, 760, 1040].map(x0 => ({ a: [x0 + 15, 990], b: [x0 + 105, 990], la: [x0 + 105, 990], lb: [x0 + 195, 990], n: [0, -6] })),
+  ...[370, 670].map(y0 => ({ a: [1400, y0 + 195], b: [1400, y0 + 285], la: [1400, y0 + 105], lb: [1400, y0 + 195], n: [-6, 0] })),
+  { a: [1322, 970], b: [1400, 970], la: [1400, 970], lb: [1478, 970], n: [0, 6] },
+];
+const DIMS = [
+  { a: [0, 75], b: [1700, 0], off: [-0.044, -0.999], label: '1700', side: 'out' },
+  { a: [200, 1390], b: [1700, 1390], off: [0, 1], label: '1500' },
+  { a: [0, 75], b: [200, 1390], off: [-0.989, 0.150], label: '1330' },
+  { a: [1130, 800], b: [1400, 800], off: [0, 0], label: '270', inner: true },
+];
+const PRESETS = {
+  iso: { pos: [-0.5, 17.5, 21], tgt: [8.5, 0, 6.8] },
+  top: { pos: [8.5, 27, 7.05], tgt: [8.5, 0, 7] },
+  low: { pos: [-4.5, 5.5, 17], tgt: [7.5, 0.6, 7] },
+};
+
+class Component extends DCLogic {
+  glRef = React.createRef(); topRef = React.createRef(); botRef = React.createRef();
+  state = { sel: null, loading: true, preset: 'iso', walls: this.props.wallMode ?? 'cut', labels: this.props.showLabels ?? true, dims: true, spin: this.props.autoRotate ?? false };
+  selectRoom(id) {
+    this.setState({ sel: id });
+    if (this.gl) { this.gl.focusRoom(id); setTimeout(() => this.gl.paintHi(), 0); }
+  }
+  closeRoom() {
+    this.setState({ sel: null });
+    if (this.gl) { this.gl.goPreset(this.state.preset || 'iso'); setTimeout(() => this.gl.paintHi(), 0); }
+  }
+  onKey = e => { if (e.key === 'Escape' && this.state.sel) this.closeRoom(); };
+  componentDidMount() { window.addEventListener('keydown', this.onKey); this.init().catch(e => console.error('3D init failed: ' + (e && (e.stack || e.message) || e))); }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); const h = this.glRef.current; if (h && h.__cleanup) h.__cleanup(); }
+  componentDidUpdate() { this.sync(); }
+  sync() {
+    const g = this.gl; if (!g) return;
+    const s = this.state, ps = this._prev || {};
+    this._prev = { ...s };
+    if (ps.walls !== s.walls) g.setWallH(s.walls === 'cut' ? 120 : 300);
+    if (ps.labels !== s.labels || ps.dims !== s.dims) g.applyVis();
+
+    g.controls.autoRotate = s.spin;
+  }
+
+  async init() {
+    let host = this.glRef.current;
+    for (let i = 0; !host && i < 50; i++) { await new Promise(r => setTimeout(r, 100)); host = this.glRef.current; }
+    if (!host) return;
+    if (host.__cleanup) host.__cleanup();
+    host.innerHTML = '';
+    const V = '0.160.0';
+    const [THREE, { OrbitControls }, { RoomEnvironment }, { RoundedBoxGeometry }] = await Promise.all([
+      import(`https://esm.sh/three@${V}`),
+      import(`https://esm.sh/three@${V}/examples/jsm/controls/OrbitControls.js`),
+      import(`https://esm.sh/three@${V}/examples/jsm/environments/RoomEnvironment.js`),
+      import(`https://esm.sh/three@${V}/examples/jsm/geometries/RoundedBoxGeometry.js`),
+    ]);
+    if (this.glRef.current !== host) return;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+    renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none';
+    host.appendChild(renderer.domElement);
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden';
+    host.appendChild(overlay);
+
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+    scene.environmentIntensity = 0.55;
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 300);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; controls.dampingFactor = 0.08; controls.maxPolarAngle = 1.48; controls.minDistance = 2; controls.maxDistance = 55;
+    controls.autoRotateSpeed = 0.45; controls.screenSpacePanning = true;
+    const P0 = PRESETS.iso; camera.position.set(...P0.pos); controls.target.set(...P0.tgt);
+
+    scene.add(new THREE.HemisphereLight(0xfff8ee, 0x9c9081, 0.55));
+    const sun = new THREE.DirectionalLight(0xfff0de, 2.6);
+    sun.position.set(-2, 22, 9); sun.target.position.set(8.5, 0, 7); sun.castShadow = true;
+    sun.shadow.mapSize.set(4096, 4096);
+    Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 60 });
+    sun.shadow.camera.updateProjectionMatrix(); sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.015; sun.shadow.radius = 3;
+    scene.add(sun, sun.target);
+
+    // ---------- textures ----------
+    const tex = (w, h, draw, rep) => {
+      const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.anisotropy = renderer.capabilities.getMaxAnisotropy(); if (rep) t.repeat.set(rep[0], rep[1]); return t;
+    };
+    const noise = (x, w, h, n, a, light) => { for (let i = 0; i < n; i++) { x.fillStyle = `rgba(${light ? '255,255,255' : '0,0,0'},${Math.random() * a})`; x.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 2); } };
+    const carpetT = tex(512, 512, (x, w, h) => {
+      x.fillStyle = '#403d3a'; x.fillRect(0, 0, w, h);
+      for (let ty = 0; ty < 2; ty++) for (let tx = 0; tx < 2; tx++) {
+        const v = 58 + Math.random() * 8; x.fillStyle = `rgb(${v},${v - 3},${v - 6})`; x.fillRect(tx * 256, ty * 256, 256, 256);
+        x.strokeStyle = 'rgba(255,255,255,.035)'; x.lineWidth = 2;
+        for (let k = 0; k < 256; k += 8) { x.beginPath(); if ((tx + ty) % 2) { x.moveTo(tx * 256 + k, ty * 256); x.lineTo(tx * 256 + k, ty * 256 + 256); } else { x.moveTo(tx * 256, ty * 256 + k); x.lineTo(tx * 256 + 256, ty * 256 + k); } x.stroke(); }
+      }
+      noise(x, w, h, 14000, 0.12, true); noise(x, w, h, 14000, 0.18, false);
+      x.strokeStyle = 'rgba(0,0,0,.35)'; x.lineWidth = 2; x.strokeRect(0, 0, 256, 256); x.strokeRect(256, 0, 256, 256); x.strokeRect(0, 256, 256, 256); x.strokeRect(256, 256, 256, 256);
+    });
+    const stoneT = tex(512, 512, (x, w, h) => {
+      for (let tx = 0; tx < 2; tx++) { const v = 226 + Math.random() * 8; x.fillStyle = `rgb(${v},${v - 3},${v - 9})`; x.fillRect(tx * 256, 0, 256, 512); }
+      for (let i = 0; i < 22; i++) { x.strokeStyle = `rgba(150,140,125,${0.05 + Math.random() * 0.07})`; x.lineWidth = 0.5 + Math.random() * 1.5; x.beginPath(); let px = Math.random() * w, py = Math.random() * h; x.moveTo(px, py); for (let k = 0; k < 6; k++) { px += (Math.random() - 0.5) * 120; py += Math.random() * 80; x.lineTo(px, py); } x.stroke(); }
+      noise(x, w, h, 6000, 0.05, false);
+      x.fillStyle = 'rgba(120,110,98,.45)'; x.fillRect(0, 0, 2, 512); x.fillRect(256, 0, 2, 512); x.fillRect(0, 0, 512, 2);
+    }, [1 / 1.2, 1 / 1.2]);
+    const wcT = tex(256, 256, (x, w, h) => { x.fillStyle = '#ecebe6'; x.fillRect(0, 0, w, h); x.fillStyle = 'rgba(140,135,125,.5)'; for (let k = 0; k < 256; k += 51.2) { x.fillRect(k, 0, 1.5, 256); x.fillRect(0, k, 256, 1.5); } noise(x, w, h, 2000, 0.05, false); });
+    const woodT = (base, dark) => tex(512, 512, (x, w, h) => {
+      x.fillStyle = base; x.fillRect(0, 0, w, h);
+      for (let y = 0; y < h; y += 1) { const a = 0.06 + 0.06 * Math.sin(y * 0.09 + Math.sin(y * 0.013) * 4) + Math.random() * 0.05; x.fillStyle = `rgba(${dark},${a})`; x.fillRect(0, y, w, 1); }
+      for (let i = 0; i < 40; i++) { x.strokeStyle = `rgba(${dark},.12)`; x.beginPath(); const y0 = Math.random() * h; x.moveTo(0, y0); x.bezierCurveTo(w * .3, y0 + (Math.random() - .5) * 20, w * .7, y0 + (Math.random() - .5) * 20, w, y0); x.stroke(); }
+    });
+    const woodMid = woodT('#a8744a', '70,40,20'), woodDark = woodT('#6f4a30', '30,18,10'), woodLight = woodT('#c08a5a', '90,55,25');
+    const rugT = tex(512, 512, (x, w, h) => { x.fillStyle = '#a49e93'; x.fillRect(0, 0, w, h); x.strokeStyle = 'rgba(80,75,68,.25)'; x.lineWidth = 3; for (let r = 30; r < 260; r += 26) { x.beginPath(); x.arc(256, 256, r, 0, Math.PI * 2); x.stroke(); } noise(x, w, h, 12000, 0.12, false); });
+
+    // ---------- materials ----------
+    const M = (o) => new THREE.MeshStandardMaterial(Object.assign({ roughness: 0.7, metalness: 0 }, o));
+    const mat = {
+      carpet: M({ map: carpetT, roughness: 0.95 }), stone: M({ map: stoneT, roughness: 0.32 }), wc: M({ map: wcT, roughness: 0.3 }),
+      slab: M({ color: '#cfc8bb', roughness: 0.9 }), wall: M({ color: '#f3f0ea', roughness: 0.85 }), cap: M({ color: '#262523', roughness: 0.6 }),
+      white: M({ color: '#f5f3ee', roughness: 0.35 }), whiteMatte: M({ color: '#eeebe4', roughness: 0.6 }),
+      metal: M({ color: '#2d2d2d', roughness: 0.35, metalness: 0.8 }), chrome: M({ color: '#cfcfcf', roughness: 0.15, metalness: 1 }),
+      chair: M({ color: '#2f2e2c', roughness: 0.75 }), chairMesh: M({ color: '#3b3a38', roughness: 0.9 }),
+      fabric: M({ color: '#b3ada2', roughness: 0.95 }), fabricDark: M({ color: '#9b958a', roughness: 0.95 }), fabricWarm: M({ color: '#8d8679', roughness: 0.95 }),
+      woodMid: M({ map: woodMid, roughness: 0.55 }), woodDark: M({ map: woodDark, roughness: 0.5 }), woodLight: M({ map: woodLight, roughness: 0.55 }),
+      screen: M({ color: '#0d1726', roughness: 0.2, metalness: 0.2, emissive: '#1f5fae', emissiveIntensity: 0.55 }),
+      tv: M({ color: '#0b0b0c', roughness: 0.15, metalness: 0.3 }),
+      leaf: M({ color: '#4f7f3f', roughness: 0.8, flatShading: true }), leaf2: M({ color: '#6a9a4c', roughness: 0.8, flatShading: true }),
+      pot: M({ color: '#e9e5dc', roughness: 0.6 }), potDark: M({ color: '#3a3836', roughness: 0.6 }), soil: M({ color: '#4a3a2c', roughness: 1 }),
+      rug: M({ map: rugT, roughness: 1 }), paper: M({ color: '#ffffff', roughness: 0.9 }), frosted: M({ color: '#dfe5e3', roughness: 0.4, transparent: true, opacity: 0.7 }),
+      glass: new THREE.MeshPhysicalMaterial({ color: '#d7ecef', roughness: 0.04, metalness: 0, transparent: true, opacity: 0.22, envMapIntensity: 1.4, depthWrite: false }),
+      ceramic: M({ color: '#ffffff', roughness: 0.15 }), dim: new THREE.MeshBasicMaterial({ color: '#2b2a28' }), dimBlue: new THREE.MeshBasicMaterial({ color: '#3277a4' }),
+    };
+
+    // ---------- helpers (cm in, meters out) ----------
+    const gc = {};
+    const B = (w, h, d) => gc[`b${w},${h},${d}`] || (gc[`b${w},${h},${d}`] = new THREE.BoxGeometry(w / 100, h / 100, d / 100));
+    const RB = (w, h, d, r) => gc[`r${w},${h},${d},${r}`] || (gc[`r${w},${h},${d},${r}`] = new RoundedBoxGeometry(w / 100, h / 100, d / 100, 3, Math.min(r, w / 2 - .1, h / 2 - .1, d / 2 - .1) / 100));
+    const CY = (rt, rb, h, seg = 24) => gc[`c${rt},${rb},${h},${seg}`] || (gc[`c${rt},${rb},${h},${seg}`] = new THREE.CylinderGeometry(rt / 100, rb / 100, h / 100, seg));
+    const put = (parent, geo, m, x, y, z, o = {}) => {
+      const mesh = new THREE.Mesh(geo, m); mesh.position.set(x / 100, y / 100, z / 100);
+      if (o.ry) mesh.rotation.y = o.ry; if (o.rx) mesh.rotation.x = o.rx; if (o.rz) mesh.rotation.z = o.rz;
+      mesh.castShadow = o.cast !== false; mesh.receiveShadow = true; parent.add(mesh); return mesh;
+    };
+    const grp = (x, z, ry = 0, y = 0) => { const g = new THREE.Group(); g.position.set(x / 100, y / 100, z / 100); g.rotation.y = ry; scene.add(g); return g; };
+    const shape = pts => new THREE.Shape(pts.map(([x, z]) => new THREE.Vector2(x / 100, -z / 100)));
+    const prism = (pts, h, m, y0 = 0, cast = false, parent = scene) => {
+      const g = new THREE.ExtrudeGeometry(shape(pts), { depth: h / 100, bevelEnabled: false }); g.rotateX(-Math.PI / 2);
+      const mesh = new THREE.Mesh(g, m); mesh.position.y = y0 / 100; mesh.castShadow = cast; mesh.receiveShadow = true; parent.add(mesh); return mesh;
+    };
+    const arcPts = (cx, cz, r0, r1, a0, a1, n = 40) => {
+      const p = [];
+      for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n; p.push([cx + r1 * Math.cos(a), cz + r1 * Math.sin(a)]); }
+      for (let i = n; i >= 0; i--) { const a = a0 + (a1 - a0) * i / n; p.push([cx + r0 * Math.cos(a), cz + r0 * Math.sin(a)]); }
+      return p;
+    };
+    const FACE = { s: 0, n: Math.PI, e: Math.PI / 2, w: -Math.PI / 2 };
+
+    // Office chair: front faces local +z
+    const chair = (x, z, face, exec) => {
+      const g = grp(x, z, typeof face === 'number' ? face : FACE[face]);
+      for (let i = 0; i < 5; i++) { const a = i * Math.PI * 2 / 5; put(g, B(3, 2.5, 30), mat.metal, Math.sin(a) * 14, 4, Math.cos(a) * 14, { ry: a }); put(g, CY(2.2, 2.2, 3, 10), mat.chair, Math.sin(a) * 28, 1.5, Math.cos(a) * 28); }
+      put(g, CY(2.5, 2.5, 36, 12), mat.chrome, 0, 22, 0);
+      put(g, RB(50, 8, 48, 3), mat.chair, 0, 44, 2);
+      const bh = exec ? 62 : 48;
+      put(g, RB(48, bh, 6, 3), exec ? mat.chair : mat.chairMesh, 0, 50 + bh / 2, -23, { rx: -0.12 });
+      put(g, B(4, 3, 26), mat.metal, -24, 62, 0); put(g, B(4, 3, 26), mat.metal, 24, 62, 0);
+      put(g, B(3, 16, 3), mat.metal, -24, 54, 0); put(g, B(3, 16, 3), mat.metal, 24, 54, 0);
+    };
+    const visitorChair = (x, z, face) => {
+      const g = grp(x, z, FACE[face]);
+      [[-20, -18], [20, -18], [-20, 18], [20, 18]].forEach(([a, b]) => put(g, CY(1.4, 1.4, 44, 8), mat.chrome, a, 22, b));
+      put(g, RB(48, 7, 46, 3), mat.fabricWarm, 0, 46, 0);
+      put(g, RB(48, 38, 6, 3), mat.fabricWarm, 0, 68, -21, { rx: -0.1 });
+    };
+    const monitor = (parent, x, y, z, ry = 0) => {
+      const g = new THREE.Group(); g.position.set(x / 100, y / 100, z / 100); g.rotation.y = ry; parent.add(g);
+      put(g, B(22, 1, 16), mat.metal, 0, 0.5, 0); put(g, B(4, 24, 2), mat.metal, 0, 12, -3);
+      put(g, RB(58, 34, 2.5, 0.8), mat.tv, 0, 36, 0); put(g, B(55, 31, 0.4), mat.screen, 0, 36, 1.4, { cast: false });
+      put(g, RB(42, 1.5, 13, 0.6), mat.whiteMatte, 0, 0.8, 22);
+    };
+    const plant = (x, z, s = 1, tall = false, y = 0) => {
+      const g = grp(x, z, 0, y);
+      put(g, CY(17 * s, 13 * s, 38 * s, 28), mat.pot, 0, 19 * s, 0); put(g, CY(15.5 * s, 15.5 * s, 2, 20), mat.soil, 0, 37 * s, 0);
+      const n = tall ? 14 : 10;
+      for (let i = 0; i < n; i++) {
+        const a = i * 2.4, r = (tall ? 9 : 12) * s * (0.4 + (i % 3) * 0.3), y = (38 + (tall ? 25 + i * 6 : 14 + (i % 4) * 9)) * s;
+        const geo = gc[`leaf${i % 3}`] || (gc[`leaf${i % 3}`] = new THREE.IcosahedronGeometry(0.11 + (i % 3) * 0.025, 0));
+        const m = put(g, geo, i % 2 ? mat.leaf : mat.leaf2, Math.cos(a) * r, y, Math.sin(a) * r, { ry: a, rx: i });
+        m.scale.setScalar(s);
+      }
+    };
+    const deskTop = (parent, x, z, w, d, m = mat.white) => put(parent, RB(w, 3, d, 1), m, x, 73.5, z);
+
+    // ---------- shell ----------
+    prism(OUTLINE, 30, mat.slab, -30.5, true);
+    prism(OUTLINE, 0.5, mat.stone, 0);
+    prism(CORRIDOR, 0.6, mat.stone, 0.3);
+    ROOMS.forEach(r => prism(r.poly, 0.6, mat[r.floor], 0.4));
+    const hi = {};
+    ROOMS.forEach(r => { const m = new THREE.MeshBasicMaterial({ color: '#47a190', transparent: true, opacity: 0, depthWrite: false }); const o = prism(r.poly, 0.4, m, 1.1); o.receiveShadow = false; o.renderOrder = 2; hi[r.id] = o; });
+    prism([[980, TOPY(980)], [1130, TOPY(1130)], [1130, 330], [980, 330]], 0.6, mat.wc, 0.4);
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ opacity: 0.16 }));
+    ground.rotation.x = -Math.PI / 2; ground.position.set(8.5, -0.31, 7); ground.receiveShadow = true; scene.add(ground);
+
+    const scaled = [], tops = [];
+    const wallMesh = (geo, m, x, z, ry, kind) => { const mm = put(scene, geo, m, x, 50, z, { ry }); (kind === 'top' ? tops : scaled).push(mm); return mm; };
+    WALLS.forEach(([x1, z1, x2, z2, k]) => {
+      const L = Math.hypot(x2 - x1, z2 - z1), ang = -Math.atan2(z2 - z1, x2 - x1), cx = (x1 + x2) / 2, cz = (z1 + z2) / 2;
+      if (k === 'ext' || k === 'int') {
+        const t = k === 'ext' ? 24 : 12;
+        wallMesh(B(L + t, 100, t), mat.wall, cx, cz, ang);
+        wallMesh(B(L + t, 3, t + 0.5), mat.cap, cx, cz, ang, 'top');
+        put(scene, B(L, 8, t + 1.5), mat.whiteMatte, cx, 4, cz, { ry: ang });
+      } else {
+        const g = wallMesh(B(L, 100, 1.6), mat.glass, cx, cz, ang); g.castShadow = false;
+        wallMesh(B(L, 4, 7), mat.cap, cx, cz, ang, 'top');
+        put(scene, B(L, 5, 7), mat.cap, cx, 2.5, cz, { ry: ang });
+        const step = k === 'facade' ? 155 : 100, n = Math.max(1, Math.round(L / step));
+        for (let i = 0; i <= n; i++) { const p = i / n; wallMesh(B(5, 100, 7), mat.cap, x1 + (x2 - x1) * p, z1 + (z2 - z1) * p, ang); }
+      }
+    });
+    const leaves = [];
+    DOORS.forEach(d => {
+      const L = Math.hypot(d.b[0] - d.a[0], d.b[1] - d.a[1]), ang = -Math.atan2(d.b[1] - d.a[1], d.b[0] - d.a[0]);
+      const cx = (d.a[0] + d.b[0]) / 2, cz = (d.a[1] + d.b[1]) / 2;
+      put(scene, B(L, 0.8, 10), mat.metal, cx, 0.9, cz, { ry: ang, cast: false });
+      [d.a, d.b].forEach(p => wallMesh(B(6, 100, 9), mat.cap, p[0], p[1], ang));
+      wallMesh(B(L, 4, 7), mat.cap, cx, cz, ang, 'top');
+      const lx = (d.la[0] + d.lb[0]) / 2 + d.n[0], lz = (d.la[1] + d.lb[1]) / 2 + d.n[1], LL = Math.hypot(d.lb[0] - d.la[0], d.lb[1] - d.la[1]);
+      const g = new THREE.Group(); g.position.set(lx / 100, 0, lz / 100); g.rotation.y = ang; scene.add(g);
+      const pane = put(g, B(LL - 6, 100, 1.4), mat.glass, 0, 50, 0); pane.castShadow = false;
+      [-LL / 2 + 2, LL / 2 - 2].forEach(ex => put(g, B(4, 100, 4), mat.cap, ex, 50, 0));
+      put(g, B(LL, 4, 4), mat.cap, 0, 2, 0); const top = put(g, B(LL, 4, 4), mat.cap, 0, 98, 0);
+      const toGap = Math.sign((d.a[0] + d.b[0]) - (d.la[0] + d.lb[0]) + (d.a[1] + d.b[1]) - (d.la[1] + d.lb[1])) || 1;
+      const dirAlong = (d.b[0] - d.a[0]) + (d.b[1] - d.a[1]) >= 0 ? 1 : -1;
+      put(scene, CY(1.4, 1.4, 45, 10), mat.chrome, lx + (d.lb[0] - d.la[0]) / LL * toGap * dirAlong * (LL / 2 - 10) + d.n[0] * 0.8, 100, lz + (d.lb[1] - d.la[1]) / LL * toGap * dirAlong * (LL / 2 - 10) + d.n[1] * 0.8);
+      leaves.push(g);
+    });
+    const setWallH = h => { if (this._mount) this._mount(h);
+      leaves.forEach(g => { g.scale.y = Math.min(h, 215) / 100; });
+      scaled.forEach(m => { m.scale.y = h / 100; m.position.y = h / 200; });
+      tops.forEach(m => { m.position.y = h / 100 + 0.015; });
+      this.wallH = h;
+    };
+
+    // ---------- reception ----------
+    // S-curved timber fin screen + matching curved white counter (follows reference render)
+    const SC = { z0: 95, z1: 650 };
+    const scX = z => { const u = (z - SC.z0) / (SC.z1 - SC.z0); return 398 + 40 * Math.sin(u * Math.PI * 1.75 + 0.35); };
+    const scN = z => { const dx = scX(z + 1) - scX(z - 1), dz = 2, L = Math.hypot(dx, dz); return [-dz / L, dx / L]; }; // normal toward -x
+    {
+      let acc = 0, prev = [scX(SC.z0), SC.z0], i = 0;
+      for (let z = SC.z0; z <= SC.z1; z += 1) {
+        const p = [scX(z), z]; acc += Math.hypot(p[0] - prev[0], p[1] - prev[1]); prev = p;
+        if (acc < 15 && z !== SC.z0) continue; acc = 0; i++;
+        const dx = scX(z + 1) - scX(z - 1), ang = -Math.atan2(2, dx);
+        const h = 255 + 12 * Math.sin(i * 0.9);
+        put(scene, RB(5, h, 13, 2), i % 5 === 0 ? mat.woodLight : mat.woodMid, p[0], h / 2, z, { ry: ang });
+      }
+    }
+    const band = (z0, z1, o0, o1) => {
+      const a = [], b = [];
+      for (let z = z0; z <= z1; z += 8) { const x = scX(z), n = scN(z); a.push([x + n[0] * o0, z + n[1] * o0]); b.push([x + n[0] * o1, z + n[1] * o1]); }
+      return a.concat(b.reverse());
+    };
+    const RZ0 = 200, RZ1 = 470;
+    prism(band(RZ0, RZ1, 105, 150), 104, mat.white, 0, true);
+    prism(band(RZ0, RZ1, 102, 153), 3, mat.white, 104, true);
+    prism(band(RZ0, RZ1, 78, 105), 3, mat.white, 73, true);
+    prism(band(RZ0, RZ1, 148, 151), 6, mat.cap, 0, false);
+    [RZ0, RZ1].forEach(z => { const x = scX(z), n = scN(z); put(scene, CY(23, 23, 107, 32), mat.white, x + n[0] * 127, 53.5, z + n[1] * 127); });
+    { const zc = 335, x = scX(zc), n = scN(zc);
+      chair(x + n[0] * 45, zc + n[1] * 45, Math.atan2(n[0], n[1]), true);
+      const g = grp(x + n[0] * 92, zc + n[1] * 92, Math.atan2(-n[0], -n[1])); monitor(g, 0, 76, 0, 0);
+      [255, 420].forEach(zz => { const xx = scX(zz), nn = scN(zz); plant(xx + nn[0] * 127, zz + nn[1] * 127, 0.42, false, 107); });
+    }
+    { const z = 615, x = scX(z) + 30; put(scene, CY(30, 30, 46, 32), mat.woodDark, x, 23, z); put(scene, CY(27, 27, 2, 28), mat.soil, x, 46, z); plant(x, z, 1.15, true, 8); }
+    plant(75, 300, 1.0, true); plant(120, 650, 0.9, true);
+    const rug = put(scene, CY(98, 98, 1, 64), mat.rug, 282, 1.1, 838, { cast: false });
+    prism(arcPts(280, 835, 82, 124, Math.PI * 0.4, Math.PI * 1.1), 40, mat.fabric, 0, true);
+    prism(arcPts(280, 835, 109, 124, Math.PI * 0.4, Math.PI * 1.1), 80, mat.fabricDark, 0, true);
+    prism(arcPts(280, 835, 84, 122, Math.PI * 0.4, Math.PI * 1.1), 6, mat.fabricDark, 40, true);
+    put(scene, CY(32, 32, 3, 40), mat.woodDark, 295, 38, 838); put(scene, CY(6, 14, 36, 16), mat.metal, 295, 18, 838);
+    put(scene, B(14, 2, 10), mat.paper, 288, 40.5, 832, { ry: 0.4 });
+    [[228, 715, 0.53], [345, 728, -0.44]].forEach(([x, z, ry]) => { const g = grp(x, z, ry); put(g, RB(66, 40, 62, 8), mat.fabricWarm, 0, 22, 0); put(g, RB(66, 36, 14, 6), mat.fabricWarm, 0, 58, -25); put(g, RB(12, 22, 56, 5), mat.fabricWarm, -28, 50, 2); put(g, RB(12, 22, 56, 5), mat.fabricWarm, 28, 50, 2); });
+
+    // ---------- open workspace ----------
+    [255, 525].forEach(tz => {
+      const g = grp(715, tz);
+      deskTop(g, 0, 0, 440, 140);
+      [-215, 215].forEach(dx => { put(g, B(5, 72, 128), mat.white, dx, 36, 0); });
+      put(g, B(400, 4, 6), mat.metal, 0, 66, 0);
+      put(g, B(410, 32, 2.5), mat.frosted, 0, 91, 0, { cast: false });
+      [-165, -55, 55, 165].forEach(dx => {
+        monitor(g, dx, 75, -40, Math.PI); monitor(g, dx, 75, 40, 0);
+        chair(715 + dx, tz - 100, 's'); chair(715 + dx, tz + 100, 'n');
+      });
+      [-110, 110].forEach(dx => { put(g, RB(60, 16, 22, 3), mat.potDark, dx, 83, 0); for (let i = 0; i < 6; i++) put(g, new THREE.IcosahedronGeometry(0.09, 0), i % 2 ? mat.leaf : mat.leaf2, dx - 22 + i * 9, 98 + (i % 2) * 6, (i % 3 - 1) * 5, { rx: i }); });
+    });
+    put(scene, RB(36, 100, 420, 2), mat.whiteMatte, 958, 50, 420);
+    plant(500, 690, 0.7); plant(930, 690, 0.7);
+
+    // ---------- kitchen ----------
+    put(scene, RB(60, 86, 290, 1), mat.woodDark, 1162, 43, 215);
+    put(scene, RB(64, 4, 294, 1), mat.white, 1162, 88, 215);
+    for (let z = 85; z <= 345; z += 52) put(scene, B(0.8, 70, 48), mat.cap, 1192.5, 46, z, { cast: false });
+    put(scene, RB(30, 38, 32, 4), mat.tv, 1160, 109, 110); put(scene, B(10, 6, 6), mat.chrome, 1160, 100, 128);
+    put(scene, B(40, 2, 36), mat.chrome, 1162, 89.5, 260, { cast: false }); put(scene, CY(1.5, 1.5, 28, 8), mat.chrome, 1148, 104, 260);
+    put(scene, RB(22, 28, 18, 3), mat.whiteMatte, 1160, 104, 170);
+    put(scene, RB(58, 86, 2, 1), mat.chrome, 1193, 43, 320, { cast: false });
+
+    // ---------- WC ----------
+    put(scene, RB(50, 16, 40, 2), mat.ceramic, 1100, 82, 360); put(scene, B(56, 70, 44), mat.woodDark, 1100, 35, 360);
+    put(scene, CY(1.2, 1.2, 20, 8), mat.chrome, 1110, 98, 350);
+    { const g = grp(1010, 470, Math.PI / 2); put(g, RB(38, 40, 60, 14), mat.ceramic, 0, 20, 6); put(g, RB(40, 40, 18, 4), mat.ceramic, 0, 58, -24); put(g, RB(38, 3, 46, 10), mat.ceramic, 0, 41, 8); }
+    put(scene, RB(150, 128, 186, 2), mat.woodDark, 1055, 64, 625);
+    for (let z = 560; z <= 690; z += 45) put(scene, B(152, 70, 0.6), mat.cap, 1055, 64, z, { cast: false });
+
+    // ---------- executive lounge ----------
+    put(scene, RB(280, 1, 220, 0.5), mat.rug, 1560, 1, 205, { cast: false });
+    const sofa = (x, z, w, d, ry) => { const g = grp(x, z, ry); put(g, RB(w, 20, d, 3), mat.fabricDark, 0, 12, 0); const n = Math.max(1, Math.round(w / 75)); for (let i = 0; i < n; i++) { const cw = w / n - 2; put(g, RB(cw, 14, d - 22, 6), mat.fabric, -w / 2 + (i + 0.5) * w / n, 28, 8); put(g, RB(cw, 42, 16, 7), mat.fabric, -w / 2 + (i + 0.5) * w / n, 48, -d / 2 + 10, { rx: -0.12 }); } put(g, B(w, 4, d - 6), mat.metal, 0, 2, 0); return g; };
+    sofa(1448, 225, 230, 86, Math.PI / 2);
+    sofa(1580, 58, 200, 86, 0);
+    put(scene, RB(100, 6, 60, 2), mat.woodDark, 1570, 37, 210); put(scene, B(90, 30, 4), mat.metal, 1570, 17, 210);
+    put(scene, RB(36, 52, 210, 2), mat.woodMid, 1678, 26, 220);
+    put(scene, RB(4, 72, 128, 0.8), mat.tv, 1688, 100, 220);
+    put(scene, B(1, 68, 124), M({ color: '#111', roughness: 0.1, metalness: 0.4 }), 1685.6, 100, 220, { cast: false });
+    plant(1675, 345, 0.8, true);
+    put(scene, B(12, 2, 9), mat.paper, 1560, 41, 205, { ry: 0.3 });
+
+    // ---------- offices 01, 02 ----------
+    [370, 670].forEach(y0 => {
+      const yc = y0 + 150;
+      const g = grp(1615, yc);
+      deskTop(g, 0, 0, 80, 170, mat.white); put(g, B(76, 72, 4), mat.white, 0, 36, -80); put(g, B(76, 72, 4), mat.white, 0, 36, 80);
+      put(g, B(4, 40, 160), mat.white, -36, 50, 0);
+      monitor(g, -10, 75, 20, Math.PI / 2);
+      chair(1668, yc, 'w', true); visitorChair(1535, yc - 42, 'e'); visitorChair(1535, yc + 42, 'e');
+      put(scene, RB(180, 80, 40, 1.5), mat.woodMid, 1540, 40, y0 + 30);
+      put(scene, B(1, 70, 0.6), mat.cap, 1540, 42, y0 + 50.5, { cast: false });
+      plant(1430, y0 + 80, 0.8, true);
+    });
+
+    // ---------- main meeting room ----------
+    // table runs along the 420 depth: ~75 cm walkways each side, 110 cm clear at the door end
+    { const g = grp(1510, 1200);
+      put(g, RB(110, 5, 240, 2), mat.woodMid, 0, 74, 0);
+      put(g, B(18, 0.6, 180), mat.tv, 0, 76.8, 0, { cast: false });
+      put(g, RB(60, 70, 34, 3), mat.metal, 0, 36, -75); put(g, RB(60, 70, 34, 3), mat.metal, 0, 36, 75);
+      [-90, -30, 30, 90].forEach(dz => {
+        put(g, B(29, 0.8, 21), mat.paper, -36, 77, dz, { ry: 0.05 }); put(g, B(29, 0.8, 21), mat.paper, 36, 77, dz, { ry: -0.05 });
+        chair(1510 - 98, 1200 + dz, 'e', true); chair(1510 + 98, 1200 + dz, 'w', true);
+      });
+    }
+    // wall-mounted screen on the inner face of the outer wall (inner face z = 1378); height follows wall cut
+    { const sg = new THREE.Group(); sg.position.set(15.10, 0, 0); scene.add(sg);
+      put(sg, B(40, 30, 4), mat.metal, 0, 0, 1376);
+      put(sg, RB(140, 79, 4, 1), mat.tv, 0, 0, 1372);
+      put(sg, B(136, 75, 0.6), mat.screen, 0, 0, 1369.7, { cast: false });
+      this._mount = h => { sg.position.y = (h >= 200 ? 140 : h - 42) / 100; }; }
+    put(scene, RB(150, 36, 36, 1.5), mat.woodMid, 1510, 18, 1359);
+    put(scene, RB(152, 2, 38, 0.8), mat.white, 1510, 37, 1359);
+    plant(1352, 1358, 0.8, true); plant(1668, 1358, 0.8, true); plant(1672, 1002, 0.7);
+
+    // ---------- offices 03–06 ----------
+    [200, 480, 760, 1040].forEach(x0 => {
+      // desk faces the door: user sits on the window side looking toward the corridor
+      const g = grp(x0 + 140, 1250);
+      deskTop(g, 0, 0, 190, 72); put(g, B(4, 72, 68), mat.white, -93, 36, 0);
+      deskTop(g, 66, 82, 58, 92); put(g, B(54, 72, 4), mat.white, 66, 36, 126);
+      put(g, B(180, 40, 3), mat.white, 0, 50, -34);
+      monitor(g, -10, 75, -16, 0);
+      chair(x0 + 130, 1322, 'n', true);
+      visitorChair(x0 + 32, 1070, 'e'); visitorChair(x0 + 32, 1170, 'e');
+      put(scene, CY(17, 17, 3, 28), mat.woodDark, x0 + 34, 50, 1120); put(scene, CY(3, 3, 48, 10), mat.metal, x0 + 34, 24, 1120); put(scene, CY(14, 14, 2, 24), mat.metal, x0 + 34, 1, 1120);
+      put(scene, RB(40, 120, 150, 1.5), mat.woodMid, x0 + 254, 60, 1095);
+      [1 / 3, 2 / 3].forEach(f => put(scene, B(1, 116, 0.6), mat.cap, x0 + 233.5, 60, 1020 + 150 * f, { cast: false }));
+      put(scene, RB(42, 4, 146, 1), mat.white, x0 + 254, 122, 1095);
+      plant(x0 + 24, 1364, 0.7, true);
+    });
+
+    // ---------- entrance marker ----------
+    put(scene, RB(160, 1.5, 110, 0.7), M({ color: '#47a190', roughness: 0.6 }), 210, 0.9, 10, { cast: false });
+
+    // ---------- dimension lines ----------
+    const dimObjs = [];
+    const dimLine = (a, b, off, label, inner) => {
+      const ox = off[0] * 90, oz = off[1] * 90;
+      const A = [a[0] + ox, a[1] + oz], Bp = [b[0] + ox, b[1] + oz];
+      const L = Math.hypot(Bp[0] - A[0], Bp[1] - A[1]), ang = -Math.atan2(Bp[1] - A[1], Bp[0] - A[0]);
+      const m = inner ? mat.dimBlue : mat.dim;
+      dimObjs.push(put(scene, B(L, 1.2, 2.5), m, (A[0] + Bp[0]) / 2, 2, (A[1] + Bp[1]) / 2, { ry: ang, cast: false }));
+      [A, Bp].forEach(p => dimObjs.push(put(scene, B(3, 1.2, 36), m, p[0], 2, p[1], { ry: ang, cast: false })));
+      if (!inner) [a, b].forEach((p, i) => { const q = [p[0] + ox, p[1] + oz]; const LL = Math.hypot(ox, oz); if (LL) dimObjs.push(put(scene, B(LL, 0.8, 1.2), m, (p[0] + q[0]) / 2, 1.5, (p[1] + q[1]) / 2, { ry: -Math.atan2(oz, ox), cast: false })); });
+      return new THREE.Vector3((A[0] + Bp[0]) / 200, 0.12, (A[1] + Bp[1]) / 200);
+    };
+
+    // ---------- overlay labels ----------
+    const labels = [];
+    const mk = (html, pos, kind, rid) => { const el = document.createElement('div'); el.style.cssText = 'position:absolute;left:0;top:0;will-change:transform;white-space:nowrap' + (rid ? ';pointer-events:auto;cursor:pointer' : ''); el.innerHTML = html; if (rid) el.addEventListener('click', () => this.selectRoom(rid)); overlay.appendChild(el); labels.push({ el, pos, kind, rid }); };
+    ROOMS.forEach(r => {
+      const d = r.dims ? `<span dir="ltr" style="unicode-bidi:isolate"><span style="font-family:Archivo,sans-serif;font-weight:700;font-size:11px"><span style="color:#3277a4">${r.dims[0]}</span><span style="color:#9a968e"> × </span><span style="color:#c86038">${r.dims[1]}</span></span></span>` : '';
+      mk(`<div dir="rtl" style="display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:10px;background:rgba(255,255,255,.94);box-shadow:0 3px 10px rgba(43,42,40,.18);font-family:Almarai,sans-serif;font-weight:700;font-size:12px;color:#2b2a28">${r.name}${d ? `<span data-dim="1">${d}</span>` : ''}</div>`, new THREE.Vector3(r.c[0] / 100, 1.0, r.c[1] / 100), 'room', r.id);
+    });
+    DIMS.forEach(dm => {
+      const p = dimLine(dm.a, dm.b, dm.off, dm.label, dm.inner);
+      mk(`<div style="padding:3px 9px;border-radius:8px;background:${dm.inner ? '#3277a4' : '#2b2a28'};color:#fff;font-family:Archivo,sans-serif;font-weight:800;font-size:13px">${dm.label}</div>`, p, 'dim');
+    });
+    mk(`<div style="padding:5px 12px;border-radius:999px;background:#47a190;color:#fff;font-family:Almarai,sans-serif;font-weight:700;font-size:13px">مدخل</div>`, new THREE.Vector3(2.1, 0.1, 0.0), 'room');
+
+    const applyVis = () => {
+      const s = this.state; labels.forEach(l => { l.w = 0; });
+      labels.forEach(l => { l.hidden = l.kind === 'room' ? !s.labels : !s.dims; const dd = l.el.querySelector('[data-dim]'); if (dd) dd.style.display = s.dims ? '' : 'none'; });
+      dimObjs.forEach(o => { o.visible = s.dims; });
+    };
+
+    // ---------- camera presets ----------
+    let goal = null;
+    const presetPos = k => { const p = PRESETS[k], t = new THREE.Vector3(...p.tgt), pos = new THREE.Vector3(...p.pos); const kf = Math.max(1, 2.0 / (camera.aspect || 2.0)); return { pos: t.clone().add(pos.sub(t).multiplyScalar(kf)), tgt: t }; };
+    const goPreset = k => { this.userMoved = false; goal = presetPos(k); };
+
+    let fitK = 1;
+    const resize = () => {
+      const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      const tb = this.topRef.current, bb = this.botRef.current;
+      const top = tb ? tb.offsetTop + tb.offsetHeight + 8 : 0, bot = bb ? bb.offsetHeight + 24 : 0;
+      const vh = Math.max(120, h - top - bot);
+      camera.aspect = w / vh;
+      camera.setViewOffset(w, vh, 0, -top, w, h);
+      fitK = h / vh;
+      if (this.state.topH !== top) setTimeout(() => this.setState({ topH: top }), 0);
+      camera.updateProjectionMatrix();
+      if (!this.userMoved) { const p = presetPos(this.state.preset || 'iso'); camera.position.copy(p.pos); controls.target.copy(p.tgt); goal = null; }
+    };
+    const ro = new ResizeObserver(resize); ro.observe(host); if (this.topRef.current) ro.observe(this.topRef.current); if (this.botRef.current) ro.observe(this.botRef.current); resize();
+    { const p = presetPos('iso'); camera.position.copy(p.pos); controls.target.copy(p.tgt); }
+    let downAt = null;
+    renderer.domElement.addEventListener('pointerdown', e => { goal = null; this.userMoved = true; downAt = [e.clientX, e.clientY]; });
+    const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+    renderer.domElement.addEventListener('pointerup', e => {
+      if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 6) return;
+      const b = renderer.domElement.getBoundingClientRect();
+      ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(ndc, camera);
+      const hits = ray.intersectObjects(scene.children, true);
+      for (const h of hits) {
+        if (!h.object.visible || h.point.y > 3.2) continue;
+        const x = h.point.x * 100, z = h.point.z * 100;
+        const r = ROOMS.find(rr => inPoly(x, z, rr.poly));
+        if (r) { this.selectRoom(r.id); return; }
+        if (h.point.y < 0.05) break;
+      }
+    });
+    renderer.domElement.addEventListener('pointermove', e => {
+      if (e.buttons) return;
+      const b = renderer.domElement.getBoundingClientRect();
+      ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(ndc, camera);
+      const h = ray.intersectObjects(scene.children, true).find(h => h.object.visible && h.point.y < 3.2);
+      const r = h && ROOMS.find(rr => inPoly(h.point.x * 100, h.point.z * 100, rr.poly));
+      const hid = r ? r.id : null;
+      if (hid !== hoverId) { hoverId = hid; renderer.domElement.style.cursor = hid ? 'pointer' : ''; paintHi(); }
+    });
+    let hoverId = null;
+    const paintHi = () => { const sel = this.state.sel; ROOMS.forEach(r => { hi[r.id].material.opacity = r.id === sel ? 0.28 : r.id === hoverId && !sel ? 0.14 : 0; }); };
+    const focusRoom = id => {
+      const r = ROOMS.find(rr => rr.id === id); if (!r) return;
+      const bb = bbox(r.poly), cx = (bb.x0 + bb.x1) / 200, cz = (bb.z0 + bb.z1) / 200, size = Math.max(bb.x1 - bb.x0, bb.z1 - bb.z0) / 100;
+      const tgt = new THREE.Vector3(cx, 0.5, cz);
+      const dir = camera.position.clone().sub(controls.target); dir.y = 0; if (dir.length() < 0.1) dir.set(-0.5, 0, 0.85); dir.normalize();
+      const dist = size * 1.55 + 2.2;
+      goal = { pos: tgt.clone().add(new THREE.Vector3(dir.x * dist * 0.72, dist * 0.82, dir.z * dist * 0.72)), tgt };
+      controls.autoRotate = false; this.userMoved = true;
+    };
+    renderer.domElement.addEventListener('wheel', () => { this.userMoved = true; }, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => resize());
+    setTimeout(resize, 400); setTimeout(resize, 1200);
+
+    const v = new THREE.Vector3();
+    let raf, last = 0;
+    const frame = () => {
+      last = performance.now();
+      const now = performance.now(), dt = Math.min(0.5, (now - (this._lt || now)) / 1000); this._lt = now; const k = 1 - Math.exp(-dt * 5);
+      if (goal) { camera.position.lerp(goal.pos, k); controls.target.lerp(goal.tgt, k); if (camera.position.distanceTo(goal.pos) < 0.01) goal = null; }
+      controls.update(); renderer.render(scene, camera);
+      const w = host.clientWidth, h = host.clientHeight;
+      const vis = [];
+      labels.forEach(l => {
+        if (l.hidden || (this.state.sel && l.kind === 'room' && l.rid && l.rid !== this.state.sel) || (this.state.sel && l.kind === 'dim')) { l.el.style.display = 'none'; return; }
+        v.copy(l.pos).project(camera);
+        if (v.z > 1 || Math.abs(v.x) > 1.1 || Math.abs(v.y) > 1.1) { l.el.style.display = 'none'; return; }
+        if (l.el.style.display === 'none') { l.el.style.display = ''; l.w = 0; }
+        if (!l.w) { l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; }
+        l.sx = (v.x + 1) / 2 * w; l.sy = (1 - v.y) / 2 * h; vis.push(l);
+      });
+      vis.sort((a, b) => (a.kind === 'dim') - (b.kind === 'dim') || a.sy - b.sy);
+      const placed = [];
+      vis.forEach(l => {
+        let y = l.sy;
+        for (let pass = 0; pass < 6; pass++) {
+          const hit = placed.find(p => Math.abs(p.x - l.sx) < (p.w + l.w) / 2 + 3 && Math.abs(p.y - y) < (p.h + l.h) / 2 + 3);
+          if (!hit) break;
+          y = hit.y + (hit.h + l.h) / 2 + 3;
+        }
+        placed.push({ x: l.sx, y, w: l.w, h: l.h });
+        l.el.style.transform = `translate(${l.sx}px,${y}px) translate(-50%,-50%)`;
+      });
+    };
+    const loop = () => { raf = requestAnimationFrame(loop); frame(); };
+    const watch = setInterval(() => { if (performance.now() - last > 150) frame(); }, 120);
+    loop();
+    host.__cleanup = () => { cancelAnimationFrame(raf); clearInterval(watch); ro.disconnect(); renderer.dispose(); host.innerHTML = ''; host.__cleanup = null; };
+
+    this.gl = { controls, setWallH, applyVis, goPreset, focusRoom, paintHi };
+    setWallH(this.state.walls === 'cut' ? 120 : 300);
+    applyVis(); controls.autoRotate = this.state.spin;
+    this._prev = { ...this.state };
+    this.setState({ loading: false });
+  }
+
+  detailVals() {
+    const s = this.state, i = ROOMS.findIndex(r => r.id === s.sel), r = ROOMS[i];
+    if (!r) return { hintTop: (s.topH || 88) + 4, hasSel: false, noSel: true, d: { name: '', type: '', desc: '', features: [], dimsW: '', dimsD: '', area: '', hasDims: false, noDims: true, idx: '' } };
+    const info = INFO[r.id], n = ROOMS.length;
+    const go = k => () => this.selectRoom(ROOMS[(i + k + n) % n].id);
+    return {
+      hintTop: 0, hasSel: true, noSel: false, panelTop: (s.topH || 88) + 4,
+      d: {
+        name: r.name, type: info.type, desc: info.desc, features: info.f,
+        hasDims: !!r.dims, noDims: !r.dims,
+        dimsW: r.dims ? String(r.dims[0]) : '', dimsD: r.dims ? String(r.dims[1]) : '',
+        area: r.dims ? String(Math.round(r.dims[0] * r.dims[1] / 100) / 100) : '',
+        idx: (i + 1) + ' / ' + n,
+      },
+      closeSel: () => this.closeRoom(), nextSel: go(1), prevSel: go(-1),
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    if (this.gl) setTimeout(() => this.sync(), 0);
+    const P = [['iso', 'منظور'], ['top', 'علوي'], ['low', 'منخفض']];
+    const tg = (label, on, fn) => ({ label, onClick: fn, border: on ? '#47a190' : 'transparent', dot: on ? '#47a190' : '#bdb9b0' });
+    return {
+      glRef: this.glRef, topRef: this.topRef, botRef: this.botRef, loading: s.loading,
+      ...this.detailVals(),
+      presets: P.map(([id, label]) => ({ label, onClick: () => { this.setState({ preset: id }); if (this.gl) this.gl.goPreset(id); }, bg: id === s.preset ? '#2b2a28' : 'transparent', fg: id === s.preset ? '#ffffff' : '#2b2a28' })),
+      toggles: [
+        tg(s.walls === 'cut' ? 'جدران مقطوعة' : 'جدران كاملة (300)', s.walls === 'full', () => this.setState({ walls: s.walls === 'cut' ? 'full' : 'cut' })),
+        tg('الأبعاد', s.dims, () => this.setState({ dims: !s.dims })),
+        tg('أسماء المساحات', s.labels, () => this.setState({ labels: !s.labels })),
+        tg('دوران تلقائي', s.spin, () => this.setState({ spin: !s.spin })),
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
