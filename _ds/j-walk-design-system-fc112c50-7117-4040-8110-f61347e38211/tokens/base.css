@@ -1,0 +1,35 @@
+/* ============================================================
+   J WALK — base element defaults & shared utilities.
+   Kept minimal; components carry their own styles.
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic / RTL contexts */
+:lang(ar), [dir="rtl"] { font-family: var(--font-arabic); line-height: var(--lh-relaxed); }
+
+h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: var(--fw-bold); line-height: var(--lh-snug); color: var(--text-primary); }
+p { margin: 0; text-wrap: pretty; }
+
+a { color: var(--color-primary); text-decoration: none; transition: color var(--dur-fast) var(--ease-standard); }
+a:hover { color: var(--color-primary-hover); }
+
+::selection { background: var(--jw-amber); color: var(--jw-ink); }
+
+:focus-visible { outline: var(--focus-ring-width) solid var(--focus-ring); outline-offset: 2px; }
+
+/* Display heading helper — wide, echoing the WALK wordmark */
+.jw-display { font-family: var(--font-display); font-weight: var(--fw-extrabold); letter-spacing: var(--ls-display); text-transform: uppercase; line-height: var(--lh-tight); }
+
+/* Eyebrow / kicker label */
+.jw-eyebrow { font-weight: var(--fw-bold); font-size: var(--fs-sm); letter-spacing: var(--ls-caps); text-transform: uppercase; color: var(--color-primary); }

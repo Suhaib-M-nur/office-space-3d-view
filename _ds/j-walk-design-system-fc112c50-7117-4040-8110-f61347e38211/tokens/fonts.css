@@ -1,0 +1,7 @@
+/* J WALK webfonts.
+   Brand fonts are A Jannat LT (Arabic) and Condor (Latin) — neither is freely
+   webhostable. Substitutes below are the nearest Google Fonts matches:
+     Condor      -> Archivo   (wide geometric grotesque, Light..Black)
+     A Jannat LT -> Almarai   (modern geometric Arabic, 300/400/700/800)
+   Replace with licensed brand fonts when available. See readme.md. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Almarai:wght@300;400;700;800&display=swap');

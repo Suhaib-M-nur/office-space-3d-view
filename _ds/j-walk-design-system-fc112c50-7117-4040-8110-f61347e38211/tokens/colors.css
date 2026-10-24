@@ -1,0 +1,71 @@
+/* ============================================================
+   J WALK — Color tokens
+   Source: official "دليل صيف جي ووك" brand guide (Pantone spec).
+   ============================================================ */
+:root {
+  /* --- Brand palette (exact from guide) --------------------- */
+  --jw-teal: #47a190;          /* Eucalyptus Teal · PANTONE 7723 C */
+  --jw-orange: #c86038;        /* Burnt Orange   · PANTONE 7583 C */
+  --jw-amber: #efba51;         /* Amber          · PANTONE 141 C  */
+  --jw-ocean: #3277a4;         /* Deep Ocean Blue· PANTONE 7690 C */
+  --jw-lemon: #f2ed9e;         /* Pale Lemon Cream·PANTONE 600 C  */
+  --jw-olive: #d4d383;         /* Soft Olive Gold· PANTONE 5865 C */
+  --jw-aqua: #b7dde3;          /* Soft Aqua Blue · PANTONE 628 C  */
+  --jw-peach: #eab7a6;         /* Soft Peach Blush·PANTONE 488 C  */
+
+  /* --- Brand tints & shades (derived, for states/surfaces) -- */
+  --jw-teal-700: #327567;
+  --jw-teal-600: #3d8c7c;
+  --jw-teal-300: #8fc4b9;
+  --jw-teal-100: #e0f0ec;
+  --jw-orange-700: #a04726;
+  --jw-orange-600: #b5522f;
+  --jw-orange-300: #dfa085;
+  --jw-orange-100: #f7e4db;
+  --jw-amber-700: #c8932f;
+  --jw-amber-600: #e0a838;
+  --jw-amber-300: #f5d493;
+  --jw-amber-100: #fdf3dd;
+  --jw-ocean-700: #285f83;
+
+  /* --- Neutrals (warm charcoal, from logotype) -------------- */
+  --jw-ink: #2b2a28;           /* primary text / logotype */
+  --jw-ink-800: #3f3d3a;
+  --jw-ink-600: #6b6862;
+  --jw-ink-400: #9a968e;
+  --jw-ink-300: #bdb9b0;
+  --jw-line: #e7e3da;          /* hairline borders */
+  --jw-mist: #f4f1ea;          /* warm subtle surface */
+  --jw-cloud: #faf8f3;         /* page background (warm off-white) */
+  --jw-white: #ffffff;
+
+  /* ============================================================
+     Semantic aliases — reference these in components/UI.
+     ============================================================ */
+  --color-primary: var(--jw-teal);
+  --color-primary-hover: var(--jw-teal-700);
+  --color-primary-soft: var(--jw-teal-100);
+  --color-secondary: var(--jw-orange);
+  --color-secondary-hover: var(--jw-orange-700);
+  --color-secondary-soft: var(--jw-orange-100);
+  --color-accent: var(--jw-amber);
+  --color-accent-hover: var(--jw-amber-700);
+  --color-accent-soft: var(--jw-amber-100);
+  --color-info: var(--jw-ocean);
+
+  --bg-page: var(--jw-cloud);
+  --bg-surface: var(--jw-white);
+  --bg-muted: var(--jw-mist);
+  --bg-inverse: var(--jw-ink);
+
+  --text-primary: var(--jw-ink);
+  --text-secondary: var(--jw-ink-600);
+  --text-muted: var(--jw-ink-400);
+  --text-on-brand: var(--jw-white);
+  --text-on-dark: var(--jw-cloud);
+
+  --border-default: var(--jw-line);
+  --border-strong: var(--jw-ink-300);
+
+  --focus-ring: color-mix(in srgb, var(--jw-teal) 55%, transparent);
+}

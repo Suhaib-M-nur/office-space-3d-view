@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/colors.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/typography.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/effects.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/base.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/styles.css">
+<script src="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/_ds_bundle.js"></script>
+<style>body{margin:0;background:#faf8f3}a{color:#327567}a:hover{color:#2b2a28}</style>
+</helmet>
+<div dir="rtl" style="min-height:100vh;background:#faf8f3;color:#2b2a28;font-family:'Almarai',var(--font-body),sans-serif;display:flex;flex-direction:column">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;background:#ffffff;border-bottom:1px solid #e7e3da">
+    <div style="display:flex;align-items:center;gap:28px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <img src="assets/logo-mark.png" alt="" style="height:36px;width:auto">
+        <div style="display:flex;flex-direction:column;line-height:1.1">
+          <span style="font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:0.12em;font-size:18px" dir="ltr">WALK</span>
+          <span style="font-size:12px;font-weight:700;color:#6b6862">جي ووك</span>
+        </div>
+      </div>
+      <div style="width:1px;height:28px;background:#e7e3da"></div>
+      <nav style="display:flex;gap:4px">
+        <span style="padding:9px 16px;border-radius:999px;background:#e0f0ec;color:#327567;font-weight:700;font-size:14px">خريطة المكاتب</span>
+        <span style="padding:9px 16px;border-radius:999px;color:#6b6862;font-size:14px;cursor:pointer" style-hover="background:#f4f1ea">حجوزاتي</span>
+        <span style="padding:9px 16px;border-radius:999px;color:#6b6862;font-size:14px;cursor:pointer" style-hover="background:#f4f1ea">الإدارات</span>
+      </nav>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="padding:9px 16px;border-radius:999px;border:1px solid #e7e3da;font-size:13px;color:#3f3d3a">السبت، 24 أكتوبر 2026 · {{ nowLabel }}</span>
+      <div style="width:38px;height:38px;border-radius:50%;background:#efba51;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">ن</div>
+    </div>
+  </header>
+
+  <main style="flex:1;display:grid;grid-template-columns:minmax(240px,290px) minmax(0,1fr) minmax(300px,360px);gap:20px;padding:20px 24px 24px;align-items:start">
+
+    <aside style="background:#ffffff;border:1px solid #e7e3da;border-radius:20px;padding:20px 14px 14px;display:flex;flex-direction:column;gap:14px">
+      <div style="padding:0 6px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:12px;color:#9a968e;font-weight:700">الطابق الإداري</span>
+        <h1 style="margin:0;font-size:20px;font-weight:800">المساحات</h1>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 6px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <button onClick="{{ f.onClick }}" style="font-family:inherit;font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:999px;cursor:pointer;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ listRooms }}" as="r" hint-placeholder-count="8">
+          <div onClick="{{ r.onClick }}" style="display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:14px;cursor:pointer;background:{{ r.listBg }}" style-hover="background:#f4f1ea">
+            <span style="width:10px;height:10px;border-radius:50%;flex:none;background:{{ r.dot }}"></span>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:14px;font-weight:700">{{ r.name }}</span>
+              <span style="font-size:12px;color:#6b6862">{{ r.sub }}</span>
+            </div>
+            <span style="font-size:11.5px;font-weight:700;color:{{ r.statusFg }}">{{ r.statusLabel }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </aside>
+
+    <section style="background:#ffffff;border:1px solid #e7e3da;border-radius:20px;padding:18px 20px 20px;display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#3f3d3a">
+              <span style="width:14px;height:14px;border-radius:5px;border:2px solid {{ l.stroke }};background:{{ l.fill }}"></span>
+              <span>{{ l.label }}</span>
+              <span style="font-family:'Archivo',sans-serif;font-weight:800">{{ l.count }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onClick="{{ toggleDims }}" style="font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid #e7e3da;background:{{ dimsBg }};color:#3f3d3a;cursor:pointer">الأبعاد</button>
+          <div style="display:flex;padding:3px;border-radius:999px;background:#f4f1ea">
+            <button onClick="{{ setPlan }}" style="font-family:inherit;font-size:12.5px;font-weight:700;padding:7px 16px;border-radius:999px;border:none;cursor:pointer;background:{{ planBg }};color:#2b2a28;box-shadow:{{ planShadow }}">مخطط</button>
+            <button onClick="{{ setRender }}" style="font-family:inherit;font-size:12.5px;font-weight:700;padding:7px 16px;border-radius:999px;border:none;cursor:pointer;background:{{ renderBg }};color:#2b2a28;box-shadow:{{ renderShadow }}">مجسّم</button>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#faf8f3;border-radius:16px;padding:12px">
+          <svg viewBox="-90 -110 1880 1420" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,0 1700,0 1700,1200 130,1200 0,800" style="fill:#ffffff;stroke:none"></polygon>
+            <rect x="1020" y="6" width="114" height="250" rx="8" style="fill:#e7e3da;stroke:none"></rect>
+            <sc-for list="{{ mapRooms }}" as="r" hint-placeholder-count="12">
+              <g onClick="{{ r.onClick }}" style="cursor:{{ r.cursor }};opacity:{{ r.opacity }}">
+                <rect x="{{ r.rx }}" y="{{ r.ry }}" width="{{ r.rw }}" height="{{ r.rh }}" rx="14" style="fill:{{ r.fill }};stroke:{{ r.stroke }};stroke-width:{{ r.sw }}"></rect>
+                <text x="{{ r.cx }}" y="{{ r.y1 }}" style="font-family:Almarai,sans-serif;font-size:30px;font-weight:700;fill:#2b2a28;text-anchor:middle">{{ r.n1 }}</text>
+                <text x="{{ r.cx }}" y="{{ r.y2 }}" style="font-family:Almarai,sans-serif;font-size:30px;font-weight:700;fill:#2b2a28;text-anchor:middle">{{ r.n2 }}</text>
+                <text x="{{ r.cx }}" y="{{ r.y3 }}" style="font-family:Archivo,sans-serif;font-size:24px;font-weight:600;fill:#6b6862;text-anchor:middle">{{ r.dimLabel }}</text>
+              </g>
+            </sc-for>
+            <text x="1275" y="620" style="font-family:Almarai,sans-serif;font-size:26px;fill:#9a968e;text-anchor:middle">الممر</text>
+            <line x1="0" y1="0" x2="1700" y2="0" style="stroke:#b7dde3;stroke-width:14"></line>
+            <line x1="0" y1="0" x2="1700" y2="0" style="stroke:#3277a4;stroke-width:3;stroke-dasharray:60 14"></line>
+            <polyline points="1700,0 1700,1200 130,1200 0,800 0,260" style="fill:none;stroke:#2b2a28;stroke-width:14;stroke-linejoin:round"></polyline>
+            <line x1="0" y1="0" x2="0" y2="80" style="stroke:#2b2a28;stroke-width:14"></line>
+            <g>
+              <rect x="-80" y="118" width="64" height="104" rx="32" style="fill:#47a190"></rect>
+              <text x="-48" y="182" style="font-family:Almarai,sans-serif;font-size:26px;font-weight:700;fill:#ffffff;text-anchor:middle">مدخل</text>
+            </g>
+            <sc-if value="{{ showDims }}" hint-placeholder-val="{{ true }}">
+              <g>
+                <text x="850" y="-44" style="font-family:Archivo,sans-serif;font-size:30px;font-weight:700;fill:#2b2a28;text-anchor:middle">1700</text>
+                <text x="915" y="1262" style="font-family:Archivo,sans-serif;font-size:30px;font-weight:700;fill:#2b2a28;text-anchor:middle">1500</text>
+                <text x="20" y="1060" style="font-family:Archivo,sans-serif;font-size:30px;font-weight:700;fill:#2b2a28;text-anchor:middle">1330</text>
+                <text x="1275" y="656" style="font-family:Archivo,sans-serif;font-size:24px;font-weight:600;fill:#3277a4;text-anchor:middle">270</text>
+                <text x="1760" y="600" style="font-family:Almarai,sans-serif;font-size:24px;fill:#9a968e;text-anchor:middle" transform="rotate(90 1760 600)">جدار مصمت</text>
+                <text x="850" y="-82" style="font-family:Almarai,sans-serif;font-size:22px;fill:#9a968e;text-anchor:middle">واجهة زجاجية</text>
+              </g>
+            </sc-if>
+          </svg>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isRender }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;border-radius:16px;overflow:hidden;background:#ffffff">
+          <img src="assets/floor-render.png" alt="المخطط المجسم" style="width:100%;height:auto;display:block">
+          <sc-for list="{{ pins }}" as="p" hint-placeholder-count="12">
+            <div onClick="{{ p.onClick }}" style="position:absolute;left:{{ p.left }}%;top:{{ p.top }}%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px 5px 5px;border-radius:999px;background:{{ p.chipBg }};box-shadow:0 4px 14px rgba(43,42,40,.18);border:2px solid {{ p.ring }}">
+              <span style="width:16px;height:16px;border-radius:50%;background:{{ p.dot }};border:2px solid #ffffff;flex:none"></span>
+              <span style="font-size:12px;font-weight:700;color:#2b2a28;white-space:nowrap">{{ p.short }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </section>
+
+    <aside style="background:#ffffff;border:1px solid #e7e3da;border-radius:20px;overflow:hidden;display:flex;flex-direction:column">
+      <div style="padding:22px 22px 18px;background:{{ sel.headBg }};display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span style="font-size:12px;font-weight:700;color:#6b6862">{{ sel.typeLabel }}</span>
+          <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Badge" tone="{{ sel.tone }}" dot="{{ true }}" hint-size="70px,24px">{{ sel.statusLabel }}</x-import>
+        </div>
+        <h2 style="margin:0;font-size:24px;font-weight:800;line-height:1.3">{{ sel.name }}</h2>
+      </div>
+
+      <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+          <sc-for list="{{ sel.facts }}" as="fa" hint-placeholder-count="3">
+            <div style="background:#f4f1ea;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:11.5px;color:#6b6862">{{ fa.k }}</span>
+              <span style="font-size:15px;font-weight:800">{{ fa.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{ sel.features }}" as="ft" hint-placeholder-count="3">
+            <span style="font-size:12.5px;padding:6px 12px;border-radius:999px;border:1px solid #e7e3da;color:#3f3d3a">{{ ft }}</span>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ sel.isAssigned }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:16px;background:#f7e4db;padding:16px;display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;border-radius:50%;background:#c86038;color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:800">{{ sel.initial }}</div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:12px;color:#a04726">مكتب مخصص لـ</span>
+              <span style="font-size:15px;font-weight:800">{{ sel.assigned }}</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sel.isService }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;font-size:14px;line-height:1.8;color:#6b6862">{{ sel.note }}</p>
+        </sc-if>
+
+        <sc-if value="{{ showBooking }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between">
+              <span style="font-size:15px;font-weight:800">احجز لليوم</span>
+              <span style="font-size:12px;color:#9a968e">اختر ساعة أو أكثر</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ slots }}" as="s" hint-placeholder-count="10">
+                <button onClick="{{ s.onClick }}" style="font-family:inherit;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:11px 12px;border-radius:12px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};cursor:{{ s.cursor }}">
+                  <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:14px" dir="ltr">{{ s.label }}</span>
+                  <span style="font-size:11.5px;font-weight:700">{{ s.note }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" variant="primary" size="lg" full-width="{{ true }}" disabled="{{ bookDisabled }}" onClick="{{ book }}" hint-size="100%,52px">{{ bookLabel }}</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showConfirm }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:16px;background:#e0f0ec;padding:20px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:13px;font-weight:700;color:#327567">تم تأكيد الحجز</span>
+            <span style="font-size:18px;font-weight:800">{{ confirmText }}</span>
+            <span style="font-size:13px;color:#3f3d3a;line-height:1.7">أُرسل التأكيد إلى بريدك، وسيظهر الحجز على شاشة الغرفة.</span>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" variant="outline" size="sm" onClick="{{ again }}" hint-size="110px,36px">حجز وقت آخر</x-import>
+              <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" variant="ghost" size="sm" onClick="{{ cancel }}" hint-size="90px,36px">إلغاء الحجز</x-import>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </aside>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;plan&quot;,&quot;render&quot;],&quot;default&quot;:&quot;plan&quot;,&quot;tsType&quot;:&quot;'plan' | 'render'&quot;},&quot;showDimensions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;currentHour&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:8,&quot;max&quot;:17,&quot;step&quot;:1,&quot;default&quot;:10,&quot;tsType&quot;:&quot;number&quot;}}">
+const ROOMS = [
+  { id: 'reception', name: 'منطقة الاستقبال', n1: 'منطقة', n2: 'الاستقبال', short: 'الاستقبال', type: 'common', w: 450, h: 930, x: 0, y: 0, mw: 450, mh: 800, cap: 'جلسة انتظار', features: ['مكتب استقبال', 'جلسة انتظار', 'قاطع خشبي'], note: 'نقطة الدخول للطابق. يستقبل موظف الاستقبال الزوار ويوجّههم إلى المكاتب وغرفة الاجتماعات.', pin: [18.3, 42.8] },
+  { id: 'open', name: 'منطقة عمل مفتوحة', n1: 'منطقة عمل', n2: 'مفتوحة', short: 'العمل المفتوح', type: 'open', x: 470, y: 0, mw: 530, mh: 560, cap: '16 مقعد', bookable: true, features: ['16 مقعد', 'شاشات', 'إطلالة على الواجهة'], pin: [44, 37.7] },
+  { id: 'kitchen', name: 'مطبخ صغير', n1: 'مطبخ', n2: 'صغير', short: 'المطبخ', type: 'service', x: 1140, y: 0, mw: 120, mh: 260, features: ['قهوة وشاي', 'ماء', 'ثلاجة'], note: 'متاح لجميع الموظفين طوال ساعات العمل.', pin: [60, 14] },
+  { id: 'wc', name: 'دورات مياه', n1: 'دورات', n2: 'مياه', short: 'دورات المياه', type: 'service', w: 150, h: 200, x: 1040, y: 260, mw: 150, mh: 200, features: [], note: 'على الممر الرئيسي بين منطقة العمل والمكاتب.', pin: [61, 28] },
+  { id: 'lounge', name: 'منطقة استراحة تنفيذية', n1: 'استراحة', n2: 'تنفيذية', short: 'الاستراحة', type: 'lounge', w: 300, h: 370, x: 1260, y: 0, mw: 440, mh: 300, cap: '6 أشخاص', bookable: true, features: ['كنبة زاوية', 'شاشة', 'قرب المطبخ'], pin: [74.6, 21.6] },
+  { id: 'a1', name: 'مكتب إداري 01', n1: 'مكتب إداري', n2: '01', short: '01', type: 'office', w: 300, h: 300, x: 1360, y: 300, mw: 340, mh: 260, cap: 'شخص واحد', assigned: 'الإدارة العامة', features: ['واجهة زجاجية', 'خزانة ملفات'], pin: [77.3, 35.4] },
+  { id: 'a2', name: 'مكتب إداري 02', n1: 'مكتب إداري', n2: '02', short: '02', type: 'office', w: 300, h: 300, x: 1360, y: 560, mw: 340, mh: 240, cap: 'شخص واحد', assigned: 'إدارة التأجير', features: ['واجهة زجاجية', 'خزانة ملفات'], pin: [79, 45.6] },
+  { id: 'meet', name: 'غرفة الاجتماعات الرئيسية', n1: 'غرفة الاجتماعات', n2: 'الرئيسية', short: 'الاجتماعات', type: 'meeting', w: 380, h: 420, x: 1250, y: 800, mw: 450, mh: 400, cap: '14 شخص', bookable: true, features: ['14 مقعد', 'شاشة عرض', 'نظام صوتي'], pin: [79, 59] },
+  { id: 'b3', name: 'مكتب إداري 03', n1: 'مكتب إداري', n2: '03', short: '03', type: 'office', w: 280, h: 400, x: 970, y: 800, mw: 280, mh: 400, cap: 'شخص واحد', assigned: 'إدارة التسويق', features: ['مكتب زاوية', 'خزانة ملفات'], pin: [64, 66.8] },
+  { id: 'b4', name: 'مكتب إداري 04', n1: 'مكتب إداري', n2: '04', short: '04', type: 'office', w: 280, h: 400, x: 690, y: 800, mw: 280, mh: 400, cap: 'شخص واحد', bookable: true, features: ['مكتب زاوية', 'خزانة ملفات'], pin: [53, 69.5] },
+  { id: 'b5', name: 'مكتب إداري 05', n1: 'مكتب إداري', n2: '05', short: '05', type: 'office', w: 280, h: 400, x: 410, y: 800, mw: 280, mh: 400, cap: 'شخص واحد', assigned: 'الشؤون المالية', features: ['مكتب زاوية', 'خزانة ملفات'], pin: [42.3, 73] },
+  { id: 'b6', name: 'مكتب إداري 06', n1: 'مكتب إداري', n2: '06', short: '06', type: 'office', w: 280, h: 400, x: 130, y: 800, mw: 280, mh: 400, cap: 'شخص واحد', bookable: true, features: ['مكتب زاوية', 'خزانة ملفات'], pin: [31.8, 77.3] },
+];
+const TYPE_LABEL = { common: 'منطقة مشتركة', open: 'مساحة عمل مشتركة', service: 'مرفق خدمي', lounge: 'استراحة', office: 'مكتب إداري', meeting: 'غرفة اجتماعات' };
+const ST = {
+  available: { label: 'متاح', tone: 'teal', fill: '#e0f0ec', stroke: '#47a190', fg: '#327567' },
+  occupied: { label: 'مشغول', tone: 'orange', fill: '#f7e4db', stroke: '#c86038', fg: '#a04726' },
+  reserved: { label: 'محجوز الآن', tone: 'amber', fill: '#fdf3dd', stroke: '#e0a838', fg: '#c8932f' },
+  service: { label: 'مرفق', tone: 'neutral', fill: '#f4f1ea', stroke: '#bdb9b0', fg: '#6b6862' },
+};
+const FILTERS = [
+  { id: 'all', label: 'الكل', match: () => true },
+  { id: 'office', label: 'المكاتب', match: r => r.type === 'office' },
+  { id: 'shared', label: 'اجتماعات واستراحة', match: r => ['meeting', 'lounge', 'open'].includes(r.type) },
+  { id: 'service', label: 'المرافق', match: r => ['service', 'common'].includes(r.type) },
+];
+const pad = n => String(n).padStart(2, '0');
+const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+class Component extends DCLogic {
+  state = {
+    selectedId: 'meet', selSlots: [], filter: 'all', confirmed: null,
+    view: null, dims: null,
+    bookings: { meet: [10, 13, 14], lounge: [12], open: [11], b4: [], b6: [9, 10] },
+  };
+  status(r, hour) {
+    if (r.type === 'service' || r.type === 'common') return 'service';
+    if (r.assigned) return 'occupied';
+    if ((this.state.bookings[r.id] || []).includes(hour)) return 'reserved';
+    return 'available';
+  }
+  select(id) { this.setState({ selectedId: id, selSlots: [], confirmed: null }); }
+  toggleSlot(h) {
+    this.setState(s => ({ selSlots: s.selSlots.includes(h) ? s.selSlots.filter(x => x !== h) : [...s.selSlots, h].sort((a, b) => a - b), confirmed: null }));
+  }
+  rangeText(hs) {
+    const groups = [];
+    hs.forEach(h => { const g = groups[groups.length - 1]; if (g && g[1] === h) g[1] = h + 1; else groups.push([h, h + 1]); });
+    return groups.map(g => `${pad(g[0])}:00 – ${pad(g[1])}:00`).join('، ');
+  }
+  renderVals() {
+    const hour = this.props.currentHour ?? 10;
+    const view = this.state.view ?? this.props.initialView ?? 'plan';
+    const dims = this.state.dims ?? this.props.showDimensions ?? true;
+    const { selectedId, filter, selSlots, bookings, confirmed } = this.state;
+    const fm = FILTERS.find(f => f.id === filter).match;
+    const rooms = ROOMS.map(r => {
+      const st = this.status(r, hour); const S = ST[st];
+      const isSel = r.id === selectedId;
+      const cx = r.x + r.mw / 2, cy = r.y + r.mh / 2;
+      const dimLabel = dims && r.w ? `${r.w} × ${r.h}` : '';
+      const sub = r.assigned ? r.assigned : r.w ? `${r.w} × ${r.h} سم` : TYPE_LABEL[r.type];
+      return {
+        ...r, st, S, isSel,
+        rx: r.x + 7, ry: r.y + 7, rw: r.mw - 14, rh: r.mh - 14,
+        fill: S.fill, stroke: isSel ? '#2b2a28' : S.stroke, sw: isSel ? 7 : 2.5,
+        cx, y1: cy - (dimLabel ? 28 : 12), y2: cy + (dimLabel ? 8 : 26), y3: cy + 48, dimLabel,
+        opacity: fm(r) ? 1 : 0.3, cursor: 'pointer',
+        onClick: () => this.select(r.id),
+        dot: S.stroke, listBg: isSel ? '#f4f1ea' : 'transparent', sub,
+        statusLabel: st === 'service' ? '' : S.label, statusFg: S.fg,
+        left: r.pin[0], top: r.pin[1], chipBg: isSel ? '#ffffff' : 'rgba(255,255,255,.92)', ring: isSel ? '#2b2a28' : '#ffffff',
+      };
+    });
+    const sel = rooms.find(r => r.id === selectedId);
+    const facts = [];
+    if (sel.w) { facts.push({ k: 'المساحة', v: `${(sel.w * sel.h / 10000).toFixed(1)} م²` }); facts.push({ k: 'الأبعاد (سم)', v: `${sel.w} × ${sel.h}` }); }
+    if (sel.cap) facts.push({ k: 'السعة', v: sel.cap });
+    const booked = bookings[sel.id] || [];
+    const slots = HOURS.map(h => {
+      const past = h < hour, isB = booked.includes(h), isS = selSlots.includes(h);
+      const dis = past || isB;
+      return {
+        label: `${pad(h)}:00`,
+        note: isS ? 'مختار' : isB ? 'محجوز' : past ? 'انتهى' : '',
+        bg: isS ? '#47a190' : isB ? '#f7e4db' : past ? '#f4f1ea' : '#ffffff',
+        fg: isS ? '#ffffff' : isB ? '#a04726' : past ? '#9a968e' : '#2b2a28',
+        border: isS ? '#47a190' : isB ? '#f7e4db' : past ? '#f4f1ea' : '#e7e3da',
+        cursor: dis ? 'default' : 'pointer',
+        onClick: dis ? undefined : () => this.toggleSlot(h),
+      };
+    });
+    const counts = { available: 0, occupied: 0, reserved: 0 };
+    rooms.forEach(r => { if (counts[r.st] !== undefined) counts[r.st]++; });
+    const showConfirm = !!(confirmed && confirmed.id === sel.id);
+    return {
+      nowLabel: `${pad(hour)}:30`,
+      filters: FILTERS.map(f => ({ label: f.label, onClick: () => this.setState({ filter: f.id }), bg: f.id === filter ? '#2b2a28' : '#ffffff', fg: f.id === filter ? '#ffffff' : '#3f3d3a', border: f.id === filter ? '#2b2a28' : '#e7e3da' })),
+      listRooms: rooms.filter(fm),
+      mapRooms: rooms, pins: rooms,
+      legend: ['available', 'reserved', 'occupied'].map(k => ({ label: ST[k].label, fill: ST[k].fill, stroke: ST[k].stroke, count: counts[k] })),
+      isPlan: view === 'plan', isRender: view === 'render',
+      planBg: view === 'plan' ? '#ffffff' : 'transparent', renderBg: view === 'render' ? '#ffffff' : 'transparent',
+      planShadow: view === 'plan' ? '0 1px 3px rgba(43,42,40,.12)' : 'none', renderShadow: view === 'render' ? '0 1px 3px rgba(43,42,40,.12)' : 'none',
+      setPlan: () => this.setState({ view: 'plan' }), setRender: () => this.setState({ view: 'render' }),
+      showDims: dims, dimsBg: dims ? '#f4f1ea' : '#ffffff', toggleDims: () => this.setState({ dims: !dims }),
+      sel: {
+        name: sel.name, typeLabel: TYPE_LABEL[sel.type], tone: sel.S.tone,
+        statusLabel: sel.st === 'service' ? TYPE_LABEL[sel.type] : sel.S.label,
+        headBg: sel.st === 'service' ? '#f4f1ea' : sel.S.fill,
+        facts, features: sel.features,
+        isAssigned: !!sel.assigned, assigned: sel.assigned, initial: sel.assigned ? sel.assigned.replace('ال', '').charAt(0) : '',
+        isService: !!sel.note, note: sel.note,
+      },
+      showBooking: !!sel.bookable && !showConfirm,
+      showConfirm,
+      confirmText: confirmed ? confirmed.text : '',
+      slots,
+      bookDisabled: selSlots.length === 0,
+      bookLabel: selSlots.length ? `تأكيد الحجز · ${selSlots.length} ساعة` : 'اختر وقتاً للحجز',
+      book: () => {
+        if (!selSlots.length) return;
+        this.setState(s => ({
+          bookings: { ...s.bookings, [sel.id]: [...(s.bookings[sel.id] || []), ...s.selSlots] },
+          confirmed: { id: sel.id, hours: s.selSlots, text: this.rangeText(s.selSlots) },
+          selSlots: [],
+        }));
+      },
+      again: () => this.setState({ confirmed: null }),
+      cancel: () => this.setState(s => ({
+        bookings: { ...s.bookings, [sel.id]: (s.bookings[sel.id] || []).filter(h => !s.confirmed.hours.includes(h)) },
+        confirmed: null,
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

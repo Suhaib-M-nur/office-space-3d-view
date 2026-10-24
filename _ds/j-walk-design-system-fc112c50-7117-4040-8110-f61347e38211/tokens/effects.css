@@ -1,0 +1,35 @@
+/* ============================================================
+   J WALK — Elevation, borders, motion tokens
+   Warm-tinted shadows (never pure black), gentle motion.
+   ============================================================ */
+:root {
+  /* Shadows — tinted with the warm ink, soft & diffuse (outdoor, airy brand) */
+  --shadow-xs: 0 1px 2px rgba(43, 42, 40, 0.06);
+  --shadow-sm: 0 2px 6px rgba(43, 42, 40, 0.07);
+  --shadow-md: 0 8px 20px rgba(43, 42, 40, 0.09);
+  --shadow-lg: 0 16px 38px rgba(43, 42, 40, 0.12);
+  --shadow-xl: 0 28px 60px rgba(43, 42, 40, 0.16);
+  /* Brand-tinted glow, for feature cards / hover on teal surfaces */
+  --shadow-teal: 0 16px 34px rgba(71, 161, 144, 0.28);
+  --shadow-amber: 0 16px 34px rgba(239, 186, 81, 0.30);
+
+  /* Borders */
+  --border-width: 1px;              /* @kind other */
+  --border-width-strong: 2px;       /* @kind other */
+  --border-hairline: 1px solid var(--border-default);
+
+  /* Focus */
+  --focus-ring-width: 3px;          /* @kind other */
+
+  /* Motion — smooth, unhurried; a gentle spring on interactive lifts */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);      /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);          /* @kind other */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* @kind other */
+  --dur-fast: 140ms;   /* @kind other */
+  --dur-base: 220ms;   /* @kind other */
+  --dur-slow: 420ms;   /* @kind other */
+
+  /* Overlays */
+  --overlay-scrim: rgba(43, 42, 40, 0.55);
+  --overlay-blur: saturate(140%) blur(14px); /* @kind other */
+}

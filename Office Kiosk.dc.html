@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/colors.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/typography.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/effects.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/tokens/base.css">
+<link rel="stylesheet" href="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/styles.css">
+<script src="_ds/j-walk-design-system-fc112c50-7117-4040-8110-f61347e38211/_ds_bundle.js"></script>
+<style>html,body{margin:0;height:100%;background:#1f1e1c;overflow:hidden}a{color:#327567}a:hover{color:#2b2a28}input:focus{outline:none;border-color:#47a190 !important}</style>
+</helmet>
+<div style="position:fixed;inset:0;background:#1f1e1c;overflow:hidden">
+<div dir="{{ dir }}" style="position:absolute;left:{{ ox }}px;top:{{ oy }}px;width:1920px;height:1080px;transform:scale({{ scale }});transform-origin:0 0;background:#faf8f3;color:#2b2a28;font-family:{{ font }};display:flex;flex-direction:column;overflow:hidden">
+
+  <header style="height:100px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#ffffff;border-bottom:1px solid #e7e3da">
+    <div style="display:flex;align-items:center;gap:28px">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;cursor:pointer">
+        <img src="assets/logo-mark.png" alt="" style="height:52px;width:auto">
+        <div style="display:flex;flex-direction:column;line-height:1.05">
+          <span dir="ltr" style="font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:0.14em;font-size:24px">WALK</span>
+          <span style="font-family:'Almarai',sans-serif;font-size:15px;font-weight:700;color:#6b6862">جي ووك</span>
+        </div>
+      </div>
+      <div style="width:1px;height:44px;background:#e7e3da"></div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:26px;font-weight:800">{{ t.brand }}</span>
+        <span style="font-size:16px;color:#6b6862">{{ t.place }}</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+        <span dir="ltr" style="font-family:'Archivo',sans-serif;font-size:28px;font-weight:800">{{ clock }}</span>
+        <span style="font-size:15px;color:#6b6862">{{ t.date }}</span>
+      </div>
+      <div style="display:flex;padding:4px;border-radius:999px;background:#f4f1ea">
+        <button onClick="{{ setAr }}" style="font-family:'Almarai',sans-serif;font-size:20px;font-weight:700;height:56px;min-width:84px;padding:0 20px;border-radius:999px;border:none;cursor:pointer;background:{{ arBg }};color:#2b2a28;box-shadow:{{ arShadow }}">عربي</button>
+        <button onClick="{{ setEn }}" style="font-family:'Archivo',sans-serif;font-size:20px;font-weight:800;height:56px;min-width:84px;padding:0 20px;border-radius:999px;border:none;cursor:pointer;background:{{ enBg }};color:#2b2a28;box-shadow:{{ enShadow }}">EN</button>
+      </div>
+      <sc-if value="{{ notWelcome }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goHome }}" style="font-family:inherit;font-size:20px;font-weight:700;height:64px;padding:0 28px;border-radius:999px;border:2px solid #47a190;background:#ffffff;color:#327567;cursor:pointer">{{ t.home }}</button>
+      </sc-if>
+    </div>
+  </header>
+
+  <div style="flex:1;min-height:0;display:flex;gap:28px;padding:28px">
+
+    <aside style="width:700px;flex:none;background:#ffffff;border:1px solid #e7e3da;border-radius:28px;padding:32px 36px;display:flex;flex-direction:column;gap:16px;overflow:auto">
+
+      <sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:28px;height:100%">
+          <span style="font-size:22px;font-weight:800;color:#327567">{{ t.welcomeEyebrow }}</span>
+          <h1 style="margin:0;font-size:58px;font-weight:800;line-height:1.2;text-wrap:pretty">{{ t.welcomeTitle }}</h1>
+          <p style="margin:0;font-size:24px;line-height:1.7;color:#6b6862;text-wrap:pretty">{{ t.welcomeSub }}</p>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+            <button onClick="{{ goCheckin }}" style="font-family:inherit;text-align:start;display:flex;align-items:center;gap:24px;padding:28px;border-radius:24px;border:none;background:#47a190;color:#ffffff;cursor:pointer;box-shadow:0 10px 30px rgba(71,161,144,.28)" style-active="transform:translateY(1px)">
+              <span style="width:72px;height:72px;border-radius:50%;background:#efba51;flex:none"></span>
+              <span style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:32px;font-weight:800">{{ t.actCheckin }}</span>
+                <span style="font-size:20px;opacity:.95">{{ t.actCheckinSub }}</span>
+              </span>
+            </button>
+            <button onClick="{{ goExplore }}" style="font-family:inherit;text-align:start;display:flex;align-items:center;gap:24px;padding:28px;border-radius:24px;border:2px solid #f5d493;background:#fdf3dd;color:#2b2a28;cursor:pointer" style-active="transform:translateY(1px)">
+              <span style="width:72px;height:72px;border-radius:72px 0 72px 0;background:#c86038;flex:none"></span>
+              <span style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:32px;font-weight:800">{{ t.actExplore }}</span>
+                <span style="font-size:20px;color:#3f3d3a">{{ t.actExploreSub }}</span>
+              </span>
+            </button>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid #e7e3da;padding-top:22px">
+            <span style="font-size:17px;font-weight:700;color:#9a968e">{{ t.factsTitle }}</span>
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+              <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-family:'Archivo',sans-serif;font-size:36px;font-weight:800">{{ f.v }}</span>
+                  <span style="font-size:16px;color:#6b6862;line-height:1.4">{{ f.k }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isExplore }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.onClick }}" style="font-family:inherit;font-size:19px;font-weight:700;height:56px;padding:0 22px;border-radius:999px;cursor:pointer;border:2px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+            <sc-for list="{{ listRooms }}" as="r" hint-placeholder-count="12">
+              <button onClick="{{ r.onClick }}" style="font-family:inherit;text-align:start;height:54px;display:flex;align-items:center;gap:12px;padding:0 16px;border-radius:16px;cursor:pointer;border:2px solid {{ r.listBorder }};background:{{ r.listBg }};color:#2b2a28">
+                <span style="width:14px;height:14px;border-radius:50%;flex:none;background:{{ r.dot }}"></span>
+                <span style="flex:1;min-width:0;font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+                <span dir="ltr" style="font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;color:#6b6862">{{ r.dimShort }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="border-radius:24px;background:{{ sel.headBg }};padding:18px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <span style="font-size:18px;font-weight:700;color:#6b6862">{{ sel.typeLabel }}</span>
+              <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Badge" dc-props="{{ badgeProps }}" hint-size="120px,36px">{{ sel.statusLabel }}</x-import>
+            </div>
+            <span style="font-size:34px;font-weight:800;line-height:1.2">{{ sel.name }}</span>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+              <div style="background:#ffffff;border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:16px;color:#6b6862">{{ t.dimsLabel }}</span>
+                <span style="font-family:{{ sel.dimFont }};font-size:{{ sel.dimSize }}px;font-weight:800">{{ sel.dims }}</span>
+              </div>
+              <div style="background:#ffffff;border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:16px;color:#6b6862">{{ t.area }}</span>
+                <span style="font-size:{{ sel.dimSize }}px;font-weight:800"><span style="font-family:'Archivo',sans-serif">{{ sel.area }}</span> {{ sel.areaUnit }}</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ sel.features }}" as="ft" hint-placeholder-count="3">
+                <span style="font-size:17px;padding:8px 14px;border-radius:999px;background:#ffffff;color:#3f3d3a">{{ ft }}</span>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px;align-items:stretch">
+              <div style="flex:1;display:flex">
+                <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ ctaProps }}" hint-size="100%,68px">{{ sel.ctaLabel }}</x-import>
+              </div>
+              <sc-if value="{{ sel.hasWayBtn }}" hint-placeholder-val="{{ true }}">
+                <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ wayProps }}" hint-size="150px,68px">{{ t.way }}</x-import>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <button onClick="{{ goExplore }}" style="align-self:flex-start;font-family:inherit;font-size:19px;font-weight:700;height:52px;padding:0 20px;border-radius:999px;border:none;background:#f4f1ea;color:#2b2a28;cursor:pointer">{{ t.back }}</button>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:20px;font-weight:700;color:#327567">{{ bookHeading }}</span>
+            <span style="font-size:38px;font-weight:800">{{ sel.name }}</span>
+            <span dir="ltr" style="align-self:flex-start;font-family:'Archivo',sans-serif;font-size:18px;color:#6b6862">{{ sel.dimsLine }}</span>
+          </div>
+          <span style="font-size:20px;font-weight:800">{{ t.chooseDay }}</span>
+          <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px">
+            <sc-for list="{{ days }}" as="d" hint-placeholder-count="5">
+              <button onClick="{{ d.onClick }}" style="font-family:inherit;height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:18px;cursor:pointer;border:2px solid {{ d.border }};background:{{ d.bg }};color:{{ d.fg }}">
+                <span style="font-size:17px;font-weight:700">{{ d.wd }}</span>
+                <span style="font-family:'Archivo',sans-serif;font-size:28px;font-weight:800">{{ d.n }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:20px;font-weight:800">{{ t.chooseTime }}</span>
+            <span style="font-size:16px;color:#9a968e">{{ t.timeHint }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px">
+            <sc-for list="{{ slots }}" as="s" hint-placeholder-count="10">
+              <button onClick="{{ s.onClick }}" style="font-family:inherit;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:16px;border:2px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }};cursor:{{ s.cursor }}">
+                <span dir="ltr" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:21px">{{ s.label }}</span>
+                <span style="font-size:13px;font-weight:700">{{ s.note }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <span style="font-size:20px;font-weight:800">{{ t.details }}</span>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+            <input value="{{ name }}" onChange="{{ onName }}" placeholder="{{ t.name }}" style="font-family:inherit;font-size:21px;height:68px;padding:0 20px;border-radius:16px;border:2px solid #e7e3da;background:#faf8f3;color:#2b2a28;box-sizing:border-box;width:100%">
+            <input value="{{ phone }}" onChange="{{ onPhone }}" placeholder="{{ t.phone }}" dir="ltr" style="font-family:'Archivo',sans-serif;font-size:21px;height:68px;padding:0 20px;border-radius:16px;border:2px solid #e7e3da;background:#faf8f3;color:#2b2a28;box-sizing:border-box;width:100%">
+          </div>
+          <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ confirmProps }}" hint-size="100%,72px">{{ confirmLabel }}</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBookDone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:22px;height:100%">
+          <div style="width:96px;height:96px;border-radius:50%;background:#47a190;display:flex;align-items:center;justify-content:center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          </div>
+          <span style="font-size:46px;font-weight:800">{{ t.bookedTitle }}</span>
+          <div style="display:flex;flex-direction:column;gap:14px;background:#f4f1ea;border-radius:24px;padding:26px">
+            <span style="font-size:30px;font-weight:800">{{ sel.name }}</span>
+            <span style="font-size:22px;color:#3f3d3a">{{ doneDay }}</span>
+            <span dir="ltr" style="align-self:flex-start;font-family:'Archivo',sans-serif;font-size:26px;font-weight:700">{{ doneRange }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:24px">
+            <div style="width:170px;height:170px;border-radius:20px;border:2px dashed #bdb9b0;display:flex;align-items:center;justify-content:center;font-family:'Archivo',sans-serif;font-size:22px;font-weight:700;color:#9a968e;flex:none">QR</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:17px;color:#6b6862">{{ t.ref }}</span>
+              <span dir="ltr" style="align-self:flex-start;font-family:'Archivo',sans-serif;font-size:32px;font-weight:800;letter-spacing:0.06em">{{ doneRef }}</span>
+              <span style="font-size:18px;color:#6b6862;line-height:1.6">{{ t.scanNote }}</span>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+          <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ backMapProps }}" hint-size="100%,72px">{{ t.backMap }}</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCheckin }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <span style="font-size:44px;font-weight:800">{{ t.checkinTitle }}</span>
+          <span style="font-size:20px;font-weight:800">{{ t.whereTo }}</span>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+            <sc-for list="{{ dests }}" as="d" hint-placeholder-count="9">
+              <button onClick="{{ d.onClick }}" style="font-family:inherit;text-align:start;height:66px;display:flex;align-items:center;gap:12px;padding:0 18px;border-radius:16px;cursor:pointer;border:2px solid {{ d.border }};background:{{ d.bg }};color:{{ d.fg }}">
+                <span style="width:14px;height:14px;border-radius:50%;flex:none;background:{{ d.dot }}"></span>
+                <span style="font-size:20px;font-weight:700">{{ d.name }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <span style="font-size:20px;font-weight:800">{{ t.purpose }}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ purposes }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.onClick }}" style="font-family:inherit;font-size:20px;font-weight:700;height:60px;padding:0 26px;border-radius:999px;cursor:pointer;border:2px solid {{ p.border }};background:{{ p.bg }};color:{{ p.fg }}">{{ p.label }}</button>
+            </sc-for>
+          </div>
+          <input value="{{ name }}" onChange="{{ onName }}" placeholder="{{ t.yourName }}" style="font-family:inherit;font-size:21px;height:68px;padding:0 20px;border-radius:16px;border:2px solid #e7e3da;background:#faf8f3;color:#2b2a28;box-sizing:border-box;width:100%">
+          <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ checkinProps }}" hint-size="100%,72px">{{ t.checkinBtn }}</x-import>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isCheckinDone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:22px;height:100%">
+          <div style="width:96px;height:96px;border-radius:50%;background:#efba51;display:flex;align-items:center;justify-content:center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2b2a28" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          </div>
+          <span style="font-size:46px;font-weight:800">{{ checkedInTitle }}</span>
+          <div style="display:flex;flex-direction:column;gap:12px;background:#fdf3dd;border-radius:24px;padding:26px">
+            <span style="font-size:18px;color:#6b6862">{{ t.yourDest }}</span>
+            <span style="font-size:32px;font-weight:800">{{ destName }}</span>
+            <span style="font-size:21px;line-height:1.7;color:#3f3d3a">{{ t.directions }}</span>
+          </div>
+          <div style="flex:1"></div>
+          <x-import component-from-global-scope="JWALKDesignSystem_fc112c.Button" dc-props="{{ doneProps }}" hint-size="100%,72px">{{ t.done }}</x-import>
+        </div>
+      </sc-if>
+    </aside>
+
+    <section style="flex:1;min-width:0;position:relative;border-radius:28px;overflow:hidden;background:#efeae1;border:1px solid #e7e3da">
+      <div ref="{{ glRef }}" style="position:absolute;inset:0;visibility:{{ glVis }}"></div>
+
+      <sc-if value="{{ isPlanView }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;padding:96px 40px 96px;display:flex;align-items:center;justify-content:center;background:#faf8f3">
+          <div style="position:relative;height:100%;max-width:100%;aspect-ratio:2000/1700">
+          <svg viewBox="-150 -150 2000 1700" style="position:absolute;inset:0;width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,60 1700,0 1700,1390 200,1390 0,990" style="fill:#ffffff;stroke:none"></polygon>
+            <polygon points="{{ corridorPts }}" style="fill:#f4f1ea;stroke:none"></polygon>
+            <polygon points="980,47.4 1130,40.1 1130,330 980,330" style="fill:#e7e3da;stroke:none"></polygon>
+            <rect x="980" y="530" width="150" height="190" style="fill:#e7e3da;stroke:none"></rect>
+            <sc-for list="{{ planRooms }}" as="r" hint-placeholder-count="12">
+              <g onClick="{{ r.onClick }}" style="cursor:pointer">
+                <polygon points="{{ r.pts }}" style="fill:{{ r.fill }};stroke:{{ r.stroke }};stroke-width:{{ r.sw }};stroke-linejoin:round"></polygon>
+              </g>
+            </sc-for>
+            <sc-for list="{{ planWalls }}" as="w" hint-placeholder-count="20">
+              <line x1="{{ w.x1 }}" y1="{{ w.y1 }}" x2="{{ w.x2 }}" y2="{{ w.y2 }}" style="stroke:{{ w.c }};stroke-width:{{ w.sw }};stroke-linecap:square"></line>
+            </sc-for>
+            <polyline points="{{ routePts }}" style="fill:none;stroke:#efba51;stroke-width:22;stroke-linecap:round;stroke-linejoin:round;opacity:{{ routeOp }}"></polyline>
+            <polyline points="{{ routePts }}" style="fill:none;stroke:#c86038;stroke-width:5;stroke-dasharray:4 26;stroke-linecap:round;stroke-linejoin:round;opacity:{{ routeOp }}"></polyline>
+            <g>
+              <rect x="40" y="-112" width="160" height="70" rx="35" style="fill:#47a190"></rect>
+            </g>
+            <sc-if value="{{ dims }}" hint-placeholder-val="{{ true }}">
+              <g>
+                <text x="950" y="-40" style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;fill:#2b2a28;text-anchor:middle">1700</text>
+                <text x="950" y="1450" style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;fill:#2b2a28;text-anchor:middle">1500</text>
+                <text x="-60" y="720" style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;fill:#2b2a28;text-anchor:middle" transform="rotate(-90 -60 720)">1330</text>
+                <text x="1265" y="700" style="font-family:Archivo,sans-serif;font-size:26px;font-weight:700;fill:#3277a4;text-anchor:middle">270</text>
+              </g>
+            </sc-if>
+          </svg>
+          <sc-for list="{{ planRooms }}" as="r" hint-placeholder-count="12">
+            <div style="position:absolute;left:{{ r.lx }}%;top:{{ r.ly }}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;pointer-events:none;text-align:center">
+              <span style="font-size:{{ r.fs }}px;font-weight:700;line-height:1.2;color:#2b2a28">{{ r.n1 }}</span>
+              <span style="font-size:{{ r.fs }}px;font-weight:700;line-height:1.2;color:#2b2a28">{{ r.n2 }}</span>
+              <span dir="ltr" style="font-family:'Archivo',sans-serif;font-size:13px;font-weight:700"><span style="color:#3277a4">{{ r.dw }}</span><span style="color:#9a968e">{{ r.dx }}</span><span style="color:#c86038">{{ r.dh }}</span></span>
+            </div>
+          </sc-for>
+          <span style="position:absolute;left:13.5%;top:4.3%;transform:translate(-50%,-50%);font-size:15px;font-weight:700;color:#ffffff;pointer-events:none">{{ t.entrance }}</span>
+          <span style="position:absolute;left:70.75%;top:47.2%;transform:translate(-50%,-50%);font-size:14px;color:#6b6862;pointer-events:none">{{ t.corridor }}</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isRenderView }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;padding:90px 24px 90px;display:flex;align-items:center;justify-content:center;background:#ffffff">
+          <div style="position:relative;width:100%;max-height:100%;aspect-ratio:1448/1086">
+            <img src="assets/floor-render.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">
+            <sc-for list="{{ pins }}" as="p" hint-placeholder-count="12">
+              <button onClick="{{ p.onClick }}" style="font-family:inherit;position:absolute;left:{{ p.left }}%;top:{{ p.top }}%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:#ffffff;border:3px solid {{ p.ring }};box-shadow:0 6px 18px rgba(43,42,40,.25);cursor:pointer;color:#2b2a28">
+                <span style="width:20px;height:20px;border-radius:50%;background:{{ p.dot }};flex:none"></span>
+                <span style="font-size:16px;font-weight:700;white-space:nowrap">{{ p.short }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ glLoading }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6b6862;pointer-events:none">{{ t.loading3d }}</div>
+      </sc-if>
+
+      <div style="position:absolute;top:20px;inset-inline:20px;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+        <div style="display:flex;padding:5px;border-radius:999px;background:#ffffff;box-shadow:0 4px 16px rgba(43,42,40,.1);pointer-events:auto">
+          <sc-for list="{{ views }}" as="v" hint-placeholder-count="3">
+            <button onClick="{{ v.onClick }}" style="font-family:inherit;font-size:19px;font-weight:700;height:56px;padding:0 24px;border-radius:999px;border:none;cursor:pointer;background:{{ v.bg }};color:{{ v.fg }}">{{ v.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;pointer-events:auto">
+          <button onClick="{{ toggleDims }}" style="font-family:inherit;font-size:18px;font-weight:700;height:60px;padding:0 22px;border-radius:999px;border:2px solid {{ dimsBorder }};background:#ffffff;color:#2b2a28;cursor:pointer;box-shadow:0 4px 16px rgba(43,42,40,.1)">{{ t.dims }}</button>
+          <sc-if value="{{ is3d }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:10px">
+              <button onClick="{{ rotL }}" aria-label="rotate" style="width:60px;height:60px;border-radius:50%;border:none;background:#ffffff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(43,42,40,.1)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2b2a28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></button>
+              <button onClick="{{ rotR }}" aria-label="rotate" style="width:60px;height:60px;border-radius:50%;border:none;background:#ffffff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(43,42,40,.1)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2b2a28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleX(-1)"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></button>
+              <button onClick="{{ resetCam }}" style="font-family:inherit;font-size:18px;font-weight:700;height:60px;padding:0 22px;border-radius:999px;border:none;background:#ffffff;color:#2b2a28;cursor:pointer;box-shadow:0 4px 16px rgba(43,42,40,.1)">{{ t.reset }}</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="position:absolute;bottom:20px;inset-inline:20px;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none">
+        <div style="display:flex;gap:22px;padding:14px 22px;border-radius:999px;background:#ffffff;box-shadow:0 4px 16px rgba(43,42,40,.1)">
+          <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;font-size:18px;color:#3f3d3a">
+              <span style="width:16px;height:16px;border-radius:50%;background:{{ l.c }}"></span>
+              <span>{{ l.label }}</span>
+              <span style="font-family:'Archivo',sans-serif;font-weight:800">{{ l.count }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <span style="font-size:15px;color:#6b6862;background:rgba(255,255,255,.85);padding:10px 16px;border-radius:999px">{{ t.legendNote }}</span>
+      </div>
+    </section>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ar&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ar&quot;,&quot;tsType&quot;:&quot;'ar' | 'en'&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;welcome&quot;,&quot;explore&quot;,&quot;checkin&quot;],&quot;default&quot;:&quot;welcome&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoRotate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;currentHour&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:8,&quot;max&quot;:17,&quot;step&quot;:1,&quot;default&quot;:10,&quot;tsType&quot;:&quot;number&quot;}}">
+const TOPY = x => 60 - 60 * x / 1700;
+const topRect = (x0, x1, y1) => [[x0, TOPY(x0)], [x1, TOPY(x1)], [x1, y1], [x0, y1]];
+const rect = (x0, x1, y0, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+const OUTLINE = [[0, 60], [1700, 0], [1700, 1390], [200, 1390], [0, 990]];
+const CORRIDOR = [[450, 720], [1130, 720], [1130, 370], [1400, 370], [1400, 970], [1320, 970], [1320, 990], [450, 990]];
+
+const ROOMS = [
+  { id: 'reception', type: 'common', dims: [450, 930], poly: topRect(0, 450, 990), c: [225, 560], pin: [18.3, 42.8],
+    ar: ['منطقة الاستقبال', 'منطقة', 'الاستقبال', 'الاستقبال'], en: ['Reception Area', 'Reception', 'Area', 'Reception'],
+    fAr: ['كاونتر استقبال', 'جلسة انتظار', 'قاطع خشبي منحني'], fEn: ['Reception counter', 'Waiting lounge', 'Curved timber screen'] },
+  { id: 'open', type: 'open', dims: null, poly: topRect(450, 980, 720), c: [715, 390], pin: [44, 37.7], bookable: true,
+    ar: ['منطقة عمل مفتوحة', 'منطقة عمل', 'مفتوحة', 'العمل المفتوح'], en: ['Open Workspace', 'Open', 'Workspace', 'Open work'],
+    fAr: ['طاولتا عمل مشتركتان', 'شاشات'], fEn: ['Two shared desks', 'Monitors'] },
+  { id: 'kitchen', type: 'service', dims: null, poly: topRect(1130, 1400, 370), c: [1265, 210], pin: [60, 14],
+    ar: ['مطبخ صغير', 'مطبخ', 'صغير', 'المطبخ'], en: ['Kitchenette', 'Kitchenette', '', 'Kitchen'],
+    fAr: ['كاونتر بخزائن خشبية', 'ماكينة قهوة', 'مفتوح على الاستراحة'], fEn: ['Counter with timber units', 'Coffee machine', 'Opens onto the lounge'] },
+  { id: 'wc', type: 'service', dims: [150, 200], poly: rect(980, 1130, 330, 530), c: [1055, 430], pin: [61, 28], fs: 24,
+    ar: ['دورات مياه', 'دورات', 'مياه', 'دورات المياه'], en: ['Restrooms', 'Restrooms', '', 'Restrooms'], fAr: [], fEn: [] },
+  { id: 'lounge', type: 'lounge', dims: [300, 370], poly: topRect(1400, 1700, 370), c: [1550, 200], pin: [74.6, 21.6], bookable: true,
+    ar: ['منطقة استراحة تنفيذية', 'استراحة', 'تنفيذية', 'الاستراحة'], en: ['Executive Lounge', 'Executive', 'Lounge', 'Lounge'],
+    fAr: ['كنبة زاوية', 'وحدة تلفاز', 'طاولة قهوة'], fEn: ['Corner sofa', 'TV unit', 'Coffee table'] },
+  { id: 'a1', type: 'office', no: '01', dims: [300, 300], poly: rect(1400, 1700, 370, 670), c: [1550, 520], pin: [77.3, 35.4], leased: true },
+  { id: 'a2', type: 'office', no: '02', dims: [300, 300], poly: rect(1400, 1700, 670, 970), c: [1550, 820], pin: [79, 45.6] },
+  { id: 'meet', type: 'meeting', dims: [380, 420], poly: rect(1320, 1700, 970, 1390), c: [1510, 1090], pin: [79, 59], bookable: true,
+    ar: ['غرفة الاجتماعات الرئيسية', 'غرفة الاجتماعات', 'الرئيسية', 'الاجتماعات'], en: ['Main Meeting Room', 'Main Meeting', 'Room', 'Meeting'],
+    fAr: ['طاولة اجتماعات مركزية', 'شاشة عرض', 'واجهة زجاجية'], fEn: ['Central boardroom table', 'Display screen', 'Glass front'] },
+  { id: 'b3', type: 'office', no: '03', dims: [280, 400], poly: rect(1040, 1320, 990, 1390), c: [1180, 1150], pin: [64, 66.8], leased: true },
+  { id: 'b4', type: 'office', no: '04', dims: [280, 400], poly: rect(760, 1040, 990, 1390), c: [900, 1150], pin: [53, 69.5] },
+  { id: 'b5', type: 'office', no: '05', dims: [280, 400], poly: rect(480, 760, 990, 1390), c: [620, 1150], pin: [42.3, 73], leased: true },
+  { id: 'b6', type: 'office', no: '06', dims: [280, 400], poly: rect(200, 480, 990, 1390), c: [340, 1150], pin: [31.8, 77.3] },
+];
+ROOMS.forEach(r => {
+  if (r.type === 'office') {
+    r.ar = [`مكتب إداري ${r.no}`, 'مكتب إداري', r.no, `مكتب ${r.no}`];
+    r.en = [`Admin Office ${r.no}`, 'Admin Office', r.no, `Office ${r.no}`];
+    r.fAr = r.id[0] === 'a' ? ['واجهة زجاجية', 'مكتب وخزانة'] : ['مكتب على شكل L', 'خزانة خشبية'];
+    r.fEn = r.id[0] === 'a' ? ['Glass front', 'Desk and cabinet'] : ['L-shaped desk', 'Timber cabinet'];
+  }
+});
+const BY = Object.fromEntries(ROOMS.map(r => [r.id, r]));
+
+const WALLS = [
+  [0, 990, 0, 60, 'ext'], [200, 1390, 0, 990, 'ext'], [1700, 1390, 200, 1390, 'ext'], [1700, 0, 1700, 1390, 'ext'],
+  [0, 60, 40, TOPY(40), 'ext'], [200, TOPY(200), 1700, 0, 'facade'],
+  [980, TOPY(980), 980, 330, 'int'], [980, 330, 1130, 330, 'int'], [1130, TOPY(1130), 1130, 330, 'int'],
+  [980, 330, 980, 530, 'int'], [1130, 330, 1130, 530, 'int'], [980, 530, 1130, 530, 'int'],
+  [1400, 370, 1700, 370, 'int'], [1400, 670, 1700, 670, 'int'],
+  [1400, 370, 1400, 670, 'glass'], [1400, 670, 1400, 970, 'glass'],
+  [1320, 970, 1700, 970, 'glass'], [1320, 970, 1320, 1390, 'int'],
+  [200, 990, 1320, 990, 'glass'], [480, 990, 480, 1390, 'int'], [760, 990, 760, 1390, 'int'], [1040, 990, 1040, 1390, 'int'],
+];
+
+const T = {
+  ar: {
+    brand: 'المكاتب الإدارية', place: 'جي ووك · حديقة الجماوات، المدينة المنورة', date: 'السبت 24 أكتوبر 2026', home: 'الرئيسية',
+    welcomeEyebrow: 'أهلاً بك', welcomeTitle: 'مرحباً بكم في المكاتب الإدارية', welcomeSub: 'سجّل وصولك لموعدك، أو استكشف المساحات بأبعادها الدقيقة واحجز غرفة الاجتماعات أو موعد معاينة.',
+    actCheckin: 'تسجيل وصول زائر', actCheckinSub: 'لديك موعد؟ سجّل وصولك واعرف طريقك', actExplore: 'استكشف واحجز', actExploreSub: 'تصفّح المخطط والأبعاد واحجز المساحة',
+    factsTitle: 'من المخطط الأصلي', fFacade: 'سم الواجهة الزجاجية', fSide: 'سم الضلع الجانبي', fOffices: 'مكاتب إدارية', fCorr: 'سم عرض الممر',
+    v3d: 'مجسّم ثلاثي الأبعاد', vPlan: 'مخطط', vRender: 'التصميم الأصلي', dims: 'الأبعاد', reset: 'إعادة الضبط', loading3d: 'جارٍ تحميل المجسّم…',
+    lAvail: 'متاح', lBusy: 'محجوز الآن', lLeased: 'مؤجّر', legendNote: 'الأبعاد بالسنتيمتر من المخطط الأصلي · الإشغال بيانات تجريبية',
+    fAll: 'الكل', fOff: 'المكاتب', fShared: 'الاجتماعات والاستراحة', fSvc: 'المرافق',
+    dimsLabel: 'العرض × العمق (سم)', area: 'المساحة', notDim: 'غير محددة في المخطط', m2: 'م²',
+    ctaBook: 'احجز هذه المساحة', ctaViewing: 'احجز موعد معاينة', ctaWay: 'أرني الطريق', way: 'الطريق', leasedCta: 'المكتب مؤجّر حالياً',
+    back: 'رجوع', bookTitle: 'حجز المساحة', viewingTitle: 'موعد معاينة', chooseDay: 'اختر اليوم', chooseTime: 'اختر الوقت', timeHint: 'ساعة أو أكثر',
+    details: 'بياناتك', name: 'الاسم', phone: 'رقم الجوال', confirm: 'تأكيد الحجز', pickTime: 'اختر وقتاً للمتابعة', hours: 'ساعة',
+    slotBooked: 'محجوز', slotPast: 'انتهى', slotSel: 'مختار',
+    bookedTitle: 'تم تأكيد الحجز', ref: 'رقم الحجز', scanNote: 'امسح الرمز لإضافة الحجز إلى تقويمك', backMap: 'العودة إلى الخريطة',
+    checkinTitle: 'تسجيل وصول زائر', whereTo: 'إلى أين تتجه؟', purpose: 'سبب الزيارة', purposes: ['اجتماع', 'معاينة مساحة', 'تسليم'],
+    yourName: 'اسمك', checkinBtn: 'تسجيل الوصول', checkedIn: 'تم تسجيل وصولك', yourDest: 'وجهتك',
+    directions: 'اتبع المسار المضيء على الخريطة من المدخل عبر الاستقبال والممر حتى وجهتك.', done: 'تم',
+    entrance: 'مدخل', corridor: 'الممر', solidWall: 'جدار مصمت',
+    types: { common: 'منطقة مشتركة', open: 'مساحة عمل مشتركة', service: 'مرفق', lounge: 'استراحة', office: 'مكتب إداري', meeting: 'غرفة اجتماعات' },
+    st: { available: 'متاح', reserved: 'محجوز الآن', leased: 'مؤجّر', vacant: 'متاح للتأجير', service: 'مرفق' },
+    wd: ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء'], month: 'أكتوبر',
+  },
+  en: {
+    brand: 'Admin Offices', place: 'J WALK · Al-Jammawat Park, Madinah', date: 'Sat, 24 Oct 2026', home: 'Home',
+    welcomeEyebrow: 'Welcome', welcomeTitle: 'Welcome to the admin offices', welcomeSub: 'Check in for your appointment, or explore the spaces with their exact dimensions and book the meeting room or a viewing.',
+    actCheckin: 'Visitor check-in', actCheckinSub: 'Have an appointment? Check in and get directions', actExplore: 'Explore & book', actExploreSub: 'Browse the plan and dimensions, then book',
+    factsTitle: 'From the original plan', fFacade: 'cm glass facade', fSide: 'cm side wall', fOffices: 'admin offices', fCorr: 'cm corridor width',
+    v3d: '3D model', vPlan: 'Plan', vRender: 'Original render', dims: 'Dimensions', reset: 'Reset', loading3d: 'Loading 3D model…',
+    lAvail: 'Available', lBusy: 'In use now', lLeased: 'Leased', legendNote: 'Dimensions in cm from the original plan · occupancy is sample data',
+    fAll: 'All', fOff: 'Offices', fShared: 'Meeting & lounge', fSvc: 'Facilities',
+    dimsLabel: 'Width × depth (cm)', area: 'Area', notDim: 'Not dimensioned in plan', m2: 'm²',
+    ctaBook: 'Book this space', ctaViewing: 'Book a viewing', ctaWay: 'Show me the way', way: 'Route', leasedCta: 'Currently leased',
+    back: 'Back', bookTitle: 'Book the space', viewingTitle: 'Viewing appointment', chooseDay: 'Choose a day', chooseTime: 'Choose a time', timeHint: 'One hour or more',
+    details: 'Your details', name: 'Name', phone: 'Mobile number', confirm: 'Confirm booking', pickTime: 'Pick a time to continue', hours: 'h',
+    slotBooked: 'Booked', slotPast: 'Past', slotSel: 'Selected',
+    bookedTitle: 'Booking confirmed', ref: 'Booking reference', scanNote: 'Scan to add the booking to your calendar', backMap: 'Back to the map',
+    checkinTitle: 'Visitor check-in', whereTo: 'Where are you heading?', purpose: 'Purpose of visit', purposes: ['Meeting', 'Space viewing', 'Delivery'],
+    yourName: 'Your name', checkinBtn: 'Check in', checkedIn: 'You are checked in', yourDest: 'Your destination',
+    directions: 'Follow the highlighted route on the map from the entrance, through reception and along the corridor.', done: 'Done',
+    entrance: 'Entrance', corridor: 'Corridor', solidWall: 'Solid wall',
+    types: { common: 'Shared area', open: 'Shared workspace', service: 'Facility', lounge: 'Lounge', office: 'Admin office', meeting: 'Meeting room' },
+    st: { available: 'Available', reserved: 'In use now', leased: 'Leased', vacant: 'Available to lease', service: 'Facility' },
+    wd: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed'], month: 'Oct',
+  },
+};
+const ST_COLOR = { available: '#47a190', vacant: '#47a190', reserved: '#efba51', leased: '#c86038', service: '#9a968e' };
+const ST_FILL = { available: '#e0f0ec', vacant: '#e0f0ec', reserved: '#fdf3dd', leased: '#f7e4db', service: '#f4f1ea' };
+const ST_TONE = { available: 'teal', vacant: 'teal', reserved: 'amber', leased: 'orange', service: 'neutral' };
+const pad = n => String(n).padStart(2, '0');
+const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+const AREA = r => r.dims ? (r.dims[0] * r.dims[1] / 10000) : null;
+const fmtArea = a => (Math.round(a * 100) / 100).toString();
+
+function routeFor(id) {
+  const r = BY[id]; if (!r || id === 'reception') return null;
+  const [cx, cy] = r.c;
+  const s = [[120, 70], [200, 300], [200, 855]];
+  if (['b3', 'b4', 'b5', 'b6'].includes(id)) return [...s, [cx, 855], [cx, 1060]];
+  if (id === 'meet') return [...s, [1360, 855], [1360, 1060]];
+  if (id === 'open') return [...s, [715, 855], [715, 660]];
+  if (id === 'wc') return [...s, [1180, 855], [1180, 430], [1100, 430]];
+  if (id === 'kitchen') return [...s, [1265, 855], [1265, 220]];
+  if (id === 'lounge') return [...s, [1265, 855], [1265, 220], [1470, 220]];
+  return [...s, [1265, 855], [1265, cy], [1460, cy]];
+}
+
+class Component extends DCLogic {
+  glRef = React.createRef();
+  state = {
+    screen: this.props.startScreen ?? 'welcome', lang: null, view: '3d', dims: true, filter: 'all', selectedId: 'meet',
+    selSlots: [], day: 0, name: '', phone: '', destId: null, purpose: 0, routeTo: null, done: null,
+    bookings: { meet: [10, 13, 14], lounge: [12], open: [11], a2: [15], b4: [], b6: [9, 10] },
+    scale: 0.5, ox: 0, oy: 0, glReady: false, glError: false,
+  };
+  fit = () => {
+    const W = window.innerWidth || document.documentElement.clientWidth, H = window.innerHeight || document.documentElement.clientHeight;
+    if (!W || !H) { this.fitRetry = setTimeout(this.fit, 100); return; }
+    const s = Math.min(W / 1920, H / 1080);
+    this.setState({ scale: s, ox: (W - 1920 * s) / 2, oy: (H - 1080 * s) / 2 });
+  };
+  componentDidMount() {
+    window.__kiosk = this; this.fit(); window.addEventListener('resize', this.fit);
+    this.pageRO = new ResizeObserver(this.fit); this.pageRO.observe(document.documentElement);
+    this.initGL();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.fit); cancelAnimationFrame(this.raf); clearInterval(this.watch); clearTimeout(this.fitRetry); if (this.pageRO) this.pageRO.disconnect();
+    if (this.ro) this.ro.disconnect(); if (this.gl) this.gl.renderer.dispose();
+  }
+  componentDidUpdate() { this.syncGL(); }
+  lang() { return this.state.lang ?? this.props.defaultLang ?? 'ar'; }
+  hour() { return this.props.currentHour ?? 10; }
+  bookedFor(id, day) {
+    if (day === 0) return this.state.bookings[id] || [];
+    const extra = (this.state.bookings[`${id}@${day}`] || []);
+    return [8 + ((id.length * 3 + day * 2) % 10), ...extra];
+  }
+  status(r) {
+    if (r.type === 'service' || r.type === 'common') return 'service';
+    if (r.type === 'office') return r.leased ? 'leased' : 'vacant';
+    return (this.state.bookings[r.id] || []).includes(this.hour()) ? 'reserved' : 'available';
+  }
+  select(id) {
+    const st = { selectedId: id, selSlots: [] };
+    if (this.state.screen === 'welcome') st.screen = 'explore';
+    if (this.state.screen === 'checkin') { st.destId = id; delete st.selectedId; }
+    this.setState(st);
+  }
+
+  async initGL() {
+    let THREE, OrbitControls;
+    try {
+      THREE = await import('https://esm.sh/three@0.160.0');
+      ({ OrbitControls } = await import('https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js'));
+    } catch (e) { console.warn('3D load failed', e); this.setState({ glError: true, view: 'plan' }); return; }
+    let host = this.glRef.current;
+    for (let i = 0; !host && i < 40; i++) { await new Promise(r => setTimeout(r, 100)); host = this.glRef.current; }
+    if (!host) { this.setState({ glError: true, view: 'plan' }); return; }
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+    renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none';
+    host.appendChild(renderer.domElement);
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden';
+    host.appendChild(overlay);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 200);
+    const center = new THREE.Vector3(8.5, 0, 6.9);
+    const home = new THREE.Vector3(8.5 - 10.5, 22, 6.9 + 21);
+    camera.position.copy(home);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.copy(center); controls.enableDamping = true; controls.dampingFactor = 0.08;
+    controls.maxPolarAngle = 1.2; controls.minPolarAngle = 0.25; controls.minDistance = 10; controls.maxDistance = 42; controls.enablePan = false;
+    controls.autoRotateSpeed = 0.5;
+
+    scene.add(new THREE.HemisphereLight(0xfffaf0, 0xa89c88, 1.5));
+    const sun = new THREE.DirectionalLight(0xfff0dc, 2.4);
+    sun.position.set(3, 20, 4); sun.target.position.copy(center); sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -13, right: 13, top: 13, bottom: -13, near: 1, far: 50 });
+    sun.shadow.camera.updateProjectionMatrix(); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+    scene.add(sun, sun.target);
+
+    const mats = {};
+    const mat = (c, o) => { const k = c + (o ? JSON.stringify(o) : ''); return mats[k] || (mats[k] = new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.78, metalness: 0 }, o || {}))); };
+    const add = (m, cast = true) => { m.castShadow = cast; m.receiveShadow = true; scene.add(m); return m; };
+    const box = (cx, cz, w, d, h, c, y0 = 0, ry = 0) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w / 100, h / 100, d / 100), typeof c === 'string' ? mat(c) : c);
+      m.position.set(cx / 100, (y0 + h / 2) / 100, cz / 100); m.rotation.y = ry; return add(m);
+    };
+    const shape = pts => new THREE.Shape(pts.map(([x, z]) => new THREE.Vector2(x / 100, -z / 100)));
+    const prism = (pts, h, c, y0 = 0, cast = false) => {
+      const g = new THREE.ExtrudeGeometry(shape(pts), { depth: h / 100, bevelEnabled: false }); g.rotateX(-Math.PI / 2);
+      const m = new THREE.Mesh(g, typeof c === 'string' ? mat(c) : c); m.position.y = y0 / 100; return add(m, cast);
+    };
+    const arc = (cx, cz, r0, r1, a0, a1, n = 24) => {
+      const pts = [];
+      for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n; pts.push([cx + r1 * Math.cos(a), cz + r1 * Math.sin(a)]); }
+      for (let i = n; i >= 0; i--) { const a = a0 + (a1 - a0) * i / n; pts.push([cx + r0 * Math.cos(a), cz + r0 * Math.sin(a)]); }
+      return pts;
+    };
+    const cyl = (cx, cz, r, h, c, y0 = 0) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r / 100, r / 100, h / 100, 32), mat(c)); m.position.set(cx / 100, (y0 + h / 2) / 100, cz / 100); return add(m); };
+    const plant = (x, z, s = 1) => {
+      cyl(x, z, 16 * s, 34 * s, '#e9e5dc');
+      const f = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28 * s, 1), mat('#5f8f4e', { flatShading: true }));
+      f.position.set(x / 100, (34 * s + 22 * s) / 100, z / 100); add(f);
+    };
+    const CH = '#3a3835', WHITE = '#f6f4ef', WOOD = '#a06b42', DARKWOOD = '#6e4a2f';
+    const chair = (x, z, face) => {
+      box(x, z, 46, 46, 44, CH);
+      const off = { n: [0, 22], s: [0, -22], e: [-22, 0], w: [22, 0] }[face];
+      const horiz = face === 'n' || face === 's';
+      box(x + off[0], z + off[1], horiz ? 46 : 8, horiz ? 8 : 46, 42, CH, 44);
+    };
+    const desk = (x, z, w, d) => {
+      box(x, z, w, d, 4, WHITE, 72);
+      if (w >= d) { box(x - w / 2 + 3, z, 5, d, 72, WHITE); box(x + w / 2 - 3, z, 5, d, 72, WHITE); }
+      else { box(x, z - d / 2 + 3, w, 5, 72, WHITE); box(x, z + d / 2 - 3, w, 5, 72, WHITE); }
+    };
+
+    prism(OUTLINE, 30, '#d9d3c7', -30);
+    prism(OUTLINE, 1, '#e8e3d9', 0);
+    prism(CORRIDOR, 1, '#ece8e0', 0.5);
+    const FLOOR = { office: '#4a4643', meeting: '#46423f', open: '#4d4946', common: '#efebe4', lounge: '#e7e2d8', service: '#e2ddd3' };
+    const pick = [], overlays = {};
+    ROOMS.forEach(r => {
+      const f = prism(r.poly, 1, FLOOR[r.type], 0.6); f.userData.id = r.id; pick.push(f);
+      const om = new THREE.MeshBasicMaterial({ color: 0x47a190, transparent: true, opacity: 0, depthWrite: false });
+      const o = prism(r.poly, 0.5, om, 1.8); o.receiveShadow = false; overlays[r.id] = o;
+    });
+    prism([[980, TOPY(980)], [1130, TOPY(1130)], [1130, 330], [980, 330]], 1, '#cfc9bd', 0.6);
+    const rug = cyl(200, 800, 118, 1.2, '#9f998e', 1.2); rug.castShadow = false;
+
+    const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xcfe7ec, transparent: true, opacity: 0.3, roughness: 0.05, metalness: 0, depthWrite: false });
+    WALLS.forEach(([x1, z1, x2, z2, k]) => {
+      const L = Math.hypot(x2 - x1, z2 - z1), ang = Math.atan2(z2 - z1, x2 - x1), cx = (x1 + x2) / 2, cz = (z1 + z2) / 2;
+      if (k === 'ext' || k === 'int') {
+        const t = k === 'ext' ? 22 : 12, h = k === 'ext' ? 150 : 128;
+        box(cx, cz, L + t, t, h, '#efebe3', 0, -ang);
+        box(cx, cz, L + t, t + 1, 4, '#2b2a28', h, -ang);
+      } else {
+        const h = k === 'facade' ? 150 : 128;
+        const g = box(cx, cz, L, 3, h, glassMat, 0, -ang); g.castShadow = false;
+        box(cx, cz, L, 8, 5, '#2b2a28', h - 5, -ang);
+        box(cx, cz, L, 8, 5, '#2b2a28', 0, -ang);
+        const step = k === 'facade' ? 150 : 100, n = Math.max(1, Math.round(L / step));
+        for (let i = 0; i <= n; i++) { const p = i / n; box(x1 + (x2 - x1) * p, z1 + (z2 - z1) * p, 6, 8, h, '#2b2a28', 0, -ang); }
+      }
+    });
+
+    // Open workspace
+    [250, 530].forEach(tz => {
+      box(715, tz, 440, 130, 4, WHITE, 72); box(505, tz, 6, 120, 72, WHITE); box(925, tz, 6, 120, 72, WHITE);
+      box(715, tz, 380, 18, 22, '#e3ded4', 76);
+      [-165, -55, 55, 165].forEach(dx => {
+        chair(715 + dx, tz - 98, 's'); chair(715 + dx, tz + 98, 'n');
+        box(715 + dx, tz - 28, 52, 3, 32, '#24282c', 80); box(715 + dx, tz + 28, 52, 3, 32, '#24282c', 80);
+      });
+      [-110, 110].forEach(dx => { const f = new THREE.Mesh(new THREE.IcosahedronGeometry(0.14, 1), mat('#5f8f4e', { flatShading: true })); f.position.set((715 + dx) / 100, 1.08, tz / 100); add(f); });
+    });
+    box(715, 690, 500, 30, 95, '#efebe3');
+    // Reception
+    prism(arc(330, 450, 62, 108, Math.PI * 0.55, Math.PI * 1.45), 105, WHITE, 0, true);
+    prism(arc(330, 450, 62, 116, Math.PI * 0.55, Math.PI * 1.45), 4, '#e9e5dc', 105, true);
+    chair(320, 450, 'w'); plant(370, 320); plant(400, 600, 1.2);
+    prism(arc(200, 800, 118, 178, Math.PI * 0.35, Math.PI * 1.15), 42, '#c9c2b6', 0, true);
+    prism(arc(200, 800, 162, 178, Math.PI * 0.35, Math.PI * 1.15), 78, '#bdb6a9', 0, true);
+    cyl(215, 790, 38, 38, '#3a3835'); box(300, 690, 60, 60, 44, '#8f8a80'); box(205, 650, 60, 60, 44, '#8f8a80');
+    for (let z = 110; z <= 720; z += 12) {
+      const x = 432 + 34 * Math.sin((z - 110) / 610 * Math.PI * 1.6);
+      box(x, z, 5, 9, 175, (z / 12) % 2 ? WOOD : '#b07a4c');
+    }
+    plant(60, 130, 1.1);
+    // Kitchen
+    box(1158, 210, 52, 270, 88, DARKWOOD); box(1158, 210, 56, 274, 4, WHITE, 88);
+    box(1158, 110, 28, 30, 36, '#1f1f1f', 92); box(1158, 300, 40, 40, 4, '#9aa3a6', 92);
+    // Lounge
+    box(1445, 215, 72, 250, 42, '#b9b3a8'); box(1416, 215, 14, 250, 78, '#aaa498');
+    box(1560, 55, 210, 70, 42, '#b9b3a8'); box(1560, 26, 210, 14, 78, '#aaa498');
+    box(1560, 215, 90, 60, 34, '#3a3835'); box(1678, 215, 34, 200, 50, DARKWOOD); box(1690, 215, 6, 130, 72, '#1c1c1c', 60);
+    plant(1670, 345);
+    // Offices a1/a2
+    [370, 670].forEach(y0 => {
+      const yc = y0 + 150;
+      desk(1605, yc, 70, 160); chair(1660, yc, 'w'); chair(1535, yc - 40, 'e'); chair(1535, yc + 40, 'e');
+      box(1550, y0 + 24, 160, 36, 115, WOOD); plant(1430, y0 + 270);
+      box(1605, yc, 3, 50, 30, '#24282c', 76, 0);
+    });
+    // Meeting room
+    box(1510, 1195, 300, 110, 6, '#8a5a36', 70); box(1510, 1195, 200, 40, 70, '#5c4330');
+    [-120, -60, 0, 60, 120].forEach(dx => { chair(1510 + dx, 1195 - 90, 's'); chair(1510 + dx, 1195 + 90, 'n'); });
+    chair(1320 + 15 + 25, 1195, 'e'); chair(1700 - 40, 1195, 'w');
+    box(1345, 1060, 6, 150, 85, '#1c1c1c', 85, 0);
+    plant(1350, 1360); plant(1675, 1000);
+    // Bottom offices
+    [200, 480, 760, 1040].forEach(x0 => {
+      box(x0 + 145, 1014, 180, 36, 118, WOOD);
+      desk(x0 + 140, 1305, 190, 70); desk(x0 + 240, 1235, 60, 110);
+      chair(x0 + 140, 1360, 'n'); chair(x0 + 105, 1225, 's'); chair(x0 + 175, 1225, 's');
+      box(x0 + 140, 1300, 50, 3, 30, '#24282c', 76);
+      plant(x0 + 35, 1035);
+    });
+    box(1055, 625, 140, 180, 128, DARKWOOD);
+    box(1055, 505, 60, 40, 82, '#ffffff');
+
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({ opacity: 0.12 }));
+    ground.rotation.x = -Math.PI / 2; ground.position.set(8.5, -0.3, 6.9); ground.receiveShadow = true; scene.add(ground);
+
+    const labels = {};
+    ROOMS.forEach(r => {
+      const el = document.createElement('div');
+      el.style.cssText = 'position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;will-change:transform';
+      el.addEventListener('click', () => this.select(r.id));
+      overlay.appendChild(el);
+      labels[r.id] = { el, pos: new THREE.Vector3(r.c[0] / 100, 1.55, r.c[1] / 100), key: '' };
+    });
+
+    const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(); let down = null;
+    renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; controls.autoRotate = false; this.userMoved = true; });
+    renderer.domElement.addEventListener('pointerup', e => {
+      if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 8) return;
+      const b = renderer.domElement.getBoundingClientRect();
+      ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(ndc, camera);
+      const hit = ray.intersectObjects(pick)[0];
+      if (hit) this.select(hit.object.userData.id);
+    });
+
+    const resize = () => {
+      const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+      renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    };
+    this.ro = new ResizeObserver(resize); this.ro.observe(host); resize();
+
+    const v = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+    this.gl = { THREE, renderer, scene, camera, controls, labels, overlays, center, home, mat, route: null, dot: null, curve: null, goal: null, rot: 0 };
+    let last = 0;
+    const loop = () => { this.raf = requestAnimationFrame(loop); frame(); };
+    this.watch = setInterval(() => { if (performance.now() - last > 150) frame(); }, 120);
+    const frame = () => {
+      last = performance.now();
+      const g = this.gl;
+      if (g.rot) { const s = g.rot * 0.1; const off = camera.position.clone().sub(controls.target).applyAxisAngle(up, s); camera.position.copy(controls.target).add(off); g.rot -= s; if (Math.abs(g.rot) < 0.002) g.rot = 0; }
+      if (g.goal) { controls.target.lerp(g.goal, 0.07); if (controls.target.distanceTo(g.goal) < 0.01) g.goal = null; }
+      if (g.camGoal) { camera.position.lerp(g.camGoal, 0.07); if (camera.position.distanceTo(g.camGoal) < 0.02) g.camGoal = null; }
+      controls.update();
+      if (g.dot && g.curve) { g.t = ((g.t || 0) + 0.004) % 1; g.dot.position.copy(g.curve.getPointAt(g.t)); }
+      renderer.render(scene, camera);
+      const w = host.clientWidth, h = host.clientHeight;
+      for (const id in labels) {
+        const L = labels[id]; v.copy(L.pos).project(camera);
+        if (v.z > 1) { L.el.style.display = 'none'; continue; }
+        L.el.style.display = '';
+        L.el.style.transform = `translate(${(v.x + 1) / 2 * w}px, ${(1 - v.y) / 2 * h}px) translate(-50%, -100%)`;
+      }
+    };
+    loop();
+    this.setState({ glReady: true });
+    this.syncGL();
+  }
+
+  syncGL() {
+    const g = this.gl; if (!g) return;
+    const { THREE } = g;
+    const s = this.state, lang = this.lang(), tt = T[lang];
+    const focusId = s.screen === 'checkin' || s.screen === 'checkinDone' ? s.destId : s.selectedId;
+    ROOMS.forEach(r => {
+      const st = this.status(r), sel = r.id === focusId && s.screen !== 'welcome';
+      const o = g.overlays[r.id].material;
+      o.color.set(sel ? '#47a190' : ST_COLOR[st]);
+      o.opacity = sel ? 0.55 : st === 'service' ? 0 : 0.3;
+      const L = g.labels[r.id];
+      const name = sel ? r[lang][0] : r[lang][3];
+      const dimTxt = s.dims && r.dims ? `${r.dims[0]}×${r.dims[1]}` : '';
+      const key = [name, dimTxt, sel, st, lang].join('|');
+      if (L.key !== key) {
+        L.key = key;
+        const ff = lang === 'ar' ? 'Almarai' : 'Archivo';
+        L.el.innerHTML = `<div dir="${lang === 'ar' ? 'rtl' : 'ltr'}" style="display:flex;align-items:center;gap:8px;padding:${sel ? '10px 16px' : '7px 13px'};border-radius:999px;background:${sel ? '#2b2a28' : '#ffffff'};color:${sel ? '#ffffff' : '#2b2a28'};box-shadow:0 6px 18px rgba(43,42,40,.22);font-family:${ff},sans-serif;font-weight:700;font-size:${sel ? 20 : 15}px;white-space:nowrap">` +
+          `<span style="width:${sel ? 14 : 11}px;height:${sel ? 14 : 11}px;border-radius:50%;background:${ST_COLOR[st]};flex:none"></span>${name}` +
+          (dimTxt ? `<span dir="ltr" style="font-family:Archivo,sans-serif;font-weight:600;font-size:${sel ? 16 : 13}px;opacity:.7">${dimTxt}</span>` : '') + `</div>`;
+        L.el.style.zIndex = sel ? 5 : 1;
+      }
+    });
+    g.controls.autoRotate = s.screen === 'welcome' && (this.props.autoRotate ?? true) && !this.userMoved;
+    if (s.screen === 'welcome') this.userMoved = false;
+    if (g.lastFocus !== focusId || g.lastScreen !== s.screen) {
+      g.lastFocus = focusId; g.lastScreen = s.screen;
+      const r = BY[focusId];
+      g.goal = (s.screen === 'welcome' || !r) ? g.center.clone() : new THREE.Vector3(8.5 + (r.c[0] / 100 - 8.5) * 0.35, 0, 6.9 + (r.c[1] / 100 - 6.9) * 0.35);
+    }
+    const rk = s.routeTo || '';
+    if (g.routeKey !== rk) {
+      g.routeKey = rk;
+      if (g.route) { g.scene.remove(g.route); g.scene.remove(g.dot); g.route.geometry.dispose(); g.route = g.dot = g.curve = null; }
+      const pts = routeFor(rk);
+      if (pts) {
+        const path = new THREE.CurvePath();
+        for (let i = 0; i < pts.length - 1; i++) path.add(new THREE.LineCurve3(new THREE.Vector3(pts[i][0] / 100, 0.08, pts[i][1] / 100), new THREE.Vector3(pts[i + 1][0] / 100, 0.08, pts[i + 1][1] / 100)));
+        g.route = new THREE.Mesh(new THREE.TubeGeometry(path, 200, 0.07, 8, false), new THREE.MeshBasicMaterial({ color: 0xefba51 }));
+        g.dot = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 20), new THREE.MeshBasicMaterial({ color: 0xc86038 }));
+        g.curve = path; g.t = 0; g.scene.add(g.route, g.dot);
+      }
+    }
+  }
+
+  renderVals() {
+    const lang = this.lang(), t = T[lang], s = this.state, hour = this.hour();
+    const FILTERS = [
+      ['all', t.fAll, () => true], ['office', t.fOff, r => r.type === 'office'],
+      ['shared', t.fShared, r => ['meeting', 'lounge', 'open'].includes(r.type)], ['service', t.fSvc, r => ['service', 'common'].includes(r.type)],
+    ];
+    const fm = FILTERS.find(f => f[0] === s.filter)[2];
+    const inCheckin = s.screen === 'checkin' || s.screen === 'checkinDone';
+    const focusId = inCheckin ? s.destId : s.selectedId;
+    const rooms = ROOMS.map(r => {
+      const st = this.status(r), isSel = r.id === focusId && s.screen !== 'welcome';
+      const [cx, cy] = r.c, fs = r.fs ? 14 : 17, lx = (cx + 150) / 20, ly = (cy + 150) / 17;
+      return {
+        id: r.id, st, isSel, name: r[lang][0], short: r[lang][3], n1: r[lang][1], n2: r[lang][2],
+        dimShort: r.dims ? `${r.dims[0]}×${r.dims[1]}` : '',
+        onClick: () => this.select(r.id),
+        dot: ST_COLOR[st], listBg: isSel ? '#f4f1ea' : '#ffffff', listBorder: isSel ? '#2b2a28' : '#e7e3da',
+        pts: r.poly.map(p => p.join(',')).join(' '),
+        fill: isSel ? '#cfe8e2' : ST_FILL[st], stroke: isSel ? '#2b2a28' : 'none', sw: isSel ? 8 : 0,
+        cx, fs, lx, ly, y1: cy - (r[lang][2] ? 30 : 12) + (s.dims && r.dims ? 0 : 14), y2: cy + 8 + (s.dims && r.dims ? 0 : 14), y3: cy + 50,
+        dw: s.dims && r.dims ? String(r.dims[0]) : '', dx: s.dims && r.dims ? ' × ' : '', dh: s.dims && r.dims ? String(r.dims[1]) : '',
+        left: r.pin[0], top: r.pin[1], ring: isSel ? '#2b2a28' : '#ffffff',
+      };
+    });
+    const selR = BY[s.selectedId] || BY.meet, selV = rooms.find(r => r.id === selR.id);
+    const area = AREA(selR);
+    const isOffice = selR.type === 'office';
+    const canBook = (selR.bookable || (isOffice && !selR.leased));
+    const ctaLabel = canBook ? (isOffice ? t.ctaViewing : t.ctaBook) : (isOffice ? t.leasedCta : t.ctaWay);
+    const ctaAction = canBook ? () => this.setState({ screen: 'book', selSlots: [], day: 0 }) : (isOffice ? undefined : () => this.setState({ routeTo: selR.id }));
+    const big = { padding: '22px 28px', fontSize: '22px', minHeight: '68px' };
+    const counts = { teal: 0, amber: 0, orange: 0 };
+    rooms.forEach(r => { const tone = ST_TONE[r.st]; if (counts[tone] !== undefined) counts[tone]++; });
+    const booked = this.bookedFor(selR.id, s.day);
+    const slots = HOURS.map(h => {
+      const past = s.day === 0 && h < hour, isB = booked.includes(h), isS = s.selSlots.includes(h), dis = past || isB;
+      return {
+        label: `${pad(h)}:00`, note: isS ? t.slotSel : isB ? t.slotBooked : past ? t.slotPast : '',
+        bg: isS ? '#47a190' : isB ? '#f7e4db' : past ? '#f4f1ea' : '#ffffff', fg: isS ? '#ffffff' : isB ? '#a04726' : past ? '#9a968e' : '#2b2a28',
+        border: isS ? '#47a190' : isB ? '#f7e4db' : past ? '#f4f1ea' : '#e7e3da', cursor: dis ? 'default' : 'pointer',
+        onClick: dis ? undefined : () => this.setState(st => ({ selSlots: st.selSlots.includes(h) ? st.selSlots.filter(x => x !== h) : [...st.selSlots, h].sort((a, b) => a - b) })),
+      };
+    });
+    const rangeText = hs => { const g = []; hs.forEach(h => { const l = g[g.length - 1]; if (l && l[1] === h) l[1] = h + 1; else g.push([h, h + 1]); }); return g.map(x => `${pad(x[0])}:00–${pad(x[1])}:00`).join(', '); };
+    const dayLabel = d => `${t.wd[d]} ${24 + d} ${t.month}`;
+    const DESTS = ['meet', 'lounge', 'open', 'a1', 'a2', 'b3', 'b4', 'b5', 'b6'];
+    const dest = BY[s.destId];
+    return {
+      dir: lang === 'ar' ? 'rtl' : 'ltr', font: lang === 'ar' ? "'Almarai', sans-serif" : "'Archivo', sans-serif", svgFont: lang === 'ar' ? 'Almarai, sans-serif' : 'Archivo, sans-serif',
+      glRef: this.glRef, scale: s.scale, ox: s.ox, oy: s.oy, t, clock: `${pad(hour)}:30`,
+      arBg: lang === 'ar' ? '#ffffff' : 'transparent', enBg: lang === 'en' ? '#ffffff' : 'transparent',
+      arShadow: lang === 'ar' ? '0 1px 4px rgba(43,42,40,.15)' : 'none', enShadow: lang === 'en' ? '0 1px 4px rgba(43,42,40,.15)' : 'none',
+      setAr: () => this.setState({ lang: 'ar' }), setEn: () => this.setState({ lang: 'en' }),
+      notWelcome: s.screen !== 'welcome',
+      goHome: () => this.setState({ screen: 'welcome', routeTo: null, destId: null, name: '', phone: '', selSlots: [] }),
+      goCheckin: () => this.setState({ screen: 'checkin', destId: null, purpose: 0, name: '', routeTo: null }),
+      goExplore: () => this.setState({ screen: 'explore', selSlots: [] }),
+      isWelcome: s.screen === 'welcome', isExplore: s.screen === 'explore', isBook: s.screen === 'book', isBookDone: s.screen === 'bookDone',
+      isCheckin: s.screen === 'checkin', isCheckinDone: s.screen === 'checkinDone',
+      facts: [{ v: '1700', k: t.fFacade }, { v: '1330', k: t.fSide }, { v: '6', k: t.fOffices }, { v: '270', k: t.fCorr }],
+      filters: FILTERS.map(([id, label]) => ({ label, onClick: () => this.setState({ filter: id }), bg: id === s.filter ? '#2b2a28' : '#ffffff', fg: id === s.filter ? '#ffffff' : '#3f3d3a', border: id === s.filter ? '#2b2a28' : '#e7e3da' })),
+      listRooms: rooms.filter((r, i) => fm(ROOMS[i])),
+      sel: {
+        name: selR[lang][0], typeLabel: t.types[selR.type], statusLabel: t.st[selV.st], headBg: ST_FILL[selV.st],
+        dims: selR.dims ? `\u2066${selR.dims[0]} × ${selR.dims[1]}\u2069` : t.notDim,
+        dimFont: selR.dims ? "'Archivo', sans-serif" : 'inherit', dimSize: selR.dims ? 26 : 19,
+        area: area ? fmtArea(area) : '—', areaUnit: area ? t.m2 : '',
+        dimsLine: selR.dims ? `${selR.dims[0]} × ${selR.dims[1]} cm · ${fmtArea(area)} m²` : '',
+        features: lang === 'ar' ? selR.fAr : selR.fEn, ctaLabel, hasWayBtn: canBook && selR.id !== 'reception',
+      },
+      badgeProps: { tone: ST_TONE[selV.st], variant: 'solid', dot: false, style: { fontSize: '17px', padding: '8px 16px' } },
+      ctaProps: { variant: canBook ? 'primary' : 'outline', size: 'lg', fullWidth: true, disabled: !ctaAction, onClick: ctaAction, style: big },
+      wayProps: { variant: 'outline', size: 'lg', onClick: () => this.setState({ routeTo: selR.id }), style: big },
+      bookHeading: isOffice ? t.viewingTitle : t.bookTitle,
+      days: [0, 1, 2, 3, 4].map(d => ({ wd: t.wd[d], n: 24 + d, onClick: () => this.setState({ day: d, selSlots: [] }), bg: d === s.day ? '#2b2a28' : '#ffffff', fg: d === s.day ? '#ffffff' : '#2b2a28', border: d === s.day ? '#2b2a28' : '#e7e3da' })),
+      slots, name: s.name, phone: s.phone,
+      onName: e => this.setState({ name: e.target.value }), onPhone: e => this.setState({ phone: e.target.value }),
+      confirmLabel: s.selSlots.length ? `${t.confirm} · ${s.selSlots.length} ${t.hours}` : t.pickTime,
+      confirmProps: {
+        variant: 'primary', size: 'lg', fullWidth: true, disabled: !s.selSlots.length, style: big,
+        onClick: () => {
+          if (!s.selSlots.length) return;
+          const key = s.day === 0 ? selR.id : `${selR.id}@${s.day}`;
+          this.setState(st => ({
+            bookings: { ...st.bookings, [key]: [...(st.bookings[key] || []), ...st.selSlots] },
+            done: { id: selR.id, day: st.day, hours: st.selSlots, ref: `JW-${24 + st.day}${pad(st.selSlots[0])}-${selR.id.toUpperCase()}` },
+            selSlots: [], screen: 'bookDone',
+          }));
+        },
+      },
+      doneDay: s.done ? dayLabel(s.done.day) : '', doneRange: s.done ? rangeText(s.done.hours) : '', doneRef: s.done ? s.done.ref : '',
+      backMapProps: { variant: 'primary', size: 'lg', fullWidth: true, style: big, onClick: () => this.setState({ screen: 'explore' }) },
+      dests: DESTS.map(id => { const on = id === s.destId; const st = this.status(BY[id]); return { name: BY[id][lang][0], dot: ST_COLOR[st], onClick: () => this.setState({ destId: id }), bg: on ? '#2b2a28' : '#ffffff', fg: on ? '#ffffff' : '#2b2a28', border: on ? '#2b2a28' : '#e7e3da' }; }),
+      purposes: t.purposes.map((label, i) => ({ label, onClick: () => this.setState({ purpose: i }), bg: i === s.purpose ? '#fdf3dd' : '#ffffff', fg: '#2b2a28', border: i === s.purpose ? '#e0a838' : '#e7e3da' })),
+      checkinProps: { variant: 'primary', size: 'lg', fullWidth: true, disabled: !s.destId, style: big, onClick: () => s.destId && this.setState({ screen: 'checkinDone', routeTo: s.destId }) },
+      checkedInTitle: s.name ? `${t.checkedIn}، ${s.name}`.replace('،', lang === 'ar' ? '،' : ',') : t.checkedIn,
+      destName: dest ? dest[lang][0] : '',
+      doneProps: { variant: 'secondary', size: 'lg', fullWidth: true, style: big, onClick: () => this.setState({ screen: 'welcome', routeTo: null, destId: null, name: '' }) },
+      views: [['3d', t.v3d], ['plan', t.vPlan], ['render', t.vRender]].map(([id, label]) => ({ label, onClick: () => this.setState({ view: id }), bg: id === s.view ? '#2b2a28' : 'transparent', fg: id === s.view ? '#ffffff' : '#2b2a28' })),
+      is3d: s.view === '3d' && s.glReady, isPlanView: s.view === 'plan', isRenderView: s.view === 'render',
+      glVis: s.view === '3d' ? 'visible' : 'hidden', glLoading: s.view === '3d' && !s.glReady && !s.glError,
+      dims: s.dims, dimsBorder: s.dims ? '#47a190' : '#ffffff', toggleDims: () => this.setState({ dims: !s.dims }),
+      rotL: () => { if (this.gl) this.gl.rot += Math.PI / 4; }, rotR: () => { if (this.gl) this.gl.rot -= Math.PI / 4; },
+      resetCam: () => { if (this.gl) { this.gl.camGoal = this.gl.home.clone(); this.gl.goal = this.gl.center.clone(); } },
+      planRooms: rooms, pins: rooms,
+      planWalls: WALLS.map(([x1, y1, x2, y2, k]) => ({ x1, y1, x2, y2, c: k === 'ext' ? '#2b2a28' : k === 'int' ? '#3f3d3a' : '#7fb8c4', sw: k === 'ext' ? 20 : k === 'int' ? 9 : k === 'facade' ? 12 : 7 })),
+      corridorPts: CORRIDOR.map(p => p.join(',')).join(' '),
+      routePts: (routeFor(s.routeTo) || [[0, 0], [0, 0]]).map(p => p.join(',')).join(' '), routeOp: s.routeTo ? 1 : 0,
+      legend: [{ c: '#47a190', label: t.lAvail, count: counts.teal }, { c: '#efba51', label: t.lBusy, count: counts.amber }, { c: '#c86038', label: t.lLeased, count: counts.orange }],
+    };
+  }
+}
+</script>
+</body>
+</html>
