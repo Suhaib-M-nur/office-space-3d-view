@@ -58,8 +58,21 @@
           </button>
         </div>
         <h2 style="margin:0;font-size:24px;font-weight:800;line-height:1.3">{{ d.name }}</h2>
+        <sc-if value="{{ d.hasPhoto }}" hint-placeholder-val="{{ true }}">
+          <div role="tablist" style="display:flex;align-self:flex-start;padding:4px;border-radius:999px;background:#ffffff;gap:2px">
+            <button role="tab" onClick="{{ showModel }}" style="font-family:inherit;font-size:13px;font-weight:700;height:36px;padding:0 14px;border-radius:999px;border:none;cursor:pointer;background:{{ tabModelBg }};color:{{ tabModelFg }}">المجسّم</button>
+            <button role="tab" onClick="{{ showPhoto }}" style="font-family:inherit;font-size:13px;font-weight:700;height:36px;padding:0 14px;border-radius:999px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;background:{{ tabPhotoBg }};color:{{ tabPhotoFg }}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3v13H4z"></path><circle cx="12" cy="13" r="4"></circle></svg>صورة واقعية</button>
+          </div>
+        </sc-if>
       </div>
       <div style="flex:1;min-height:0;overflow:auto;padding:18px 22px;display:flex;flex-direction:column;gap:18px">
+        <sc-if value="{{ photoOn }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ openLightbox }}" aria-label="تكبير الصورة" style="padding:0;border:none;background:none;cursor:zoom-in;display:flex;flex-direction:column;gap:8px;text-align:start;font-family:inherit">
+            <span role="img" aria-label="{{ d.name }}" style="width:100%;aspect-ratio:16/9;border-radius:16px;display:block;box-shadow:0 6px 18px rgba(43,42,40,.15);background:#eee center/cover no-repeat;background-image:url('{{ d.photo }}')"></span>
+            <span style="font-size:12px;color:#6b6862">صورة تصورية واقعية مبنية على المجسّم · انقر للتكبير</span>
+          </button>
+        </sc-if>
         <sc-if value="{{ d.hasDims }}" hint-placeholder-val="{{ true }}">
           <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
             <div style="background:#f4f1ea;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px">
@@ -103,8 +116,17 @@
 
   <div ref="{{ botRef }}" style="position:absolute;bottom:16px;inset-inline:16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;pointer-events:none">
     <span style="font-size:13px;color:#3f3d3a;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:999px">جميع الأبعاد بالسنتيمتر كما وردت في المخطط · <span style="color:#3277a4;font-weight:700">العرض</span> × <span style="color:#c86038;font-weight:700">العمق</span></span>
-    <span style="font-size:13px;color:#6b6862;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:999px"><span style="color:#327567;font-weight:700">انقر على أي مساحة لعرض تفاصيلها</span> · اسحب للتدوير · مرّر أو باعد إصبعيك للتكبير · انقر بزر الفأرة الأيمن للتحريك</span>
+    <span style="font-size:13px;color:#6b6862;background:rgba(255,255,255,.9);padding:9px 16px;border-radius:999px"><span style="color:#327567;font-weight:700">انقر على أي مساحة لعرض تفاصيلها</span> · 📷 = تتوفر صورة واقعية · اسحب للتدوير · مرّر أو باعد إصبعيك للتكبير · انقر بزر الفأرة الأيمن للتحريك</span>
   </div>
+
+  <sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:50;background:rgba(24,23,21,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;cursor:zoom-out">
+      <span role="img" aria-label="{{ d.name }}" style="width:min(100%,calc((100vh - 120px) * 16 / 9));aspect-ratio:16/9;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.45);background:center/contain no-repeat;background-image:url('{{ d.photo }}')"></span>
+      <div style="display:flex;align-items:center;gap:12px;color:#fff;font-size:15px;font-weight:700">
+        <span>{{ d.name }}</span><span style="color:#bdb9b0;font-weight:400">· صورة تصورية واقعية مبنية على المجسّم · انقر في أي مكان للإغلاق</span>
+      </div>
+    </div>
+  </sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;wallMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cut&quot;,&quot;full&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;'cut' | 'full'&quot;},&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;autoRotate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
@@ -130,6 +152,8 @@ const ROOMS = [
   { id: 'archive', name: 'الأرشيف', dims: [300, 150], poly: rect(1400, 1700, 370, 520), c: [1550, 445], floor: 'stone' },
   { id: 'meet2', name: 'قاعة الاجتماعات', dims: [300, 450], poly: rect(1400, 1700, 520, 970), c: [1550, 760], floor: 'carpet' },
 ];
+// realistic renders per area (generated from this model's eye-level view); add more ids here as they are approved
+const PHOTOS = { reception: 'assets/areas/reception.jpg' };
 const OFFICE_F = ['مكتب على شكل L بشاشة', 'كرسي تنفيذي وكرسيا زوار', 'خزانة خشبية على الجدار الجانبي', 'باب زجاجي منزلق على الممر'];
 const INFO = {
   reception: { type: 'منطقة مشتركة', desc: 'نقطة الدخول إلى الطابق، مفتوحة على منطقة العمل المفتوحة.', f: ['كاونتر استقبال أبيض منحني', 'جلسة انتظار دائرية مع طاولة', 'كرسيان منفردان', 'نباتات داخلية'] },
@@ -185,7 +209,7 @@ const PRESETS = {
 
 class Component extends DCLogic {
   glRef = React.createRef(); topRef = React.createRef(); botRef = React.createRef();
-  state = { sel: null, loading: true, preset: 'iso', walls: this.props.wallMode ?? 'cut', labels: this.props.showLabels ?? true, dims: true, spin: this.props.autoRotate ?? false };
+  state = { sel: null, loading: true, preset: 'iso', walls: this.props.wallMode ?? 'cut', labels: this.props.showLabels ?? true, dims: true, spin: this.props.autoRotate ?? false, photo: false, lightbox: false };
   selectRoom(id) {
     this.setState({ sel: id });
     if (this.gl) { this.gl.focusRoom(id); setTimeout(() => this.gl.paintHi(), 0); }
@@ -194,7 +218,7 @@ class Component extends DCLogic {
     this.setState({ sel: null });
     if (this.gl) { this.gl.goPreset(this.state.preset || 'iso'); setTimeout(() => this.gl.paintHi(), 0); }
   }
-  onKey = e => { if (e.key === 'Escape' && this.state.sel) this.closeRoom(); };
+  onKey = e => { if (e.key !== 'Escape') return; if (this.state.lightbox) this.setState({ lightbox: false }); else if (this.state.sel) this.closeRoom(); };
   componentDidMount() { window.addEventListener('keydown', this.onKey); this.init().catch(e => console.error('3D init failed: ' + (e && (e.stack || e.message) || e))); }
   componentWillUnmount() { window.removeEventListener('keydown', this.onKey); const h = this.glRef.current; if (h && h.__cleanup) h.__cleanup(); }
   componentDidUpdate() { this.sync(); }
@@ -594,7 +618,7 @@ class Component extends DCLogic {
     const mk = (html, pos, kind, rid) => { const el = document.createElement('div'); el.style.cssText = 'position:absolute;left:0;top:0;will-change:transform;white-space:nowrap' + (rid ? ';pointer-events:auto;cursor:pointer' : ''); el.innerHTML = html; if (rid) el.addEventListener('click', () => this.selectRoom(rid)); overlay.appendChild(el); labels.push({ el, pos, kind, rid }); };
     ROOMS.forEach(r => {
       const d = r.dims ? `<span dir="ltr" style="unicode-bidi:isolate"><span style="font-family:Archivo,sans-serif;font-weight:700;font-size:11px"><span style="color:#3277a4">${r.dims[0]}</span><span style="color:#9a968e"> × </span><span style="color:#c86038">${r.dims[1]}</span></span></span>` : '';
-      mk(`<div dir="rtl" style="display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:10px;background:rgba(255,255,255,.94);box-shadow:0 3px 10px rgba(43,42,40,.18);font-family:Almarai,sans-serif;font-weight:700;font-size:12px;color:#2b2a28">${r.name}${d ? `<span data-dim="1">${d}</span>` : ''}</div>`, new THREE.Vector3(r.c[0] / 100, 1.0, r.c[1] / 100), 'room', r.id);
+      mk(`<div dir="rtl" style="display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:10px;background:rgba(255,255,255,.94);box-shadow:0 3px 10px rgba(43,42,40,.18);font-family:Almarai,sans-serif;font-weight:700;font-size:12px;color:#2b2a28">${PHOTOS[r.id] ? '<span aria-label="صورة واقعية">📷</span>' : ''}${r.name}${d ? `<span data-dim="1">${d}</span>` : ''}</div>`, new THREE.Vector3(r.c[0] / 100, 1.0, r.c[1] / 100), 'room', r.id);
     });
     DIMS.forEach(dm => {
       const p = dimLine(dm.a, dm.b, dm.off, dm.label, dm.inner);
@@ -715,7 +739,7 @@ class Component extends DCLogic {
 
   detailVals() {
     const s = this.state, i = ROOMS.findIndex(r => r.id === s.sel), r = ROOMS[i];
-    if (!r) return { hintTop: (s.topH || 88) + 4, hasSel: false, noSel: true, d: { name: '', type: '', desc: '', features: [], dimsW: '', dimsD: '', area: '', hasDims: false, noDims: true, idx: '' } };
+    if (!r) return { hintTop: (s.topH || 88) + 4, hasSel: false, noSel: true, d: { name: '', type: '', desc: '', features: [], dimsW: '', dimsD: '', area: '', hasDims: false, noDims: true, idx: '', hasPhoto: false, photo: '' }, photoOn: false, lightbox: false };
     const info = INFO[r.id], n = ROOMS.length;
     const go = k => () => this.selectRoom(ROOMS[(i + k + n) % n].id);
     return {
@@ -726,8 +750,14 @@ class Component extends DCLogic {
         dimsW: r.dims ? String(r.dims[0]) : '', dimsD: r.dims ? String(r.dims[1]) : '',
         area: r.dims ? String(Math.round(r.dims[0] * r.dims[1] / 100) / 100) : '',
         idx: (i + 1) + ' / ' + n,
+        hasPhoto: !!PHOTOS[r.id], photo: PHOTOS[r.id] || '',
       },
       closeSel: () => this.closeRoom(), nextSel: go(1), prevSel: go(-1),
+      photoOn: !!PHOTOS[r.id] && s.photo, lightbox: !!PHOTOS[r.id] && s.lightbox,
+      showModel: () => this.setState({ photo: false }), showPhoto: () => this.setState({ photo: true }),
+      openLightbox: () => this.setState({ lightbox: true }), closeLightbox: () => this.setState({ lightbox: false }),
+      tabModelBg: s.photo ? 'transparent' : '#2b2a28', tabModelFg: s.photo ? '#2b2a28' : '#ffffff',
+      tabPhotoBg: s.photo ? '#2b2a28' : 'transparent', tabPhotoFg: s.photo ? '#ffffff' : '#2b2a28',
     };
   }
   renderVals() {
