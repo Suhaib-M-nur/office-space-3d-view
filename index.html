@@ -113,32 +113,34 @@ const LEFTX = z => (z - 75) * 200 / 1315;
 const topRect = (x0, x1, y1) => [[x0, TOPY(x0)], [x1, TOPY(x1)], [x1, y1], [x0, y1]];
 const rect = (x0, x1, y0, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
 const OUTLINE = [[0, 75], [1700, 0], [1700, 1390], [200, 1390]];
-const CORRIDOR = [[450, 720], [1130, 720], [1130, 370], [1400, 370], [1400, 970], [1320, 970], [1320, 990], [450, 990]];
+// the corridor wraps around the toilets, which sit east of the closed shaft (as in the original plan)
+const CORRIDOR = [[450, 720], [1130, 720], [1130, 530], [1280, 530], [1280, 370], [1400, 370], [1400, 970], [1320, 970], [1320, 990], [450, 990]];
+const SHAFT = [[980, TOPY(980)], [1130, TOPY(1130)], [1130, 720], [980, 720]];
 const ROOMS = [
   { id: 'reception', name: 'منطقة الاستقبال', dims: [450, 930], poly: [[0, 75], [450, TOPY(450)], [450, 990], [LEFTX(990), 990]], c: [170, 520], floor: 'stone' },
-  { id: 'open', name: 'منطقة عمل مفتوحة', dims: null, poly: topRect(450, 980, 720), c: [715, 390], floor: 'carpet' },
-  { id: 'kitchen', name: 'مطبخ صغير', dims: null, poly: topRect(1130, 1400, 370), c: [1300, 300], floor: 'stone' },
-  { id: 'wc', name: 'دورات مياه', dims: [150, 200], poly: rect(980, 1130, 330, 530), c: [1040, 470], floor: 'wc' },
-  { id: 'lounge', name: 'منطقة استراحة تنفيذية', dims: [300, 370], poly: topRect(1400, 1700, 370), c: [1560, 110], floor: 'stone' },
-  { id: 'a1', name: 'مكتب إداري', dims: [300, 300], poly: rect(1400, 1700, 370, 670), c: [1560, 560], floor: 'carpet' },
-  { id: 'a2', name: 'مكتب إداري', dims: [300, 300], poly: rect(1400, 1700, 670, 970), c: [1550, 820], floor: 'carpet' },
-  { id: 'meet', name: 'غرفة الاجتماعات الرئيسية', dims: [380, 420], poly: rect(1320, 1700, 970, 1390), c: [1510, 1060], floor: 'carpet' },
-  { id: 'b3', name: 'مكتب إداري', dims: [280, 400], poly: rect(1040, 1320, 990, 1390), c: [1180, 1150], floor: 'carpet' },
-  { id: 'b4', name: 'مكتب إداري', dims: [280, 400], poly: rect(760, 1040, 990, 1390), c: [900, 1150], floor: 'carpet' },
-  { id: 'b5', name: 'مكتب إداري', dims: [280, 400], poly: rect(480, 760, 990, 1390), c: [620, 1150], floor: 'carpet' },
   { id: 'b6', name: 'مكتب إداري', dims: [280, 400], poly: [[LEFTX(990), 990], [480, 990], [480, 1390], [200, 1390]], c: [350, 1150], floor: 'carpet' },
+  { id: 'b5', name: 'مكتب إداري', dims: [280, 400], poly: rect(480, 760, 990, 1390), c: [620, 1150], floor: 'carpet' },
+  { id: 'b4', name: 'مكتب إداري', dims: [280, 400], poly: rect(760, 1040, 990, 1390), c: [900, 1150], floor: 'carpet' },
+  { id: 'b3', name: 'مكتب السكرتير', dims: [280, 400], poly: rect(1040, 1320, 990, 1390), c: [1180, 1150], floor: 'stone' },
+  { id: 'meet', name: 'مكتب المدير', dims: [380, 420], poly: rect(1320, 1700, 970, 1390), c: [1510, 1150], floor: 'carpet' },
+  { id: 'open', name: 'منطقة عمل مفتوحة', dims: null, poly: topRect(450, 980, 720), c: [715, 390], floor: 'carpet' },
+  { id: 'wc', name: 'دورات مياه', dims: [150, 200], poly: rect(1130, 1280, 330, 530), c: [1205, 430], floor: 'wc' },
+  { id: 'kitchen', name: 'مطبخ صغير', dims: null, poly: [[1130, TOPY(1130)], [1400, TOPY(1400)], [1400, 370], [1280, 370], [1280, 330], [1130, 330]], c: [1290, 200], floor: 'stone' },
+  { id: 'lounge', name: 'منطقة استراحة تنفيذية', dims: [300, 370], poly: topRect(1400, 1700, 370), c: [1560, 110], floor: 'stone' },
+  { id: 'archive', name: 'الأرشيف', dims: [300, 150], poly: rect(1400, 1700, 370, 520), c: [1550, 445], floor: 'stone' },
+  { id: 'meet2', name: 'قاعة الاجتماعات', dims: [300, 450], poly: rect(1400, 1700, 520, 970), c: [1550, 760], floor: 'carpet' },
 ];
 const OFFICE_F = ['مكتب على شكل L بشاشة', 'كرسي تنفيذي وكرسيا زوار', 'خزانة خشبية على الجدار الجانبي', 'باب زجاجي منزلق على الممر'];
 const INFO = {
-  reception: { type: 'منطقة مشتركة', desc: 'نقطة الدخول إلى الطابق، تضم كاونتر الاستقبال وجلسة الانتظار، ويفصلها حاجز خشبي منحني عن منطقة العمل المفتوحة.', f: ['كاونتر استقبال أبيض منحني', 'حاجز شرائح خشبية منحني', 'جلسة انتظار دائرية مع طاولة', 'كرسيان منفردان', 'نباتات داخلية'] },
-  open: { type: 'مساحة عمل مشتركة', desc: 'مساحة عمل مفتوحة على الواجهة الزجاجية، تتسع لـ 16 موظفًا على طاولتين مشتركتين.', f: ['طاولتا عمل مشتركتان', '16 محطة عمل بشاشات', 'فواصل مكتبية مصنفرة', 'أحواض نباتات على الطاولات'] },
+  reception: { type: 'منطقة مشتركة', desc: 'نقطة الدخول إلى الطابق، مفتوحة على منطقة العمل المفتوحة.', f: ['كاونتر استقبال أبيض منحني', 'جلسة انتظار دائرية مع طاولة', 'كرسيان منفردان', 'نباتات داخلية'] },
+  open: { type: 'مساحة عمل مشتركة', desc: 'مساحة عمل مفتوحة على الواجهة الزجاجية، تتسع لـ 16 موظفًا.', f: ['طاولتا عمل مشتركتان', '16 محطة عمل بشاشات', 'فواصل مكتبية مصنفرة', 'أحواض نباتات على الطاولات'] },
   kitchen: { type: 'مرفق خدمي', desc: 'مطبخ صغير مفتوح على الممر وبجوار منطقة الاستراحة التنفيذية.', f: ['كاونتر بخزائن خشبية', 'ماكينة قهوة', 'مغسلة'] },
-  wc: { type: 'مرفق خدمي', desc: 'دورات مياه على الممر الرئيسي بين منطقة العمل المفتوحة والمكاتب.', f: ['مغسلة بخزانة', 'مرحاض', 'خزائن تخزين خشبية'] },
+  wc: { type: 'مرفق خدمي', desc: 'دورات مياه أسفل المطبخ مباشرة، وخلفها منور مقفل كما في المخطط الأصلي.', f: ['مغسلة بخزانة', 'مرحاض', 'باب على الممر', 'كاونتر خشبي على الممر'] },
   lounge: { type: 'استراحة', desc: 'استراحة تنفيذية على الواجهة الزجاجية، بجوار المطبخ الصغير.', f: ['كنبة على شكل L', 'طاولة قهوة', 'وحدة تلفاز', 'سجادة'] },
-  a1: { type: 'مكتب إداري', desc: 'مكتب إداري مطل على الممر بواجهة زجاجية.', f: ['مكتب بشاشة وكرسي تنفيذي', 'كرسيا زوار', 'خزانة خشبية', 'باب زجاجي منزلق على الممر'] },
-  a2: { type: 'مكتب إداري', desc: 'مكتب إداري مطل على الممر بواجهة زجاجية، بجوار غرفة الاجتماعات.', f: ['مكتب بشاشة وكرسي تنفيذي', 'كرسيا زوار', 'خزانة خشبية', 'باب زجاجي منزلق على الممر'] },
-  meet: { type: 'غرفة اجتماعات', desc: 'غرفة الاجتماعات الرئيسية في نهاية الممر، بواجهة زجاجية وشاشة عرض جدارية.', f: ['طاولة اجتماعات لـ 8 أشخاص', 'شاشة عرض جدارية', 'خزانة منخفضة أسفل الشاشة', 'ممرات حركة حول الطاولة', 'باب زجاجي منزلق'] },
-  b3: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
+  archive: { type: 'مرفق تخزين', desc: 'أرشيف صغير بجدران مصمتة بجوار الاستراحة التنفيذية.', f: ['وحدات أرفف وخزائن خشبية', 'باب منزلق على الممر'] },
+  meet2: { type: 'غرفة اجتماعات', desc: 'قاعة اجتماعات بواجهة زجاجية على الممر، بجوار الأرشيف.', f: ['طاولة اجتماعات لـ 6 أشخاص', 'شاشة عرض جدارية', 'باب زجاجي منزلق على الممر'] },
+  meet: { type: 'مكتب المدير', desc: 'جدران مصمتة عدا الفاصل الزجاجي مع السكرتير، والدخول إلى المدير عبر مكتب السكرتير.', f: ['مكتب تنفيذي كبير على شكل L', 'كرسي تنفيذي وكرسيا زوار', 'جلسة: كرسيان مع طاولة', 'خزانة كتب خشبية'] },
+  b3: { type: 'مكتب السكرتير', desc: 'مكتب سكرتير المدير، يفصله عن مكتب المدير فاصل زجاجي بباب.', f: ['كاونتر سكرتارية أمامي', 'خزائن ملفات وطابعة', 'كراسي انتظار للزوار', 'باب على الممر وباب إلى مكتب المدير'] },
   b4: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
   b5: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر.', f: OFFICE_F },
   b6: { type: 'مكتب إداري', desc: 'مكتب إداري بواجهة زجاجية على الممر، بجوار منطقة الاستقبال.', f: OFFICE_F },
@@ -149,11 +151,14 @@ const WALLS = [
   [200, 1390, 0, 75, 'ext'], [1700, 1390, 200, 1390, 'ext'], [1700, 0, 1700, 1390, 'ext'],
   [0, 75, 130, TOPY(130), 'ext'], [290, TOPY(290), 1700, 0, 'facade'],
   [130, TOPY(130), 130, 235, 'int'], [LEFTX(235), 235, 136, 235, 'int'],
-  [980, TOPY(980), 980, 330, 'int'], [980, 330, 1130, 330, 'int'], [1130, TOPY(1130), 1130, 330, 'int'],
-  [980, 330, 980, 530, 'int'], [1130, 330, 1130, 530, 'int'], [980, 530, 1130, 530, 'int'],
-  [1400, 370, 1700, 370, 'int'], [1400, 670, 1700, 670, 'int'],
-  [1400, 370, 1400, 565, 'glass'], [1400, 655, 1400, 670, 'glass'], [1400, 670, 1400, 865, 'glass'], [1400, 955, 1400, 970, 'glass'],
-  [1400, 970, 1700, 970, 'glass'], [1320, 970, 1320, 1390, 'int'],
+  // closed shaft (منور مقفل) behind the kitchen and toilets, then the toilets (150 × 200) with a door on the corridor
+  [980, TOPY(980), 980, 720, 'int'], [1130, TOPY(1130), 1130, 720, 'int'], [980, 720, 1130, 720, 'int'],
+  [1130, 330, 1280, 330, 'int'], [1280, 330, 1280, 420, 'int'], [1280, 510, 1280, 530, 'int'], [1130, 530, 1280, 530, 'int'],
+  // archive (solid walls) / meeting room (glass front) replace the two 300×300 offices
+  [1400, 370, 1700, 370, 'int'], [1400, 520, 1700, 520, 'int'],
+  [1400, 370, 1400, 415, 'int'], [1400, 505, 1400, 520, 'int'], [1400, 520, 1400, 865, 'glass'], [1400, 955, 1400, 970, 'glass'],
+  // manager's office: solid walls, glass only on the partition with the secretary (door at its north end)
+  [1320, 970, 1400, 970, 'int'], [1400, 970, 1700, 970, 'int'], [1320, 970, 1320, 1000, 'glass'], [1320, 1090, 1320, 1390, 'glass'],
   [LEFTX(990), 990, 215, 990, 'glass'], [305, 990, 480, 990, 'glass'], [480, 990, 495, 990, 'glass'], [585, 990, 760, 990, 'glass'],
   [760, 990, 775, 990, 'glass'], [865, 990, 1040, 990, 'glass'], [1040, 990, 1055, 990, 'glass'], [1145, 990, 1320, 990, 'glass'],
   [480, 990, 480, 1390, 'int'], [760, 990, 760, 1390, 'int'], [1040, 990, 1040, 1390, 'int'],
@@ -161,8 +166,10 @@ const WALLS = [
 // door gaps: a→b along the glass line; leaf slides to [la→lb] offset by n (cm) from the line
 const DOORS = [
   ...[200, 480, 760, 1040].map(x0 => ({ a: [x0 + 15, 990], b: [x0 + 105, 990], la: [x0 + 105, 990], lb: [x0 + 195, 990], n: [0, -6] })),
-  ...[370, 670].map(y0 => ({ a: [1400, y0 + 195], b: [1400, y0 + 285], la: [1400, y0 + 105], lb: [1400, y0 + 195], n: [-6, 0] })),
-  { a: [1322, 970], b: [1400, 970], la: [1400, 970], lb: [1478, 970], n: [0, 6] },
+  { a: [1400, 415], b: [1400, 505], la: [1400, 505], lb: [1400, 595], n: [-6, 0] },   // archive
+  { a: [1400, 865], b: [1400, 955], la: [1400, 775], lb: [1400, 865], n: [-6, 0] },   // meeting room
+  { a: [1320, 1000], b: [1320, 1090], la: [1320, 1090], lb: [1320, 1180], n: [-6, 0] }, // secretary → manager
+  { a: [1280, 420], b: [1280, 510], la: [1280, 330], lb: [1280, 420], n: [6, 0] },     // toilets
 ];
 const DIMS = [
   { a: [0, 75], b: [1700, 0], off: [-0.044, -0.999], label: '1700', side: 'out' },
@@ -362,7 +369,7 @@ class Component extends DCLogic {
     ROOMS.forEach(r => prism(r.poly, 0.6, mat[r.floor], 0.4));
     const hi = {};
     ROOMS.forEach(r => { const m = new THREE.MeshBasicMaterial({ color: '#47a190', transparent: true, opacity: 0, depthWrite: false }); const o = prism(r.poly, 0.4, m, 1.1); o.receiveShadow = false; o.renderOrder = 2; hi[r.id] = o; });
-    prism([[980, TOPY(980)], [1130, TOPY(1130)], [1130, 330], [980, 330]], 0.6, mat.wc, 0.4);
+    prism(SHAFT, 0.6, mat.slab, 0.4);   // closed shaft (منور مقفل)
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ opacity: 0.16 }));
     ground.rotation.x = -Math.PI / 2; ground.position.set(8.5, -0.31, 7); ground.receiveShadow = true; scene.add(ground);
 
@@ -408,20 +415,9 @@ class Component extends DCLogic {
     };
 
     // ---------- reception ----------
-    // S-curved timber fin screen + matching curved white counter (follows reference render)
     const SC = { z0: 95, z1: 650 };
     const scX = z => { const u = (z - SC.z0) / (SC.z1 - SC.z0); return 398 + 40 * Math.sin(u * Math.PI * 1.75 + 0.35); };
-    const scN = z => { const dx = scX(z + 1) - scX(z - 1), dz = 2, L = Math.hypot(dx, dz); return [-dz / L, dx / L]; }; // normal toward -x
-    {
-      let acc = 0, prev = [scX(SC.z0), SC.z0], i = 0;
-      for (let z = SC.z0; z <= SC.z1; z += 1) {
-        const p = [scX(z), z]; acc += Math.hypot(p[0] - prev[0], p[1] - prev[1]); prev = p;
-        if (acc < 15 && z !== SC.z0) continue; acc = 0; i++;
-        const dx = scX(z + 1) - scX(z - 1), ang = -Math.atan2(2, dx);
-        const h = 255 + 12 * Math.sin(i * 0.9);
-        put(scene, RB(5, h, 13, 2), i % 5 === 0 ? mat.woodLight : mat.woodMid, p[0], h / 2, z, { ry: ang });
-      }
-    }
+    const scN = z => { const dx = scX(z + 1) - scX(z - 1), dz = 2, L = Math.hypot(dx, dz); return [-dz / L, dx / L]; };
     const band = (z0, z1, o0, o1) => {
       const a = [], b = [];
       for (let z = z0; z <= z1; z += 8) { const x = scX(z), n = scN(z); a.push([x + n[0] * o0, z + n[1] * o0]); b.push([x + n[0] * o1, z + n[1] * o1]); }
@@ -440,7 +436,7 @@ class Component extends DCLogic {
     }
     { const z = 615, x = scX(z) + 30; put(scene, CY(30, 30, 46, 32), mat.woodDark, x, 23, z); put(scene, CY(27, 27, 2, 28), mat.soil, x, 46, z); plant(x, z, 1.15, true, 8); }
     plant(75, 300, 1.0, true); plant(120, 650, 0.9, true);
-    const rug = put(scene, CY(98, 98, 1, 64), mat.rug, 282, 1.1, 838, { cast: false });
+    put(scene, CY(98, 98, 1, 64), mat.rug, 282, 1.1, 838, { cast: false });
     prism(arcPts(280, 835, 82, 124, Math.PI * 0.4, Math.PI * 1.1), 40, mat.fabric, 0, true);
     prism(arcPts(280, 835, 109, 124, Math.PI * 0.4, Math.PI * 1.1), 80, mat.fabricDark, 0, true);
     prism(arcPts(280, 835, 84, 122, Math.PI * 0.4, Math.PI * 1.1), 6, mat.fabricDark, 40, true);
@@ -465,20 +461,22 @@ class Component extends DCLogic {
     plant(500, 690, 0.7); plant(930, 690, 0.7);
 
     // ---------- kitchen ----------
-    put(scene, RB(60, 86, 290, 1), mat.woodDark, 1162, 43, 215);
-    put(scene, RB(64, 4, 294, 1), mat.white, 1162, 88, 215);
-    for (let z = 85; z <= 345; z += 52) put(scene, B(0.8, 70, 48), mat.cap, 1192.5, 46, z, { cast: false });
+    // counter now stops at the toilets' wall (z = 330)
+    put(scene, RB(60, 86, 250, 1), mat.woodDark, 1162, 43, 200);
+    put(scene, RB(64, 4, 254, 1), mat.white, 1162, 88, 200);
+    for (let z = 85; z <= 300; z += 52) put(scene, B(0.8, 70, 48), mat.cap, 1192.5, 46, z, { cast: false });
     put(scene, RB(30, 38, 32, 4), mat.tv, 1160, 109, 110); put(scene, B(10, 6, 6), mat.chrome, 1160, 100, 128);
     put(scene, B(40, 2, 36), mat.chrome, 1162, 89.5, 260, { cast: false }); put(scene, CY(1.5, 1.5, 28, 8), mat.chrome, 1148, 104, 260);
     put(scene, RB(22, 28, 18, 3), mat.whiteMatte, 1160, 104, 170);
-    put(scene, RB(58, 86, 2, 1), mat.chrome, 1193, 43, 320, { cast: false });
+    put(scene, RB(58, 86, 2, 1), mat.chrome, 1193, 43, 295, { cast: false });
 
     // ---------- WC ----------
-    put(scene, RB(50, 16, 40, 2), mat.ceramic, 1100, 82, 360); put(scene, B(56, 70, 44), mat.woodDark, 1100, 35, 360);
-    put(scene, CY(1.2, 1.2, 20, 8), mat.chrome, 1110, 98, 350);
-    { const g = grp(1010, 470, Math.PI / 2); put(g, RB(38, 40, 60, 14), mat.ceramic, 0, 20, 6); put(g, RB(40, 40, 18, 4), mat.ceramic, 0, 58, -24); put(g, RB(38, 3, 46, 10), mat.ceramic, 0, 41, 8); }
-    put(scene, RB(150, 128, 186, 2), mat.woodDark, 1055, 64, 625);
-    for (let z = 560; z <= 690; z += 45) put(scene, B(152, 70, 0.6), mat.cap, 1055, 64, z, { cast: false });
+    put(scene, RB(50, 16, 40, 2), mat.ceramic, 1225, 82, 360); put(scene, B(56, 70, 44), mat.woodDark, 1225, 35, 360);
+    put(scene, CY(1.2, 1.2, 20, 8), mat.chrome, 1235, 98, 350);
+    { const g = grp(1160, 470, Math.PI / 2); put(g, RB(38, 40, 60, 14), mat.ceramic, 0, 20, 6); put(g, RB(40, 40, 18, 4), mat.ceramic, 0, 58, -24); put(g, RB(38, 3, 46, 10), mat.ceramic, 0, 41, 8); }
+    // shortened wooden counter under the toilets, on the corridor side of the shaft wall
+    put(scene, RB(66, 100, 186, 2), mat.woodMid, 1164, 50, 625);
+    for (let z = 565; z <= 690; z += 62) put(scene, B(0.6, 92, 60), mat.cap, 1197.5, 50, z, { cast: false });
 
     // ---------- executive lounge ----------
     put(scene, RB(280, 1, 220, 0.5), mat.rug, 1560, 1, 205, { cast: false });
@@ -492,43 +490,74 @@ class Component extends DCLogic {
     plant(1675, 345, 0.8, true);
     put(scene, B(12, 2, 9), mat.paper, 1560, 41, 205, { ry: 0.3 });
 
-    // ---------- offices 01, 02 ----------
-    [370, 670].forEach(y0 => {
-      const yc = y0 + 150;
-      const g = grp(1615, yc);
-      deskTop(g, 0, 0, 80, 170, mat.white); put(g, B(76, 72, 4), mat.white, 0, 36, -80); put(g, B(76, 72, 4), mat.white, 0, 36, 80);
-      put(g, B(4, 40, 160), mat.white, -36, 50, 0);
-      monitor(g, -10, 75, 20, Math.PI / 2);
-      chair(1668, yc, 'w', true); visitorChair(1535, yc - 42, 'e'); visitorChair(1535, yc + 42, 'e');
-      put(scene, RB(180, 80, 40, 1.5), mat.woodMid, 1540, 40, y0 + 30);
-      put(scene, B(1, 70, 0.6), mat.cap, 1540, 42, y0 + 50.5, { cast: false });
-      plant(1430, y0 + 80, 0.8, true);
-    });
+    // ---------- archive (300 × 150): shelving along the outer walls ----------
+    put(scene, RB(270, 110, 42, 1.5), mat.woodMid, 1555, 55, 400);
+    [1465, 1555, 1645].forEach(x => put(scene, B(0.6, 104, 1), mat.cap, x, 55, 421.5, { cast: false }));
+    [30, 62, 94].forEach(y => put(scene, B(268, 1, 1), mat.cap, 1555, y, 421.5, { cast: false }));
+    put(scene, RB(42, 110, 70, 1.5), mat.woodDark, 1673, 55, 470);
+    [[1480, 444], [1520, 448], [1600, 446]].forEach(([x, z], i) => put(scene, RB(34, 26, 30, 2), mat.paper, x, 13 + (i % 2) * 0, z, { ry: i * 0.3 }));
 
-    // ---------- main meeting room ----------
-    // table runs along the 420 depth: ~75 cm walkways each side, 110 cm clear at the door end
-    { const g = grp(1510, 1200);
-      put(g, RB(110, 5, 240, 2), mat.woodMid, 0, 74, 0);
-      put(g, B(18, 0.6, 180), mat.tv, 0, 76.8, 0, { cast: false });
-      put(g, RB(60, 70, 34, 3), mat.metal, 0, 36, -75); put(g, RB(60, 70, 34, 3), mat.metal, 0, 36, 75);
-      [-90, -30, 30, 90].forEach(dz => {
-        put(g, B(29, 0.8, 21), mat.paper, -36, 77, dz, { ry: 0.05 }); put(g, B(29, 0.8, 21), mat.paper, 36, 77, dz, { ry: -0.05 });
-        chair(1510 - 98, 1200 + dz, 'e', true); chair(1510 + 98, 1200 + dz, 'w', true);
+    // ---------- meeting room (300 × 450): table for 6, screen on the archive wall ----------
+    { const g = grp(1550, 760);
+      put(g, RB(100, 5, 230, 2), mat.woodMid, 0, 74, 0);
+      put(g, B(16, 0.6, 170), mat.tv, 0, 76.8, 0, { cast: false });
+      put(g, RB(56, 70, 30, 3), mat.metal, 0, 36, -70); put(g, RB(56, 70, 30, 3), mat.metal, 0, 36, 70);
+      [-75, 0, 75].forEach(dz => {
+        put(g, B(29, 0.8, 21), mat.paper, -33, 77, dz, { ry: 0.05 }); put(g, B(29, 0.8, 21), mat.paper, 33, 77, dz, { ry: -0.05 });
+        chair(1550 - 88, 760 + dz, 'e', true); chair(1550 + 88, 760 + dz, 'w', true);
       });
     }
-    // wall-mounted screen on the inner face of the outer wall (inner face z = 1378); height follows wall cut
-    { const sg = new THREE.Group(); sg.position.set(15.10, 0, 0); scene.add(sg);
-      put(sg, B(40, 30, 4), mat.metal, 0, 0, 1376);
-      put(sg, RB(140, 79, 4, 1), mat.tv, 0, 0, 1372);
-      put(sg, B(136, 75, 0.6), mat.screen, 0, 0, 1369.7, { cast: false });
-      this._mount = h => { sg.position.y = (h >= 200 ? 140 : h - 42) / 100; }; }
-    put(scene, RB(150, 36, 36, 1.5), mat.woodMid, 1510, 18, 1359);
-    put(scene, RB(152, 2, 38, 0.8), mat.white, 1510, 37, 1359);
-    plant(1352, 1358, 0.8, true); plant(1668, 1358, 0.8, true); plant(1672, 1002, 0.7);
+    { const sg = new THREE.Group(); scene.add(sg);
+      put(sg, B(40, 30, 4), mat.metal, 1550, 0, 528);
+      put(sg, RB(140, 79, 4, 1), mat.tv, 1550, 0, 531);
+      put(sg, B(136, 75, 0.6), mat.screen, 1550, 0, 533.3, { cast: false });
+      this._mount = h => { sg.position.y = (h >= 200 ? 140 : h - 42) / 100; sg.visible = h > 60; }; }
+    put(scene, RB(150, 36, 36, 1.5), mat.woodMid, 1550, 18, 546);
+    plant(1672, 940, 0.75, true); plant(1428, 548, 0.7);
 
-    // ---------- offices 03–06 ----------
-    [200, 480, 760, 1040].forEach(x0 => {
-      // desk faces the door: user sits on the window side looking toward the corridor
+    // ---------- manager's office (380 × 420) ----------
+    // per the manager's sketch: seating (2 chairs + table) on the north wall, large L-shaped desk to the south,
+    // chair on the camera side facing into the room; everything solid except the glass partition
+    { const g = grp(1530, 1190);
+      deskTop(g, 0, 0, 220, 90, mat.woodDark);                                   // main top
+      deskTop(g, -82, 95, 56, 100, mat.woodDark);                                // L return beside the chair (west end)
+      put(g, B(4, 72, 86), mat.woodDark, 108, 36, 0);
+      put(g, B(52, 72, 4), mat.woodDark, -82, 36, 143);
+      put(g, B(212, 46, 3), mat.woodDark, 26, 50, -43);                          // modesty panel
+      monitor(g, -10, 75, -14, 0);
+      put(g, B(30, 1, 22), mat.paper, 60, 75.5, 6, { ry: 0.2 }); put(g, RB(20, 5, 16, 2), mat.tv, -82, 77, 115);
+      chair(1545, 1280, 'n', true);
+      visitorChair(1505, 1100, 's'); visitorChair(1590, 1100, 's');
+      put(scene, RB(42, 110, 190, 1.5), mat.woodMid, 1677, 55, 1130);
+      [1 / 3, 2 / 3].forEach(f => put(scene, B(0.6, 104, 1), mat.cap, 1655.5, 55, 1035 + 190 * f, { cast: false }));
+      // seating: two armchairs with a table between them, along the north wall
+      [1455, 1605].forEach(x => { const a = grp(x, 1020, 0); put(a, RB(62, 40, 60, 8), mat.fabricWarm, 0, 22, 0); put(a, RB(62, 36, 14, 6), mat.fabricWarm, 0, 58, -24); put(a, RB(12, 22, 54, 5), mat.fabricWarm, -26, 50, 2); put(a, RB(12, 22, 54, 5), mat.fabricWarm, 26, 50, 2); });
+      put(scene, RB(60, 4, 50, 2), mat.woodDark, 1530, 44, 1020); put(scene, B(50, 40, 40), mat.metal, 1530, 21, 1020);
+      plant(1672, 1360, 0.85, true); plant(1350, 1360, 0.75, true);
+    }
+
+    // ---------- secretary office (280 × 400): front counter facing the corridor door ----------
+    { const g = grp(1190, 1150);
+      deskTop(g, 0, 0, 190, 70, mat.white);
+      put(g, B(4, 72, 66), mat.white, -93, 36, 0); put(g, B(4, 72, 66), mat.white, 93, 36, 0);
+      put(g, RB(196, 104, 8, 1.5), mat.woodDark, 0, 52, -38);           // raised reception front
+      put(g, RB(200, 3, 24, 1), mat.white, 0, 105.5, -38);               // transaction ledge
+      monitor(g, 20, 75, -8, 0);
+      put(g, RB(20, 5, 16, 2), mat.tv, -50, 77, 0);                      // phone
+      put(g, B(28, 1, 20), mat.paper, -15, 75.5, 10, { ry: -0.15 });
+      chair(1205, 1225, 'n', true);
+      // filing cabinets + printer on the outer wall
+      put(scene, RB(170, 85, 45, 1.5), mat.woodMid, 1175, 42.5, 1364);
+      [1120, 1175, 1230].forEach(x => put(scene, B(0.6, 80, 1), mat.cap, x - 27.5, 42.5, 1341, { cast: false }));
+      put(scene, RB(52, 24, 42, 3), mat.whiteMatte, 1125, 97, 1364); put(scene, B(40, 2, 6), mat.tv, 1125, 106, 1344);
+      // waiting chairs for the manager's visitors
+      visitorChair(1075, 1240, 'e'); visitorChair(1075, 1310, 'e');
+      put(scene, CY(16, 16, 3, 24), mat.woodDark, 1075, 46, 1180); put(scene, CY(3, 3, 44, 10), mat.metal, 1075, 22, 1180);
+      plant(1295, 1015, 0.75, true);
+    }
+
+    // ---------- offices 04–06 ----------
+    [200, 480, 760].forEach(x0 => {
       const g = grp(x0 + 140, 1250);
       deskTop(g, 0, 0, 190, 72); put(g, B(4, 72, 68), mat.white, -93, 36, 0);
       deskTop(g, 66, 82, 58, 92); put(g, B(54, 72, 4), mat.white, 66, 36, 126);
@@ -542,6 +571,7 @@ class Component extends DCLogic {
       put(scene, RB(42, 4, 146, 1), mat.white, x0 + 254, 122, 1095);
       plant(x0 + 24, 1364, 0.7, true);
     });
+
 
     // ---------- entrance marker ----------
     put(scene, RB(160, 1.5, 110, 0.7), M({ color: '#47a190', roughness: 0.6 }), 210, 0.9, 10, { cast: false });
