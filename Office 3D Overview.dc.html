@@ -153,7 +153,12 @@ const ROOMS = [
   { id: 'meet2', name: 'قاعة الاجتماعات', dims: [300, 450], poly: rect(1400, 1700, 520, 970), c: [1550, 760], floor: 'carpet' },
 ];
 // realistic renders per area (generated from this model's eye-level view); add more ids here as they are approved
-const PHOTOS = { reception: 'assets/areas/reception.jpg' };
+const PHOTOS = {
+  reception: 'assets/areas/reception.jpg', open: 'assets/areas/open.jpg', kitchen: 'assets/areas/kitchen.jpg', wc: 'assets/areas/wc.jpg',
+  lounge: 'assets/areas/lounge.jpg', archive: 'assets/areas/archive.jpg', meet2: 'assets/areas/meeting.jpg',
+  meet: 'assets/areas/manager.jpg', b3: 'assets/areas/secretary.jpg',
+  b4: 'assets/areas/offices.jpg', b5: 'assets/areas/offices.jpg', b6: 'assets/areas/offices.jpg',   // the three identical offices share one photo
+};
 const OFFICE_F = ['مكتب على شكل L بشاشة', 'كرسي تنفيذي وكرسيا زوار', 'خزانة خشبية على الجدار الجانبي', 'باب زجاجي منزلق على الممر'];
 const INFO = {
   reception: { type: 'منطقة مشتركة', desc: 'نقطة الدخول إلى الطابق، مفتوحة على منطقة العمل المفتوحة.', f: ['كاونتر استقبال أبيض منحني', 'جلسة انتظار دائرية مع طاولة', 'كرسيان منفردان', 'نباتات داخلية'] },
