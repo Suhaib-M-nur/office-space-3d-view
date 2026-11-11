@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>جولة داخل المكاتب · جي ووك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Archivo:wght@600;800&display=swap">
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/jsm/"}}</script>
+<style>
+  :root { --ink:#1f1e1c; --paper:rgba(22,21,20,.72); --line:rgba(255,255,255,.14); --teal:#47a190; --gold:#efba51; --blue:#7fb6dc; --red:#f09a77; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:#0e0d0c; overflow:hidden; font-family:'Almarai',sans-serif; color:#fff; -webkit-user-select:none; user-select:none; }
+  canvas#view { position:fixed; inset:0; width:100%; height:100%; display:block; touch-action:none; }
+  .num { font-family:'Archivo',sans-serif; }
+  .glass { background:var(--paper); backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); border:1px solid var(--line); }
+
+  /* loader */
+  #loader { position:fixed; inset:0; z-index:30; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; background:#121110; transition:opacity .6s; }
+  #loader img { height:72px; background:#1f1e1c; padding:14px 18px; border-radius:20px; }
+  #loader .bar { width:min(360px,70vw); height:6px; border-radius:3px; background:rgba(255,255,255,.1); overflow:hidden; }
+  #loader .bar i { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--teal)); transition:width .2s; }
+  #loader p { margin:0; color:#bdb9b0; font-size:15px; }
+
+  /* start / pause overlay */
+  #start { position:fixed; inset:0; z-index:20; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(10,9,8,.55); }
+  #start.show { display:flex; }
+  #start .card { max-width:560px; width:100%; border-radius:28px; padding:30px 32px; display:flex; flex-direction:column; gap:18px; }
+  #start h1 { margin:0; font-size:28px; font-weight:800; }
+  #start p { margin:0; color:#d8d4cc; line-height:1.8; font-size:15px; }
+  #start .keys { display:grid; grid-template-columns:auto 1fr; gap:10px 14px; font-size:14px; color:#e9e5dd; align-items:center; }
+  #start kbd { font-family:'Archivo',sans-serif; font-weight:800; font-size:13px; background:rgba(255,255,255,.12); border:1px solid var(--line); border-radius:8px; padding:4px 9px; white-space:nowrap; direction:ltr; display:inline-block; }
+  #go { font-family:inherit; font-size:17px; font-weight:800; height:54px; border:none; border-radius:999px; background:var(--teal); color:#fff; cursor:pointer; }
+  #go:focus-visible, button:focus-visible, select:focus-visible { outline:3px solid var(--gold); outline-offset:2px; }
+
+  /* HUD */
+  #hud { position:fixed; inset:0; z-index:25; pointer-events:none; }
+  #brand { position:absolute; top:16px; right:16px; display:flex; align-items:center; gap:12px; padding:10px 16px 10px 12px; border-radius:18px; }
+  #brand .mk { background:#1f1e1c; border-radius:10px; padding:5px 7px; display:flex; } #brand img { height:34px; }
+  #brand b { display:block; font-size:16px; } #brand span { font-size:12.5px; color:#cfcac1; }
+  #room { position:absolute; top:16px; left:50%; transform:translateX(-50%); padding:10px 22px; border-radius:999px; text-align:center; transition:opacity .4s; white-space:nowrap; }
+  #room b { font-size:18px; font-weight:800; } #room span { margin-inline-start:10px; font-size:15px; color:#d8d4cc; }
+  #room .w { color:var(--blue); font-weight:800; } #room .d { color:var(--red); font-weight:800; }
+  #tools { position:absolute; top:16px; left:16px; display:flex; gap:8px; pointer-events:auto; flex-wrap:wrap; max-width:calc(50vw - 230px); }
+  #tools button, #tools select { font-family:inherit; font-size:14px; font-weight:700; color:#fff; height:44px; padding:0 14px; border-radius:999px; cursor:pointer; }
+  #tools select option { color:#111; }
+  #tools button[aria-pressed="true"] { background:rgba(71,161,144,.8); border-color:rgba(255,255,255,.32); }
+  #mini { position:absolute; bottom:16px; left:16px; border-radius:18px; padding:10px; }
+  #mini svg { display:block; }
+  #help { position:absolute; bottom:16px; right:16px; border-radius:16px; padding:10px 14px; font-size:13px; color:#d8d4cc; max-width:min(520px,60vw); line-height:1.7; }
+  #cross { position:absolute; left:50%; top:50%; width:6px; height:6px; margin:-3px 0 0 -3px; border-radius:50%; background:rgba(255,255,255,.75); box-shadow:0 0 0 1px rgba(0,0,0,.4); }
+  /* touch controls */
+  #stick { position:absolute; left:28px; bottom:150px; width:130px; height:130px; border-radius:50%; display:none; pointer-events:auto; touch-action:none; }
+  #stick i { position:absolute; left:50%; top:50%; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; background:rgba(255,255,255,.35); }
+  body.touch #stick { display:block; } body.touch #help, body.touch #cross { display:none; }
+  @media (max-width:760px) { #brand span { display:none; } #mini { transform:scale(.8); transform-origin:bottom left; } #room { top:72px; } #tools { max-width:60vw; } }
+</style>
+</head>
+<body>
+<canvas id="view" aria-label="جولة ثلاثية الأبعاد داخل المكاتب"></canvas>
+
+<div id="loader" role="status" aria-live="polite">
+  <img src="assets/logo-mark.png" alt="J WALK">
+  <div class="bar"><i></i></div>
+  <p>جارٍ تجهيز المكاتب… <span class="num" id="pct">0%</span></p>
+</div>
+
+<div id="start">
+  <div class="card glass">
+    <h1>جولة داخل المكاتب الإدارية</h1>
+    <p>تجوّل بحرية داخل الطابق الأرضي بنفس أبعاد المخطط تمامًا. ادخل أي غرفة عبر أبوابها، وانظر إلى الشارع من الواجهة الزجاجية.</p>
+    <div class="keys" id="keysDesk">
+      <span><kbd>W A S D</kbd></span><span>المشي (أو أسهم لوحة المفاتيح)</span>
+      <span><kbd>Mouse</kbd></span><span>النظر حولك</span>
+      <span><kbd>Shift</kbd></span><span>المشي بسرعة</span>
+      <span><kbd>M</kbd></span><span>إظهار / إخفاء الخريطة</span>
+      <span><kbd>Esc</kbd></span><span>إظهار المؤشر لاستخدام الأزرار في الأعلى (انتقل إلى، الخريطة، الجودة، ملء الشاشة)</span>
+      <span><kbd>F</kbd></span><span>ملء الشاشة</span>
+      <span><kbd>H</kbd></span><span>إظهار / إخفاء الجدار الخشبي خلف الاستقبال</span>
+    </div>
+    <div class="keys" id="keysTouch" hidden>
+      <span>🕹️</span><span>عصا التحكم يسارًا للمشي</span>
+      <span>👆</span><span>اسحب بإصبعك في أي مكان للنظر حولك</span>
+    </div>
+    <button id="go" type="button">ابدأ الجولة</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div id="brand" class="glass"><span class="mk"><img src="assets/logo-mark.png" alt=""></span><div><b>المكاتب الإدارية · جي ووك</b><span>جولة واقعية · الطابق الأرضي</span></div></div>
+  <div id="room" class="glass" aria-live="polite"><b></b><span></span></div>
+  <div id="tools">
+    <select id="jump" class="glass" aria-label="انتقل إلى"></select>
+    <button id="btnMap" class="glass" type="button" aria-pressed="true">الخريطة</button>
+    <button id="btnSlat" class="glass" type="button" aria-pressed="true" title="إظهار / إخفاء الجدار الخشبي (H)">الجدار الخشبي</button>
+    <button id="btnQ" class="glass" type="button">جودة: عالية</button>
+    <button id="btnFs" class="glass" type="button">ملء الشاشة</button>
+  </div>
+  <div id="mini" class="glass"></div>
+  <div id="help" class="glass"><b>W A S D</b> للمشي · الفأرة للنظر · <b>Shift</b> أسرع · <b>M</b> الخريطة · <b>Esc</b> لإظهار المؤشر واستخدام الأزرار · <b>F</b> ملء الشاشة · <b>H</b> الجدار الخشبي</div>
+  <div id="cross"></div>
+  <div id="stick" class="glass"><i></i></div>
+</div>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>
